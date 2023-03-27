@@ -1,6 +1,10 @@
+#tensorflow==2.0.0 # we use image `tensorflow/tensorflow:2.0.0-gpu-py3`, so dont need install tensorflow
+
 opencv-python==4.6.0.66
-opencv-python-headless==4.6.0.66
+opencv-python-headless==4.6.0.66 # avoid other pkgs who has dependency with openCV cause it build soooooo long
+
 blurgenerator==1.0.4
+
 matplotlib
 tqdm
 loguru
