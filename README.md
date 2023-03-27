@@ -1,6 +1,6 @@
-# Blur Detector
+# Simply Blur Detector
 
-![](./docs/results.png)
+![demo](./docs/results.png)
 
 > Only tested on x86/64.
 
