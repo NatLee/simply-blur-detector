@@ -16,6 +16,8 @@ Run the demo, just use `bash start.sh`.
 
 Or you can replace with your own non-blur images in folders `./data/test` and `./data/train` and run `./generate-blur-img.py`.
 
+> If you want to fast run all steps, you can use the script `./fast-run.sh` or `./fast-run.bat`.
+
 ### Training & Predicting
 
 > All materials are from the source https://bluearchive.wiki/wiki/Characters
