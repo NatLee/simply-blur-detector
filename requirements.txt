@@ -4,3 +4,4 @@ blurgenerator==1.0.4
 matplotlib
 tqdm
 loguru
+fire
