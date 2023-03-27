@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  main:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: blur-detector
+    volumes:
+      - ./src:/src
+      - ./data:/data
+      - ./model:/model
+    command: bash docker-entrypoint.sh
