@@ -11,3 +11,9 @@ services:
       - ./data:/data
       - ./model:/model
     command: bash docker-entrypoint.sh
+    #deploy:
+    #  resources:
+    #    reservations:
+    #      devices:
+    #        - driver: nvidia
+    #          capabilities: [gpu]
