@@ -14,6 +14,8 @@ It can be used to distinguish blur and non blur images.
 
 Run the demo, just use `bash start.sh`.
 
+Or you can replace with your own non-blur images in folders `./data/test` and `./data/train` and run `./generate-blur-img.py`.
+
 ### Training & Predicting
 
 > All materials are from the source https://bluearchive.wiki/wiki/Characters
