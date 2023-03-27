@@ -8,7 +8,7 @@ Simply blur detector model is trained with 3 layers CNN by using `Tensorflow 2.0
 
 It can be used to distinguish blur and non blur images.
 
-> Blur Detector can be found in https://github.com/NatLee/Blur-Generator
+> Blur Generator can be found in https://github.com/NatLee/Blur-Generator
 
 ## Usage
 
