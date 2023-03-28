@@ -2,7 +2,9 @@
 
 ![demo](./docs/results.png)
 
-> Only tested on x86/64.
+> Original `Dockerfile` is tested on x86/64.
+
+> If your computer is using Apple M1 series chips, please use `Dockerfile.M1` tested on my MBP.
 
 Simply blur detector model is trained with 3 layers CNN by using `Tensorflow 2.0.0`.
 
