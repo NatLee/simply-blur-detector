@@ -3,14 +3,10 @@ Blur detection
 """
 from pathlib import Path
 from loguru import logger
-import cv2
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPool2D
 from tensorflow.keras import Model
-
-from blur_detection.utils import preprocessing
-
 
 class DetectionModelStructure(Model):
     """
@@ -125,12 +121,10 @@ class DetectionModel():
                               self.__test_loss.result(),
                               self.__test_accuracy.result()*100))
 
-    def predict(self, input_img) -> (list, str):
+    def predict(self, imgs):
         '''Predict!'''
-        if isinstance(input_img, str):
-            input_img = cv2.imread(input_img)
-            input_img = cv2.cvtColor(input_img, cv2.COLOR_BGR2RGB)
-        img = preprocessing(input_img)
-        result = self.model((img,))
+        if isinstance(imgs, np.ndarray):
+            imgs = np.expand_dims(imgs, axis=0)
+        result = self.model(imgs)
         text = ['Clear' if np.argmax(result) == 0 else 'Blur']
         return result, text
