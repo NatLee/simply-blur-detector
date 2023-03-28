@@ -1,0 +1,7 @@
+FROM armswdev/tensorflow-arm-neoverse:r22.01-tf-2.7.0-eigen
+WORKDIR /src
+COPY ./src /src
+COPY ./requirements.txt /src
+
+RUN python -m pip install --upgrade pip
+RUN pip install -r requirements.txt
