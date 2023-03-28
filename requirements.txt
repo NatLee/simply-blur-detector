@@ -1,4 +1,4 @@
-#tensorflow==2.0.0 # we use image `tensorflow/tensorflow:2.0.0-gpu-py3`, so dont need install tensorflow
+# No need to install `tensorflow` because we have already used docker image with installed tensorflow inside.
 
 opencv-python==4.6.0.66
 opencv-python-headless==4.6.0.66 # avoid other pkgs who has dependency with openCV cause it build soooooo long
