@@ -6,7 +6,7 @@
 
 > If your computer is using Apple M1 series chips, please use `Dockerfile.M1` tested on my MBP.
 
-Simply blur detector model is trained with 3 layers CNN by using `Tensorflow 2.0.0`.
+Simply blur detector model is trained with 3 layers CNN by using `Tensorflow 2.7`.
 
 It can be used to distinguish blur and non blur images.
 

@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:2.0.0-gpu-py3
+FROM tensorflow/tensorflow:2.7.4-gpu
 WORKDIR /src
 COPY ./src /src
 COPY ./requirements.txt /src
