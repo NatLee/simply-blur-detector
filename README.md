@@ -61,16 +61,16 @@ Or you can replace with your own non-blur images in folders `./data/test` and `.
 
   If you want to predict an image and get a cool compare one like the image on the top of this document, just use the following script:
 
-  ```
+  ```python
   from blur_detection import DetectionModel
   from blur_detection.utils import predict_blur_img
 
-  detector = DetectionModel(<YOUR_MODEL_PATH>)
+  detector = DetectionModel('<YOUR_MODEL_PATH>')
   predict_blur_img(
       detector,
-      <YOUR_IMG_PATH>,
-      save_fig_path=<YOUR_FIG_SAVE_PATH>
-      blur_mode=<None|lens|gaussian|motion> # 4 types, default is gaussian
+      '<YOUR_IMG_PATH>',
+      save_fig_path='<YOUR_FIG_SAVE_PATH>',
+      blur_mode='<None|lens|gaussian|motion>' # 4 types, default is gaussian
   )
   ```
 
