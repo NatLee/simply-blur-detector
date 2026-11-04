@@ -48,11 +48,15 @@ jobs:
           cache: pip
           cache-dependency-path: src/detector/pyproject.toml
       - run: pip install -e "src/detector[export]"
-      - name: Train a quick model on the repository's data and export it for the page
+      # The Danbooru pictures are downloaded only by pages.yml (with a cache); pull requests use the
+      # drawn data set, so they test the same pipeline without asking Danbooru for anything.
+      - name: Train a quick model on a drawn data set and export it for the page
         run: |
-          blur-detector train --data_path=data --model_path=None --model_save_path=model/ci.keras \
+          blur-detector draw --data_path=drawn
+          blur-detector generate --data_path=drawn --seed=1
+          blur-detector train --data_path=drawn --model_path=None --model_save_path=model/ci.keras \
             --epochs=2 --crops=1 --seed=1
-          blur-detector export --model_path=model/ci.keras --data_path=data --web_dir=src/web/public
+          blur-detector export --model_path=model/ci.keras --data_path=drawn --web_dir=src/web/public
       - uses: actions/setup-node@v7
         with:
           node-version: 24
@@ -64,6 +68,8 @@ jobs:
         working-directory: src/web
         env:
           REQUIRE_MODEL: "1"
+          # The page itself, in the Chrome that GitHub's Ubuntu runners come with.
+          BROWSER_PATH: /usr/bin/google-chrome
         run: npm test
 
   docker:
@@ -93,13 +99,13 @@ jobs:
         run: |
           mounts="-v $PWD/data:/data -v $PWD/model:/model -v $PWD/outputs:/outputs -v $PWD/src/web/public:/web"
           docker run --rm simply-blur-detector:ci --help
-          docker run --rm $mounts simply-blur-detector:ci run --epochs=1 --seed=1 --demo_img_path=/web/samples/sharp.png
+          docker run --rm $mounts simply-blur-detector:ci draw --train=6 --test=4
+          docker run --rm $mounts simply-blur-detector:ci generate --seed=1
+          test "$(ls data/train/blur | wc -l)" = "$(ls data/train/nonblur | wc -l)"
+          docker run --rm $mounts simply-blur-detector:ci run --epochs=1 --seed=1
           test -s model/model.h5 && test -s outputs/results.png
-          docker run --rm $mounts simply-blur-detector:ci predict --img_path=/web/samples/soft.png --blur_mode=motion \
+          docker run --rm $mounts simply-blur-detector:ci predict --img_path=/data/demo.png --blur_mode=motion \
             --save_fig_path=/outputs/motion.png
           test -s outputs/motion.png
           docker run --rm $mounts simply-blur-detector:ci export
           test -s src/web/public/model/blur-detector.onnx
-          # Seed 1 rebuilds the committed blurred copies; seed 2 picks other blurs, so the files must change.
-          docker run --rm $mounts simply-blur-detector:ci generate --seed=2
-          test -n "$(git status --porcelain data)"
