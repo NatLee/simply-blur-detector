@@ -26,8 +26,8 @@ env:
   EPOCHS: 20
   CROPS: 2
   SEED: 1
-  # Do not publish a model that gets fewer of the held-out test pictures right than this.
-  MIN_TEST_ACCURACY: 0.9
+  # The publish threshold is PUBLISH_MIN_TEST_ACCURACY in src/detector/blur_detection/config.py;
+  # `export` records whether the model reaches it in the model card.
 
 jobs:
   build:
@@ -73,13 +73,11 @@ jobs:
       - name: Check the model before publishing it
         run: |
           python - <<'PY'
-          import json, math, os
+          import json
           card = json.load(open('src/web/public/model/model-card.json'))
-          test = card['metrics']['test']
-          print(json.dumps(card['metrics'], indent=2))
-          # In whole pictures, so that exactly the threshold (say 36 of 40 at 0.9) passes.
-          needed = math.ceil(round(float(os.environ['MIN_TEST_ACCURACY']) * test['count'], 6))
-          assert test['correct'] >= needed, f"{test['correct']} of {test['count']} test pictures right, need {needed}"
+          gate = card['publish']
+          print(json.dumps({'metrics': card['metrics'], 'publish': gate}, indent=2))
+          assert gate['passes'], f"{gate['correct']} test pictures right, need {gate['needed']} ({gate['min_test_accuracy']:.0%})"
           PY
       - uses: actions/setup-node@v7
         with:

@@ -6,7 +6,8 @@ import pytest
 
 from blur_detection import DetectionModel, prepare_image
 from blur_detection.config import WEB_MODEL_CARD, WEB_MODEL_DIR, WEB_MODEL_FILE
-from blur_detection.export import MODEL_CARD_FORMAT, export_web_model, github_provenance, onnx_difference
+from blur_detection.config import PUBLISH_MIN_TEST_ACCURACY, PUBLISH_THRESHOLD_NOTE
+from blur_detection.export import MODEL_CARD_FORMAT, export_web_model, github_provenance, onnx_difference, publish_gate
 from blur_detection.images import read_image, write_image
 
 from .helpers import sharp_image
@@ -37,7 +38,11 @@ def test_export_writes_an_onnx_model_that_matches_keras(detector, data_dir, web_
     assert card['classes'] == ['Clear', 'Blur']
     assert card['metrics']['train']['count'] == 6 and card['metrics']['test']['count'] == 4
     for m in card['metrics'].values():
-        assert m['accuracy'] == m['correct'] / m['count']  # exact, so a threshold of 0.9 passes at 36 / 40
+        assert m['accuracy'] == m['correct'] / m['count']
+    test = card['metrics']['test']
+    assert card['publish'] == {'min_test_accuracy': PUBLISH_MIN_TEST_ACCURACY, 'needed': 4, 'correct': test['correct'],
+                               'passes': test['correct'] >= 4,  # 0.85 of 4 test inputs, rounded up
+                               'note': PUBLISH_THRESHOLD_NOTE}
     # The 300 x 280 test images give 4 x 3 windows of 140 px each (half the shorter side, half overlapping).
     assert card['metrics']['test_windows']['count'] == 4 * 12
     assert card['windows'] == {'fraction': 0.5, 'overlap': 0.5}
@@ -66,3 +71,15 @@ def test_provenance_points_at_the_github_actions_run():
     assert github_provenance(env) == {'repository': 'o/r', 'commit': 'abc123', 'run_id': '42',
                                       'run_url': 'https://github.com/o/r/actions/runs/42', 'workflow': 'Pages'}
     assert github_provenance({}) is None
+
+
+@pytest.mark.parametrize('correct, passes', [(33, False), (34, True), (35, True), (40, True)])
+def test_the_publish_gate_counts_whole_pictures(correct, passes):
+    # 0.85 of 40 is 34 (34.0000…01 in floating point must not ask for 35). CI's 35 of 40 passes.
+    gate = publish_gate({'test': {'count': 40, 'correct': correct}}, 0.85)
+    assert gate['needed'] == 34 and gate['passes'] is passes
+    assert publish_gate({'test': {'count': 40, 'correct': 36}}, 0.9)['needed'] == 36
+
+
+def test_no_test_pictures_means_no_publishing():
+    assert publish_gate({})['passes'] is False

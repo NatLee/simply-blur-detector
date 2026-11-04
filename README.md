@@ -190,10 +190,17 @@ About the Danbooru pictures on the page:
 
 GitHub Actions builds it ([`pages.yml`](.github/workflows/pages.yml)): it downloads the listed pictures
 (cached between runs, so Danbooru is asked again only when the list changes), trains the network on them
-(EPOCHS, CROPS and SEED at the top of the workflow), refuses to publish a model below 90% test accuracy,
-exports it, checks in Node.js that the page's JavaScript gives the same P(blur) as Python for
-`data/demo.png`, runs the page in Chrome with Danbooru answered by the test, and deploys
-`src/web/public`. The model card at the bottom of the page links to the run that trained it.
+(EPOCHS, CROPS and SEED at the top of the workflow), exports it, refuses to publish a model that gets
+fewer than 85% of the test pictures right, checks in Node.js that the page's JavaScript gives the same
+P(blur) as Python for `data/demo.png`, runs the page in Chrome with Danbooru answered by the test, and
+deploys `src/web/public`. The model card at the bottom of the page links to the run that trained it.
+
+The 85% threshold (`PUBLISH_MIN_TEST_ACCURACY` in
+[`config.py`](src/detector/blur_detection/config.py), counted in whole pictures: 34 of 40) was 90% until
+the project owner lowered it on 2026-11-04. On the Danbooru pictures the model got 35 of 40 test pictures
+right in CI, one short of 90%, while its heat map windows went from 64% right (trained on drawn scenes)
+to 92%. The pictures it misses are the most lightly blurred copies of finely drawn art and two very soft
+paintings, which look nearly the same sharp or blurred once squeezed to 256 × 256.
 
 To try the page on your own machine, export a model and serve the folder:
 

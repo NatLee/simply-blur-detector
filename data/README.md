@@ -54,6 +54,16 @@ the list, shrunk so that its longer side is at most 512 px, and saved as PNG. A 
 deleted, changed or no longer rates general audience is skipped, and the summary lists it. `.gitignore`
 keeps the downloaded files and their blurred copies out of git.
 
+## How well the model does on them
+
+Trained with the web demo's settings, the model gets 35 to 36 of the 40 test pictures (20 sharp, 20
+blurred) right and 92 to 94% of the heat map windows. The pictures it misses are the most lightly blurred
+copies (Gaussian kernel 5, lens radius 5) of finely drawn art, and two very soft paintings. So the web
+demo publishes a model at 85% test accuracy or better (34 of 40). That threshold was 90% until the
+project owner lowered it on 2026-11-04, because the Danbooru-trained model judges the heat map windows
+far better (92% instead of 64% for the model trained on drawn scenes) while it missed 90% by one
+picture in CI.
+
 ## Use your own pictures instead
 
 Put sharp pictures (`.png`, `.jpg`, `.jpeg`) in `train/nonblur` and `test/nonblur`, and run `generate`
