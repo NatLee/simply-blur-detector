@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python ${{ matrix.python }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        # The oldest and newest Python that TensorFlow 2.21 supports.
+        python: ["3.10", "3.13"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: src/detector/pyproject.toml
+      - name: Install the detector with its test tools
+        run: pip install -e "src/detector[test]"
+      - name: Test (data, model, prediction figure, command line, ONNX export, OpenCV fixture)
+        working-directory: src/detector
+        run: pytest -q
+
+  web:
+    name: Web demo (train, export, run the model like the browser)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: src/detector/pyproject.toml
+      - run: pip install -e "src/detector[export]"
+      - name: Train a quick model on the repository's data and export it for the page
+        run: |
+          blur-detector train --data_path=data --model_path=None --model_save_path=model/ci.keras \
+            --epochs=2 --crops=1 --seed=1
+          blur-detector export --model_path=model/ci.keras --data_path=data --web_dir=src/web/public
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: src/web/package-lock.json
+      - run: npm ci
+        working-directory: src/web
+      - name: Test (OpenCV ports, heat map, same P(blur) as Python through ONNX Runtime Web)
+        working-directory: src/web
+        env:
+          REQUIRE_MODEL: "1"
+        run: npm test
+
+  docker:
+    name: Docker image (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-latest
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - name: Build the one Dockerfile natively on ${{ matrix.arch }}
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          load: true
+          tags: simply-blur-detector:ci
+          cache-from: type=gha,scope=${{ matrix.arch }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.arch }}
+      - name: Run every command in the container
+        run: |
+          mounts="-v $PWD/data:/data -v $PWD/model:/model -v $PWD/outputs:/outputs -v $PWD/src/web/public:/web"
+          docker run --rm simply-blur-detector:ci --help
+          docker run --rm $mounts simply-blur-detector:ci run --epochs=1 --seed=1 --demo_img_path=/web/samples/sharp.png
+          test -s model/model.h5 && test -s outputs/results.png
+          docker run --rm $mounts simply-blur-detector:ci predict --img_path=/web/samples/soft.png --blur_mode=motion \
+            --save_fig_path=/outputs/motion.png
+          test -s outputs/motion.png
+          docker run --rm $mounts simply-blur-detector:ci export
+          test -s src/web/public/model/blur-detector.onnx
+          docker run --rm $mounts simply-blur-detector:ci generate --seed=1
+          test -n "$(git status --porcelain data)"  # generate rewrote the blurred copies
