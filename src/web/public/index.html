@@ -36,7 +36,7 @@
     <div class="intro">
       <p class="kicker">CNN <span>vs.</span> Laplacian · nothing leaves your browser</p>
       <h1>Is it <em class="defocus">blurry</em>?</h1>
-      <p class="lede">Start with a random anime picture from Danbooru, or drop your own. A small convolutional
+      <p class="lede">Start with one of the anime pictures from Danbooru, or drop your own. A small convolutional
         network, trained on images blurred with <a href="https://github.com/NatLee/blur-generator">blur-generator</a>, and
         the classic Laplacian variance both take a look, window by window.</p>
     </div>
@@ -171,11 +171,12 @@
       scenes (robots, cities, flowers, signs) drawn by code in this repository, and their copies blurred with
       blur-generator. So it is most at home with drawings and less sure about photos. The built-in sample pictures
       are drawn by code in the same style: an AI chip whose traces grow into a neural network.</p>
-    <p class="fine-print">The default picture is a random general-audience (<code>rating:g</code>) post from
-      <a href="https://danbooru.donmai.us">Danbooru</a>: your browser asks danbooru.donmai.us for one post and loads its
-      picture from Danbooru's image server, and the credit under the picture links to the post and its original source. Nothing
-      from Danbooru is stored here. Anime art is not what the model trained on: it judges whole pictures well, but its
-      heat map can call soft shading blurry. Your own pictures never leave your browser.</p>
+    <p class="fine-print">The default picture is one of the general-audience (<code>rating:g</code>) posts from
+      <a href="https://danbooru.donmai.us">Danbooru</a> on the anime cards, each picked and looked at by a person
+      before it was listed (<code>samples/danbooru.json</code>). Your browser asks danbooru.donmai.us for that post and
+      loads its picture from Danbooru's image server; the credit under the picture links to the post and its original
+      source, and the copyright stays with the artist. Nothing from Danbooru is stored here. Your own pictures never
+      leave your browser.</p>
   </section>
 </main>
 

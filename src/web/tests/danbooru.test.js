@@ -1,5 +1,6 @@
 // The Danbooru source, with a fake fetch and a fake storage: no request ever leaves the machine.
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
 import { DANBOORU } from '../public/js/config.js';
@@ -7,13 +8,16 @@ import {
   UnusablePost,
   artistNames,
   cachePicture,
-  fetchRandomPicture,
+  fetchListedPicture,
+  inTurn,
   pictureOf,
-  randomPostUrl,
+  postUrl,
   readCachedPicture,
 } from '../public/js/danbooru.js';
 
-/** A post shaped like Danbooru's /posts/random.json answer (only the fields the page reads). */
+const LISTED = [11404274, 7, 8, 9];
+
+/** A post shaped like Danbooru's /posts/<id>.json answer (only the fields the page reads). */
 function post(overrides = {}) {
   return {
     id: 11404274,
@@ -44,12 +48,19 @@ function fakeStorage() {
   return { getItem: (k) => (data.has(k) ? data.get(k) : null), setItem: (k, v) => data.set(k, String(v)), data };
 }
 
-test('the page only ever asks for general-audience posts', () => {
-  assert.equal(DANBOORU.tags, 'rating:g');
+test('the page only ever asks for listed general-audience posts', () => {
   assert.equal(DANBOORU.rating, 'g');
-  const url = new URL(randomPostUrl(DANBOORU));
-  assert.equal(url.origin + url.pathname, 'https://danbooru.donmai.us/posts/random.json');
-  assert.equal(url.searchParams.get('tags'), 'rating:g');
+  assert.equal(postUrl(DANBOORU, 4000000), 'https://danbooru.donmai.us/posts/4000000.json');
+  const { picks } = JSON.parse(readFileSync(new URL('../public/' + DANBOORU.picksUrl, import.meta.url)));
+  assert.ok(picks.length >= 3);
+  for (const pick of picks) {
+    assert.ok(Number.isInteger(pick.id) && pick.title && pick.artist, JSON.stringify(pick)); // credited on the card
+  }
+});
+
+test('posts are tried from the chosen one, then round the list', () => {
+  assert.deepEqual(inTurn(LISTED, 8), [8, 9, 11404274, 7]);
+  assert.deepEqual(inTurn(LISTED, 404), LISTED);
 });
 
 test('a general-audience post gives the sample picture and its credit', () => {
@@ -95,24 +106,29 @@ test('videos, animations and posts without a file are refused', () => {
 
 test('one request gives one picture, without cookies', async () => {
   const { fetchFn, calls } = fakeFetch([post()]);
-  const picture = await fetchRandomPicture(fetchFn, DANBOORU);
+  const picture = await fetchListedPicture(fetchFn, DANBOORU, LISTED);
   assert.equal(picture.id, 11404274);
   assert.equal(calls.length, 1);
-  assert.equal(calls[0].url, randomPostUrl(DANBOORU));
+  assert.equal(calls[0].url, postUrl(DANBOORU, 11404274));
   assert.equal(calls[0].options.credentials, 'omit');
 });
 
-test('an unusable post is skipped, and a post with another rating is never returned', async () => {
-  const { fetchFn, calls } = fakeFetch([post({ rating: 'e' }), post({ file_ext: 'mp4' }), post({ id: 7 })]);
-  const picture = await fetchRandomPicture(fetchFn, DANBOORU);
-  assert.equal(picture.id, 7);
+test('a gone or re-rated post is skipped for the next listed one, never shown', async () => {
+  const { fetchFn, calls } = fakeFetch([404, post({ id: 7, rating: 'e' }), post({ id: 8 })]);
+  const picture = await fetchListedPicture(fetchFn, DANBOORU, LISTED);
+  assert.equal(picture.id, 8);
   assert.equal(picture.rating, 'g');
-  assert.equal(calls.length, 3);
+  assert.deepEqual(calls.map((c) => c.url), [11404274, 7, 8].map((id) => postUrl(DANBOORU, id)));
+});
+
+test('an answer for another post than the one asked for is not used', async () => {
+  const { fetchFn } = fakeFetch([post({ id: 999 })]);
+  await assert.rejects(fetchListedPicture(fetchFn, DANBOORU, [11404274]), /no usable picture/);
 });
 
 test('it gives up after the configured number of posts', async () => {
   const { fetchFn, calls } = fakeFetch([post({ rating: 's' })]);
-  await assert.rejects(fetchRandomPicture(fetchFn, DANBOORU), (err) => {
+  await assert.rejects(fetchListedPicture(fetchFn, DANBOORU, Array(10).fill(11404274)), (err) => {
     assert.equal(err.message, `no usable picture in ${DANBOORU.attempts} posts`);
     assert.equal(err.cause.length, DANBOORU.attempts); // why each post was skipped, for the console
     return true;
@@ -122,30 +138,32 @@ test('it gives up after the configured number of posts', async () => {
 
 test('HTTP and network errors are reported at once, without asking again', async () => {
   const { fetchFn, calls } = fakeFetch([503]);
-  await assert.rejects(fetchRandomPicture(fetchFn, DANBOORU), /HTTP 503/);
+  await assert.rejects(fetchListedPicture(fetchFn, DANBOORU, LISTED), /HTTP 503/);
   assert.equal(calls.length, 1);
   const offline = async () => { throw new TypeError('Failed to fetch'); };
-  await assert.rejects(fetchRandomPicture(offline, DANBOORU), /Failed to fetch/);
+  await assert.rejects(fetchListedPicture(offline, DANBOORU, LISTED), /Failed to fetch/);
 });
 
 test('the session cache gives back the same picture, and nothing it should not', () => {
   const storage = fakeStorage();
-  assert.equal(readCachedPicture(storage, DANBOORU), null);
+  assert.equal(readCachedPicture(storage, DANBOORU, LISTED), null);
   const picture = pictureOf(post(), DANBOORU);
   cachePicture(storage, DANBOORU, picture);
-  assert.deepEqual(readCachedPicture(storage, DANBOORU), picture);
+  assert.deepEqual(readCachedPicture(storage, DANBOORU, LISTED), picture);
   storage.setItem(DANBOORU.cacheKey, JSON.stringify({ ...picture, rating: 'q' }));
-  assert.equal(readCachedPicture(storage, DANBOORU), null);
+  assert.equal(readCachedPicture(storage, DANBOORU, LISTED), null);
   storage.setItem(DANBOORU.cacheKey, JSON.stringify({ ...picture, url: 'https://cdn.donmai.us/x.mp4' }));
-  assert.equal(readCachedPicture(storage, DANBOORU), null);
+  assert.equal(readCachedPicture(storage, DANBOORU, LISTED), null);
+  storage.setItem(DANBOORU.cacheKey, JSON.stringify({ ...picture, id: 12345 })); // not a listed post
+  assert.equal(readCachedPicture(storage, DANBOORU, LISTED), null);
   storage.setItem(DANBOORU.cacheKey, '{not json');
-  assert.equal(readCachedPicture(storage, DANBOORU), null);
+  assert.equal(readCachedPicture(storage, DANBOORU, LISTED), null);
 });
 
 test('blocked or missing storage means no cache, not an error', () => {
   const blocked = { getItem() { throw new Error('SecurityError'); }, setItem() { throw new Error('QuotaExceededError'); } };
-  assert.equal(readCachedPicture(blocked, DANBOORU), null);
+  assert.equal(readCachedPicture(blocked, DANBOORU, LISTED), null);
   assert.doesNotThrow(() => cachePicture(blocked, DANBOORU, pictureOf(post(), DANBOORU)));
-  assert.equal(readCachedPicture(null, DANBOORU), null);
+  assert.equal(readCachedPicture(null, DANBOORU, LISTED), null);
   assert.doesNotThrow(() => cachePicture(null, DANBOORU, pictureOf(post(), DANBOORU)));
 });

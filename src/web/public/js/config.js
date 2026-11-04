@@ -21,12 +21,13 @@ export const REPO_URL = 'https://github.com/NatLee/simply-blur-detector';
  */
 export const DANBOORU = {
   site: 'https://danbooru.donmai.us',
-  randomPath: '/posts/random.json',
-  tags: 'rating:g',
+  postPath: '/posts/',
+  /** The posts the page may show: picked and looked at by a person, all general audience. */
+  picksUrl: 'samples/danbooru.json',
   rating: 'g',
   /** Still pictures the browser can decode; videos, Ugoira zips and GIF animations are skipped. */
   extensions: ['jpg', 'jpeg', 'png', 'webp'],
-  /** Posts to try in a row when one has no usable picture (a video, a removed file). */
+  /** Listed posts to try in a row when one is gone or no longer usable. */
   attempts: 3,
   timeoutMs: 15000,
   cacheKey: 'simply-blur-detector.danbooru',
