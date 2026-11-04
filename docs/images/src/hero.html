@@ -6,6 +6,8 @@
            --default-background-color=00000000 --virtual-time-budget=5000
            --screenshot=hero-dark.png "file:///…/hero.html#dark"
   then shrink the PNGs: magick hero-dark.png -strip -dither None -colors 256 PNG8:hero-dark.png
+  #cover lays the same banner out as a 2:1 GitHub social preview (docs/images/cover.png, 1280 x 640):
+    msedge … --force-device-scale-factor=1.3333 --window-size=960,480 --screenshot=cover.png "file:///…/hero.html#cover,dark"
   Everything on it comes from the project: stage.jpg is a screenshot of the web demo's viewfinder
   (sample portrait.png, CNN heat map), the commands are the ones in the README, and the flow is
   generate -> train -> export -> ONNX Runtime Web.
@@ -59,11 +61,21 @@
   .pill i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
   .legend { flex: 1; display: flex; align-items: center; gap: 8px; margin-left: 6px;
             font: 500 11px "IBM Plex Mono", Consolas, monospace; color: var(--muted); }
+  /* #cover: the same banner at 2:1, full bleed, for the social preview. */
+  .cover body, .cover .frame { height: 480px; }
+  .cover .frame { border: 0; border-radius: 0; }
+  .cover .brand { top: 44px; }
+  .cover h1 { top: 84px; }
+  .cover .tag { top: 184px; width: 400px; }
+  .cover .chips { top: 276px; }
+  .cover .flow { bottom: 40px; }
+  .cover .view { top: 40px; width: 448px; height: 336px; }
+  .cover .bottom { bottom: 34px; width: 448px; }
   .legend span:nth-child(2) { flex: 1; height: 7px; border-radius: 4px; background: linear-gradient(90deg, var(--sharp), transparent 50%, var(--blurry)); }
 </style>
 </head>
 <body>
-<script>if (location.hash === '#dark') document.documentElement.className = 'dark';</script>
+<script>document.documentElement.className = location.hash.slice(1).split(',').join(' ');  // #dark, #cover, #cover,dark</script>
 <div class="frame">
   <div class="brand">
     <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13.5"/><path d="M16 6.5l4.8 8.4M25.5 16l-8.4 4.8M16 25.5l-4.8-8.4M6.5 16l8.4-4.8"/></svg>
@@ -80,8 +92,8 @@
 
   <div class="view"><img src="stage.jpg" alt=""></div>
   <div class="bottom">
-    <div class="pill"><i style="background: var(--sharp)"></i>robot: sharp</div>
-    <div class="pill"><i style="background: var(--blurry)"></i>city: blurry</div>
+    <div class="pill"><i style="background: var(--sharp)"></i>chip: sharp</div>
+    <div class="pill"><i style="background: var(--blurry)"></i>network: blurry</div>
     <div class="legend"><span>sharp</span><span></span><span>blurry</span></div>
   </div>
 </div>

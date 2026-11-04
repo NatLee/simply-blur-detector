@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/NatLee/simply-blur-detector/main/docs/images/hero-dark.png">
-    <img src="https://raw.githubusercontent.com/NatLee/simply-blur-detector/main/docs/images/hero-light.png" alt="simply-blur-detector: Is it blurry? A small Keras CNN, trained on pictures blurred with blur-generator, against the classic Laplacian variance, window by window, in your browser. Commands: docker compose up, natlee.github.io/simply-blur-detector. Flow: data/, blur-generator, train, ONNX, browser. The picture shows the web demo's heat map on a sample: the robot in front is marked sharp, the city behind it blurry.">
+    <img src="https://raw.githubusercontent.com/NatLee/simply-blur-detector/main/docs/images/hero-light.png" alt="simply-blur-detector: Is it blurry? A small Keras CNN, trained on pictures blurred with blur-generator, against the classic Laplacian variance, window by window, in your browser. Commands: docker compose up, natlee.github.io/simply-blur-detector. Flow: data/, blur-generator, train, ONNX, browser. The picture shows the web demo's heat map on its sample, an AI chip whose circuit traces grow into a neural network: the chip in front is marked sharp, the network behind it blurry.">
   </picture>
 </p>
 
@@ -97,11 +97,11 @@ For example, ask the model about one of the web demo's sample pictures:
 ```console
 $ docker compose run --rm detector predict --img_path=/web/samples/sharp.png --blur_mode=lens --save_fig_path=/outputs/sharp-lens.png
 INFO | Blur Detection Model Loaded.
-INFO | /web/samples/sharp.png: Clear (P(blur) = 0.001)
-INFO | tile 0,0: Blur (P(blur) = 0.712)
+INFO | /web/samples/sharp.png: Clear (P(blur) = 0.000)
+INFO | tile 0,0: Clear (P(blur) = 0.016)
 ...
 INFO | Saved the comparison figure to /outputs/sharp-lens.png
-0.0007086111581884325
+0.0002185112825827673
 ```
 
 The last line is the return value, P(blur), so a script can use it (log lines shortened here).
@@ -170,8 +170,12 @@ GitHub Actions builds it ([`pages.yml`](.github/workflows/pages.yml)): it trains
 (20 epochs, 2 crops per picture, seed 1), refuses to publish a model below 90% test accuracy, exports it,
 checks in Node.js that the page's JavaScript gives the same P(blur) as Python for every sample, and
 deploys `src/web/public`. The model card at the bottom of the page links to the run that trained it.
-The sample pictures are drawn by [`src/web/tools/make_samples.py`](src/web/tools/make_samples.py), so they
-contain no third-party artwork.
+The sample picture is an AI chip whose circuit traces grow into a neural network. Code draws it
+([`sample_scene.py`](src/detector/blur_detection/sample_scene.py), run by
+[`src/web/tools/make_samples.py`](src/web/tools/make_samples.py)) in the same ink-outlined style as the
+training scenes, so it contains no photos, logos or third-party artwork. blur-generator makes the blurred
+versions; the portrait one follows the picture's depth map, so the chip stays sharp and the network behind
+it melts.
 
 To try the page on your own machine, export a model and serve the folder:
 
