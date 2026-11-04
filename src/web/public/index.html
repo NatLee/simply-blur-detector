@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simply Blur Detector · is it blurry?</title>
+<meta name="description" content="Drop a picture and watch a small CNN and the classic Laplacian variance decide, region by region, whether it is blurry. Runs entirely in your browser.">
+<meta property="og:title" content="Simply Blur Detector">
+<meta property="og:description" content="A small CNN vs. the Laplacian variance, region by region, in your browser.">
+<meta property="og:image" content="https://raw.githubusercontent.com/NatLee/simply-blur-detector/main/docs/images/hero-dark.png">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%230d0e11' stroke='%23c9f24b' stroke-width='3'/%3E%3Cpath d='M16 6l5 9M26 16l-9 5M16 26l-5-9M6 16l9-5' stroke='%23c9f24b' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<script type="module" src="js/app.js"></script>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="top">
+  <a class="brand" href="./" aria-label="Simply Blur Detector home">
+    <svg class="aperture" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13.5"/><path d="M16 6.5l4.8 8.4M25.5 16l-8.4 4.8M16 25.5l-4.8-8.4M6.5 16l8.4-4.8"/></svg>
+    <span>simply-blur-detector</span>
+  </a>
+  <nav>
+    <a href="#stress">Stress test</a>
+    <a href="#how">How it works</a>
+    <a class="repo" data-repo href="#">GitHub ↗</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="intro">
+      <p class="kicker">CNN <span>vs.</span> Laplacian · nothing leaves your browser</p>
+      <h1>Is it <em class="defocus">blurry</em>?</h1>
+      <p class="lede">Drop a picture. A small convolutional network, trained on images blurred with
+        <a href="https://github.com/NatLee/blur-generator">blur-generator</a>, and the classic Laplacian variance both take a look,
+        window by window.</p>
+    </div>
+
+    <div class="lab">
+      <div class="stage" id="stage" tabindex="0" aria-label="Picture under test. Drop an image here, paste one, or pick a file.">
+        <canvas id="photo" aria-hidden="true"></canvas>
+        <canvas id="overlay" aria-hidden="true"></canvas>
+        <div class="reticle" id="reticle" hidden><span></span></div>
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div class="hud top-left" id="hud-file">no picture</div>
+        <div class="hud bottom-left" id="hud-status" aria-live="polite">loading the model…</div>
+        <div class="drop" id="drop" hidden>
+          <p><strong>Drop it like it's hot.</strong></p>
+          <p>…or paste an image, or</p>
+          <label class="button">choose a file<input id="file" type="file" accept="image/*"></label>
+        </div>
+      </div>
+
+      <aside class="readout" aria-label="Results">
+        <div class="meter" id="cnn-meter">
+          <div class="meter-head"><span class="swatch cnn"></span>CNN <span class="muted">· P(blur)</span></div>
+          <svg class="dial" viewBox="0 0 200 116" aria-hidden="true">
+            <defs><linearGradient id="dial-grad" x1="0" x2="1"><stop offset="0" class="heat-sharp-stop"/><stop offset="0.5" class="heat-mid-stop"/><stop offset="1" class="heat-blurry-stop"/></linearGradient></defs>
+            <path class="dial-track" d="M20 100 A80 80 0 0 1 180 100"/>
+            <path class="dial-fill" d="M20 100 A80 80 0 0 1 180 100"/>
+            <g class="ticks"></g>
+            <line class="needle" id="cnn-needle" x1="100" y1="100" x2="100" y2="34"/>
+            <circle class="hub" cx="100" cy="100" r="6"/>
+          </svg>
+          <div class="reading"><span class="value" id="cnn-value">–</span><span class="verdict" id="cnn-verdict"></span></div>
+        </div>
+
+        <div class="meter" id="lap-meter">
+          <div class="meter-head"><span class="swatch lap"></span>Laplacian <span class="muted">· variance</span></div>
+          <div class="logbar" aria-hidden="true">
+            <div class="logbar-track"></div>
+            <div class="logbar-threshold" id="lap-threshold-mark"></div>
+            <div class="logbar-pin" id="lap-pin"></div>
+            <div class="logbar-scale"><span>1</span><span>10</span><span>100</span><span>1k</span><span>10k</span></div>
+          </div>
+          <div class="reading"><span class="value" id="lap-value">–</span><span class="verdict" id="lap-verdict"></span></div>
+        </div>
+
+        <p class="agreement" id="agreement" aria-live="polite"></p>
+
+        <fieldset class="controls">
+          <legend class="sr-only">Heat map</legend>
+          <div class="row">
+            <span class="label">Map</span>
+            <div class="seg" role="radiogroup" aria-label="Heat map">
+              <label><input type="radio" name="overlay" value="cnn" checked><span>CNN</span></label>
+              <label><input type="radio" name="overlay" value="laplacian"><span>Laplacian</span></label>
+              <label><input type="radio" name="overlay" value="off"><span>Off</span></label>
+            </div>
+          </div>
+          <div class="row">
+            <span class="label">Detail</span>
+            <div class="seg" role="radiogroup" aria-label="Heat map detail">
+              <label><input type="radio" name="detail" value="coarse" checked><span>Coarse</span></label>
+              <label><input type="radio" name="detail" value="fine"><span>Fine</span></label>
+            </div>
+          </div>
+          <label class="row slider"><span class="label">Opacity</span><input type="range" id="opacity" min="0" max="1" step="0.05" value="0.5"></label>
+          <label class="row slider"><span class="label">Threshold</span><input type="range" id="threshold"><output id="threshold-out"></output></label>
+          <div class="legend"><span>sharp</span><i></i><span>blurry</span></div>
+        </fieldset>
+      </aside>
+    </div>
+
+    <div class="samples" id="samples" aria-label="Sample pictures"></div>
+  </section>
+
+  <section class="stress" id="stress">
+    <div class="section-head">
+      <h2>Stress test</h2>
+      <p>Blur the current picture a little more at every step and watch both detectors change their minds.
+        The blurs are simulated in your browser on a copy at most 512 px wide.</p>
+    </div>
+    <div class="stress-controls">
+      <div class="seg" role="radiogroup" aria-label="Kind of blur" id="stress-kind"></div>
+      <button class="button primary" id="stress-run" disabled>Run</button>
+      <span class="muted" id="stress-status" aria-live="polite"></span>
+    </div>
+    <figure class="chart">
+      <div class="chart-legend" id="stress-legend"></div>
+      <svg id="stress-chart" role="img" aria-label="Blur score of both detectors at every blur step"></svg>
+      <p class="chart-empty" id="stress-empty">Pick a kind of blur and press <b>Run</b>.</p>
+      <div class="tooltip" id="stress-tip" hidden></div>
+      <figcaption class="muted">Both lines are blur scores from 0 (sharp) to 1 (blurry). The Laplacian score is
+        threshold ÷ (threshold + variance), so it crosses 0.5 exactly at the threshold.</figcaption>
+    </figure>
+    <div class="strip" id="stress-strip"></div>
+    <details class="table-view"><summary>Show as a table</summary><table id="stress-table"></table></details>
+  </section>
+
+  <section class="how" id="how">
+    <div class="section-head">
+      <h2>How it works</h2>
+      <p>Same model, same maths, from the training script to this page.</p>
+    </div>
+    <ol class="pipeline">
+      <li><b>Sharp pictures</b><span>data/train and data/test, folder <code>nonblur</code></span></li>
+      <li><b>blur-generator</b><span>a lens, Gaussian or motion blur for every one, into <code>blur</code></span></li>
+      <li><b>Keras CNN</b><span>3 conv blocks → 2 dense layers, 100k weights, trained on whole pictures and crops</span></li>
+      <li><b>ONNX</b><span>exported and checked against Keras by GitHub Actions</span></li>
+      <li><b>Your browser</b><span>ONNX Runtime Web; the pixels stay on your machine</span></li>
+    </ol>
+    <div class="explain">
+      <div>
+        <h3><span class="swatch cnn"></span>The CNN</h3>
+        <p>Every picture is prepared exactly like the training data: each colour channel's histogram is
+          equalized, the picture is squeezed to 256 × 256 and scaled to 0–1. The network answers with two
+          probabilities, sharp and blurry. For the heat map it looks at square windows, half as wide as the
+          picture's shorter side, which is the smallest crop it saw in training.</p>
+      </div>
+      <div>
+        <h3><span class="swatch lap"></span>The Laplacian variance</h3>
+        <p>The Laplacian filter lights up wherever brightness changes abruptly, so a sharp picture has a
+          wildly varying Laplacian and a blurry one a flat, quiet one. Its variance is a one-line blur score
+          with no training at all. Its weak spot: flat areas such as sky look "blurry" even when they are in focus.</p>
+      </div>
+    </div>
+    <div class="card" id="model-card">
+      <h3>Model card</h3>
+      <dl id="model-card-list"><dt>status</dt><dd>loading…</dd></dl>
+    </div>
+    <p class="fine-print">The model learned from <span data-card="train-count">a few dozen</span> training pictures (anime-style
+      illustrations and their blurred copies), so it is most at home with drawings and less sure about photos. The sample pictures above are drawn by code in this repository and blurred
+      with blur-generator.</p>
+  </section>
+</main>
+
+<footer class="bottom">
+  <span>simply-blur-detector · <a data-repo href="#">source on GitHub</a></span>
+  <span class="muted">Images are processed locally with ONNX Runtime Web; nothing is uploaded.</span>
+</footer>
+</body>
+</html>
