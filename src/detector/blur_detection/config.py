@@ -42,6 +42,16 @@ DATASET_SIDE_RANGE = (384, 512)
 DATASET_SEED = 2023
 DATASET_PREFIX = 'scene'
 
+#: The web demo publishes a model only if it gets at least this share of the held-out test pictures
+#: right, counted in whole pictures (see export.publish_gate). The model card records the result and
+#: .github/workflows/pages.yml refuses to deploy when it fails.
+PUBLISH_MIN_TEST_ACCURACY = 0.85
+#: Why the threshold is where it is. The model card carries it and the web page shows it, so change it
+#: together with the value.
+PUBLISH_THRESHOLD_NOTE = ('Lowered from 90% by the project owner on 2026-11-04: on the Danbooru pictures the model '
+                          'got 35 of 40 test pictures right in CI, while its heat map windows went from 64% '
+                          '(trained on drawn scenes) to 92% right.')
+
 #: Largest difference between Keras and ONNX Runtime outputs that the export accepts.
 EXPORT_TOLERANCE = 1e-4
 

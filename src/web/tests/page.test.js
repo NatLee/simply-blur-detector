@@ -2,7 +2,7 @@
 // Runs when BROWSER_PATH points at Chrome, Chromium or Edge; CI sets it, elsewhere it is skipped.
 // Needs public/model/ from `blur-detector export`, like the pipeline test.
 import assert from 'node:assert/strict';
-import { createReadStream, existsSync } from 'node:fs';
+import { createReadStream, existsSync, readFileSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -77,6 +77,7 @@ async function openPage({ danbooru, picks }) {
     links: [...document.querySelectorAll('#credit a')].map((a) => [a.href, a.rel]),
     cards: document.querySelectorAll('.sample.anime').length,
     dropShown: !document.getElementById('drop').hidden,
+    modelCard: document.getElementById('model-card-list').innerText,
   }));
   await browser.close();
   return { view, asked };
@@ -97,6 +98,15 @@ test('a listed post opens with its credit, one API request and one picture', { s
   assert.ok(view.links.every(([, rel]) => rel === 'noopener noreferrer'));
   assert.equal(asked.length, 2);
   assert.ok(view.cards >= 3);
+});
+
+test('the model card says when a model is published and why', { skip }, async () => {
+  const { publish } = JSON.parse(readFileSync(join(publicDir, MODEL_CARD_URL), 'utf8'));
+  const { view } = await openPage({ danbooru: () => null });
+  const expected = `at least ${Math.round(publish.min_test_accuracy * 100)}% of the test pictures are right`
+    + ` (${publish.needed} of `;
+  assert.ok(view.modelCard.includes(expected), view.modelCard);
+  assert.ok(view.modelCard.includes(`this model: ${publish.correct}). ${publish.note}`), view.modelCard);
 });
 
 test('when Danbooru cannot be reached, the page asks for your own picture', { skip }, async () => {

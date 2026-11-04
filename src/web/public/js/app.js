@@ -550,6 +550,11 @@ function renderModelCard(card) {
   rows.push(['exported', new Date(card.created_at).toISOString().replace('T', ' ').slice(0, 16) + ' UTC']);
   const m = card.metrics;
   if (m.test) rows.push(['test accuracy', `${percent(m.test.accuracy)} on ${m.test.count} pictures`]);
+  const gate = card.publish;
+  if (gate) {
+    rows.push(['published if', `at least ${percent(gate.min_test_accuracy)} of the test pictures are right `
+      + `(${gate.needed} of ${m.test?.count}; this model: ${gate.correct}).${gate.note ? ` ${gate.note}` : ''}`]);
+  }
   if (m.test_windows) rows.push(['window accuracy', `${percent(m.test_windows.accuracy)} on ${m.test_windows.count} heat map windows of the test pictures`]);
   if (m.train) rows.push(['training set', `${m.train.count} pictures (${percent(m.train.accuracy)} right)`]);
   rows.push(['input', `${card.input.size} × ${card.input.size} ${card.input.channels}, ${card.input.layout}, ${card.input.range.join('–')}`]);

@@ -3,6 +3,7 @@ Export a trained model for the web demo: an ONNX file that ONNX Runtime Web runs
 model card (JSON) that says how the model was made and how well it did.
 """
 import json
+import math
 import os
 from datetime import datetime, timezone
 from importlib import metadata
@@ -18,6 +19,8 @@ from .config import (
     DEMO_IMAGE,
     CLASS_NAMES,
     EXPORT_TOLERANCE,
+    PUBLISH_MIN_TEST_ACCURACY,
+    PUBLISH_THRESHOLD_NOTE,
     INPUT_SIZE,
     WEB_MODEL_CARD,
     WEB_MODEL_DIR,
@@ -100,6 +103,20 @@ def reference_predictions(model: keras.Model, data_path: str, names: Sequence[st
     return {path.name: float(p) for path, p in zip(paths, probabilities)}
 
 
+def publish_gate(metrics: Dict[str, Dict[str, float]], min_accuracy: float = PUBLISH_MIN_TEST_ACCURACY) -> Dict:
+    """Whether the model gets enough of the test pictures right to be published, in whole pictures.
+
+    ``needed`` is the smallest whole number of right answers that reaches ``min_accuracy`` (34 of 40
+    at 0.85; the rounding keeps float noise from asking for 35).
+    """
+    test = metrics.get('test')
+    if not test:
+        return {'min_test_accuracy': min_accuracy, 'needed': None, 'correct': None, 'passes': False}
+    needed = math.ceil(round(min_accuracy * test['count'], 6))
+    return {'min_test_accuracy': min_accuracy, 'needed': needed, 'correct': test['correct'],
+            'passes': test['correct'] >= needed}
+
+
 def package_versions(names: Sequence[str] = RECORDED_PACKAGES) -> Dict[str, Optional[str]]:
     """Installed version of each package, or None when it is not installed."""
     versions = {}
@@ -139,6 +156,7 @@ def export_web_model(model: keras.Model, data_path: str, web_dir: str) -> Path:
                            f'(more than {EXPORT_TOLERANCE:.0e}); not using it.')
     logger.info(f'ONNX and Keras agree within {difference:.2e}.')
 
+    metrics = evaluate(model, data_path)
     card = {
         'format': MODEL_CARD_FORMAT,
         'model': WEB_MODEL_FILE,
@@ -146,7 +164,8 @@ def export_web_model(model: keras.Model, data_path: str, web_dir: str) -> Path:
         'input': {'size': INPUT_SIZE, 'layout': 'NHWC', 'channels': 'RGB', 'range': [0, 1]},
         'classes': list(CLASS_NAMES),
         'windows': {'fraction': WINDOW_FRACTION, 'overlap': WINDOW_OVERLAP},
-        'metrics': evaluate(model, data_path),
+        'metrics': metrics,
+        'publish': {**publish_gate(metrics), 'note': PUBLISH_THRESHOLD_NOTE},
         'onnx_max_difference': difference,
         'references': reference_predictions(model, data_path),
         'provenance': github_provenance(),
@@ -156,6 +175,9 @@ def export_web_model(model: keras.Model, data_path: str, web_dir: str) -> Path:
     card_path.write_text(json.dumps(card, indent=2) + '\n', encoding='utf-8')
     for split, m in card['metrics'].items():
         logger.info(f'{split}: {m["accuracy"]:.1%} accuracy on {m["count"]} inputs')
+    gate = card['publish']
+    logger.info(f'Publish gate: {gate["correct"]} of {metrics.get("test", {}).get("count")} test inputs right, '
+                f'{gate["needed"]} needed ({gate["min_test_accuracy"]:.0%}): {"passes" if gate["passes"] else "fails"}')
     logger.info(f'Wrote {onnx_path} and {card_path}')
     return card_path
 
