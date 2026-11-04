@@ -12,6 +12,7 @@
   <img src="https://img.shields.io/badge/python-3.10%E2%80%933.13-3776ab" alt="Python 3.10 to 3.13">
   <img src="https://img.shields.io/badge/TensorFlow-2.21%20%C2%B7%20Keras%203-ff6f00" alt="TensorFlow 2.21, Keras 3">
   <img src="https://img.shields.io/badge/docker-amd64%20%7C%20arm64-2496ed" alt="Docker image for amd64 and arm64">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/NatLee/simply-blur-detector" alt="License: MIT"></a>
 </p>
 
 A small convolutional neural network (CNN) that tells sharp pictures from blurry ones. You train it on a
@@ -204,6 +205,10 @@ fixture).
 The pictures in `data/` are character portraits from the game *Blue Archive*, taken from
 [bluearchive.wiki](https://bluearchive.wiki/wiki/Characters). Their copyright belongs to the game's
 publisher; they are here only as a small example data set.
+
+## License
+
+[MIT](LICENSE) © 2023 Nat Lee
 
 ## Author
 
