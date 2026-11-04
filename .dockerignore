@@ -1,0 +1,5 @@
+# The image only needs src/detector; data, models and the web demo are mounted at run time.
+*
+!src/detector
+src/detector/**/__pycache__
+src/detector/**/*.egg-info
