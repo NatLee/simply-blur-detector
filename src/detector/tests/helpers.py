@@ -20,3 +20,8 @@ def sharp_image(seed: int, size=(280, 300)) -> np.ndarray:
 
 def blurry_image(seed: int) -> np.ndarray:
     return cv2.GaussianBlur(sharp_image(seed), (31, 31), 8)
+
+
+def laplacian_variance(img: np.ndarray) -> float:
+    """The classic blur score of a BGR image: higher means more sharp edges (100 is a common threshold)."""
+    return float(cv2.Laplacian(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), cv2.CV_64F).var())

@@ -1,10 +1,10 @@
 {
-  "note": "Drawn by src/web/tools/make_samples.py with blur_detection.scenes (shapes and OpenCV Hershey text, no third-party artwork); blurred with blur-generator.",
+  "note": "An AI chip whose traces grow into a neural network, drawn by src/web/tools/make_samples.py with blur_detection.sample_scene (shapes and OpenCV Hershey text, no third-party artwork); blurred with blur-generator.",
   "samples": [
     {
       "file": "portrait.png",
       "title": "Portrait mode",
-      "description": "The robot stays sharp, the city melts into lens bokeh."
+      "description": "The chip stays sharp, the network behind it melts into lens bokeh."
     },
     {
       "file": "sharp.png",

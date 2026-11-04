@@ -1,11 +1,11 @@
 """
-Pictures drawn from code: the training data in data/ and the web demo's samples.
+Pictures drawn from code: the training data in data/.
 
 Everything is made of OpenCV shapes and its built-in Hershey font, so the pictures contain no
 third-party artwork. `random_scene` composes a different illustration for every seed (sky, city,
-hills, robots, flowers, signs, patterns); `robot_city_scene` is the fixed picture behind the web
-demo's samples. Both draw on a `Canvas`, which also keeps a depth map (0 = near, 255 = far) for
-blur-generator's depth-of-field blur.
+hills, robots, flowers, signs, patterns) on a `Canvas`, which also keeps a depth map (0 = near,
+255 = far) for blur-generator's depth-of-field blur. The web demo's sample picture is drawn on a
+`Canvas` too, by `sample_scene`.
 """
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -21,8 +21,6 @@ BGR = Tuple[int, int, int]
 
 OUTLINE: BGR = (34, 24, 22)  # nearly black, like an ink line
 WHITE: BGR = (255, 255, 255)
-#: Seed of the web demo's sample picture (`robot_city_scene`).
-SAMPLE_SEED = 7
 #: Depth map values: robots and flowers are near, hills further away, the sky and the city furthest.
 NEAR, MIDDLE, FAR = 0, 150, 255
 
@@ -226,20 +224,6 @@ def caption(c: Canvas, text: str, org: Tuple[int, int], scale: float = 0.62, col
 
 
 # ---------------------------------------------------------------- whole pictures
-
-def robot_city_scene(rng: np.random.Generator) -> Canvas:
-    """The web demo's sample picture (640 x 480): a robot in front of a city at dusk."""
-    c = Canvas(640, 480)
-    sky(c, (84, 36, 40), (96, 150, 246))
-    moon(c, (520, 92), 46)
-    string_lights(c)
-    skyline(c, rng, ground=330)
-    hills(c, [(0, 360), (90, 318), (200, 344), (330, 300), (470, 340), (560, 312), (640, 336)])
-    grass(c, rng, 70, top=372)
-    robot(c, cx=200, top=300)
-    caption(c, 'simply-blur-detector', (378, 466))
-    return c
-
 
 def random_scene(rng: np.random.Generator, width: int, height: int) -> Canvas:
     """A random illustration: some of sky, moon, lights, stars, city, hills and grass, then one to
