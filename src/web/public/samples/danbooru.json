@@ -1,0 +1,33 @@
+{
+  "note": "General-audience (rating:g) Danbooru posts the page may show, each looked at by a person before it was listed. The page loads them from Danbooru at run time; their copyright belongs to their artists, and nothing of them is stored in this repository.",
+  "picks": [
+    {
+      "id": 4000000,
+      "title": "Mountain river",
+      "artist": "philipp_urlich",
+      "copyright": "original",
+      "source": "https://twitter.com/somartist/status/1253322350864420867"
+    },
+    {
+      "id": 5730026,
+      "title": "Duck in class",
+      "artist": "ruien_(wu_jui-en)",
+      "copyright": "hololive",
+      "source": "https://i.pximg.net/img-original/img/2022/10/08/00/23/17/101755830_p0.png"
+    },
+    {
+      "id": 769829,
+      "title": "Ring world",
+      "artist": "mugon",
+      "copyright": "original",
+      "source": "https://i.pximg.net/img-original/img/2010/10/18/13/47/09/13962598_p0.jpg"
+    },
+    {
+      "id": 2619062,
+      "title": "Workshop",
+      "artist": "dahuang",
+      "copyright": "touhou touhou_(pc-98)",
+      "source": "https://i.pximg.net/img-original/img/2017/02/04/11/19/45/61269686_p0.jpg"
+    }
+  ]
+}

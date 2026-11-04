@@ -1,14 +1,13 @@
-// Random anime pictures from Danbooru, the page's default source: general-audience posts only, each
-// with its credit. Nothing here touches the page, so the tests run it with a fake fetch and storage.
+// Anime pictures from Danbooru, the page's default source: only the general-audience posts listed in
+// samples/danbooru.json (each one looked at by a person before it was listed), each with its credit.
+// Nothing here touches the page, so the tests run it with a fake fetch and storage.
 
 /** A post the page must not or cannot show: another rating, a video, a missing file. */
 export class UnusablePost extends Error {}
 
-/** The API address that answers with one random post carrying `tags`. */
-export function randomPostUrl({ site, randomPath, tags }) {
-  const url = new URL(randomPath, site);
-  url.searchParams.set('tags', tags);
-  return url.href;
+/** The API address of one post. */
+export function postUrl({ site, postPath }, id) {
+  return new URL(`${postPath}${id}.json`, site).href;
 }
 
 const extensionOf = (url) => new URL(url).pathname.split('.').pop().toLowerCase();
@@ -44,31 +43,38 @@ export function pictureOf(post, { site, rating, extensions }) {
 }
 
 /**
- * Ask Danbooru for one random post, and again only when that post has no usable picture, at most
- * `attempts` requests in all. HTTP and network errors are not retried: asking again would not help.
+ * Ask Danbooru for the listed posts `ids` in turn until one has a usable picture, at most `attempts`
+ * requests in all. A post that is gone (HTTP 404) or no longer usable is skipped; other HTTP and
+ * network errors are reported at once, as asking again would not help.
  */
-export async function fetchRandomPicture(fetchFn, settings, { signal } = {}) {
-  const url = randomPostUrl(settings);
+export async function fetchListedPicture(fetchFn, settings, ids, { signal } = {}) {
   const skipped = [];
-  for (let i = 0; i < settings.attempts; i++) {
-    const response = await fetchFn(url, { signal, credentials: 'omit' });
+  for (const id of ids.slice(0, settings.attempts)) {
+    const response = await fetchFn(postUrl(settings, id), { signal, credentials: 'omit' });
+    if (response.status === 404) {
+      skipped.push(`post ${id} is gone from Danbooru`);
+      continue;
+    }
     if (!response.ok) throw new Error(`Danbooru answered HTTP ${response.status}`);
     try {
-      return pictureOf(await response.json(), settings);
+      const picture = pictureOf(await response.json(), settings);
+      if (picture.id !== id) throw new UnusablePost(`asked for post ${id}, got ${picture.id}`);
+      return picture;
     } catch (err) {
       if (!(err instanceof UnusablePost)) throw err;
       skipped.push(err.message);
     }
   }
   // A short reason for the page; why each post was skipped goes along for the console.
-  throw new Error(`no usable picture in ${settings.attempts} posts`, { cause: skipped });
+  throw new Error(`no usable picture in ${Math.min(ids.length, settings.attempts)} posts`, { cause: skipped });
 }
 
-/** The picture kept for this browser session, or null when there is none or it cannot be used. */
-export function readCachedPicture(storage, settings) {
+/** The picture kept for this browser session, or null when there is none, it is not one of `ids` or it cannot be used. */
+export function readCachedPicture(storage, settings, ids) {
   try {
     const picture = JSON.parse(storage?.getItem(settings.cacheKey) ?? 'null');
     if (!picture || picture.rating !== settings.rating || typeof picture.url !== 'string') return null;
+    if (!ids.includes(picture.id)) return null; // e.g. a random post kept by an older version of the page
     return picture.url.startsWith('https://') && settings.extensions.includes(extensionOf(picture.url)) ? picture : null;
   } catch {
     return null; // storage blocked, or a value this version cannot read
@@ -84,7 +90,15 @@ export function cachePicture(storage, settings, picture) {
   }
 }
 
-/** Danbooru artist tags as people read them: `yukichi_(nyarome-busters)` -> `yukichi (nyarome-busters)`. */
+/** A Danbooru artist tag as people read it: `yukichi_(nyarome-busters)` -> `yukichi (nyarome-busters)`. */
+export const artistName = (tag) => tag.replaceAll('_', ' ');
+
 export function artistNames(picture) {
-  return picture.artists.map((tag) => tag.replaceAll('_', ' '));
+  return picture.artists.map(artistName);
+}
+
+/** `ids` starting at `first` and going round, so that a gone post falls back to the next one. */
+export function inTurn(ids, first) {
+  const start = Math.max(0, ids.indexOf(first));
+  return [...ids.slice(start), ...ids.slice(0, start)];
 }
