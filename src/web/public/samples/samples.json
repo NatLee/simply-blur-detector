@@ -1,5 +1,5 @@
 {
-  "note": "Drawn by src/web/tools/make_samples.py (shapes and OpenCV Hershey text, no third-party artwork); blurred with blur-generator.",
+  "note": "Drawn by src/web/tools/make_samples.py with blur_detection.scenes (shapes and OpenCV Hershey text, no third-party artwork); blurred with blur-generator.",
   "samples": [
     {
       "file": "portrait.png",

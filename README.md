@@ -12,11 +12,13 @@
   <img src="https://img.shields.io/badge/python-3.10%E2%80%933.13-3776ab" alt="Python 3.10 to 3.13">
   <img src="https://img.shields.io/badge/TensorFlow-2.21%20%C2%B7%20Keras%203-ff6f00" alt="TensorFlow 2.21, Keras 3">
   <img src="https://img.shields.io/badge/docker-amd64%20%7C%20arm64-2496ed" alt="Docker image for amd64 and arm64">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/NatLee/simply-blur-detector" alt="License: MIT"></a>
 </p>
 
 A small convolutional neural network (CNN) that tells sharp pictures from blurry ones. You train it on a
 folder of sharp pictures: [blur-generator](https://github.com/NatLee/blur-generator) makes a lens,
-Gaussian or motion-blurred copy of each one, and the network learns the difference. Everything runs
+Gaussian or motion-blurred copy of each one, and the network learns the difference. The repository
+comes with a ready-made set of 80 cartoon scenes drawn by code, or you can bring your own pictures. Everything runs
 in Docker on x86 and ARM machines, and the trained model is also published as a
 **[web demo](https://natlee.github.io/simply-blur-detector/)**: drop a picture and it shows the
 network's verdict, a window-by-window blur heat map and the classic Laplacian variance side by side,
@@ -33,6 +35,8 @@ all in your browser.
 
 ```mermaid
 flowchart TB
+  draw["blur-detector draw<br/>cartoon scenes from code"] --> sharp
+  own["or your own pictures"] -.-> sharp
   sharp["Sharp pictures<br/>data/*/nonblur"] -->|"blur-detector generate"| bg["blur-generator<br/>lens · Gaussian · motion"]
   bg --> blurred["Blurred copies<br/>data/*/blur"]
   sharp --> train
@@ -59,8 +63,10 @@ cd simply-blur-detector
 docker compose up
 ```
 
-That trains the network on `data/` for 5 epochs, saves it to `model/model.h5` and draws
-`outputs/results.png`. If `model/model.h5` already exists, training continues from it. To run every step
+That trains the network on the pictures in `data/` ([what they are](data/README.md)) for 5 epochs, saves it to `model/model.h5` and draws
+`outputs/results.png`. If `model/model.h5` already exists, training continues from it. Five epochs is a
+quick first run (about 80–95% of the test pictures right); the web demo's model trains for 20 epochs
+with crops, see [The web demo](#the-web-demo). To run every step
 from scratch (new blurred copies, a new model, the figure and the web demo's model):
 
 ```bash
@@ -74,6 +80,7 @@ Inside the container the command line is `blur-detector`; with Compose, put
 
 | Command | What it does |
 |---|---|
+| `draw` | Draws the built-in data set: 60 training and 20 test scenes plus `data/demo.png`, all from code. `--seed` picks other scenes, `--train` / `--test` change the counts. |
 | `generate` | Writes a blurred copy of every picture in `data/*/nonblur` to the `blur` folder next to it: a lens, Gaussian or motion blur of random strength (`--seed` makes it repeatable). |
 | `train` | Trains on `data/{train,test}/{blur,nonblur}` and saves `model/model.h5`. `--epochs` (5), `--crops=N` (also train on N random crops of every picture, for the heat map), `--seed`, `--model_path=None` to start over. |
 | `predict` | Prints P(blur) of one picture, then blurs it more and more and draws a 4 × 4 grid of predictions. `--img_path`, `--blur_mode` (`lens`, `gaussian`, `motion`), `--save_fig_path`. |
@@ -90,11 +97,11 @@ For example, ask the model about one of the web demo's sample pictures:
 ```console
 $ docker compose run --rm detector predict --img_path=/web/samples/sharp.png --blur_mode=lens --save_fig_path=/outputs/sharp-lens.png
 INFO | Blur Detection Model Loaded.
-INFO | /web/samples/sharp.png: Clear (P(blur) = 0.000)
-INFO | tile 0,0: Clear (P(blur) = 0.000)
+INFO | /web/samples/sharp.png: Clear (P(blur) = 0.001)
+INFO | tile 0,0: Blur (P(blur) = 0.712)
 ...
 INFO | Saved the comparison figure to /outputs/sharp-lens.png
-3.434520840528421e-05
+0.0007086111581884325
 ```
 
 The last line is the return value, P(blur), so a script can use it (log lines shortened here).
@@ -105,8 +112,8 @@ The last line is the return value, P(blur), so a script can use it (log lines sh
 
 ## Train on your own pictures
 
-Put sharp pictures (`.png`, `.jpg`, `.jpeg`) in `data/train/nonblur` and `data/test/nonblur`, then let
-blur-generator make the blurry half and train:
+Put sharp pictures (`.png`, `.jpg`, `.jpeg`) in `data/train/nonblur` and `data/test/nonblur` (delete the
+drawn scenes you do not want), then let blur-generator make the blurry half and train:
 
 ```text
 data
@@ -124,8 +131,9 @@ docker compose run --rm detector train --model_path=None --epochs=20 --crops=2
 docker compose run --rm detector export
 ```
 
-Files elsewhere under `data/` are ignored, so a demo picture such as `data/Mika.png` can sit next to
-the folders.
+Files elsewhere under `data/` are ignored, so `data/demo.png` (the default picture of `run` and
+`predict`) and `data/README.md` can sit next to the folders. `blur-detector draw` followed by
+`generate --seed=1` brings back the built-in set exactly.
 
 ## Use it from Python
 
@@ -138,10 +146,10 @@ train_ds, test_ds = get_data('/data')            # tf.data datasets of prepared 
 detector.train(train_ds, test_ds, epochs=5)
 detector.save('/model/model.h5')                 # .h5 or .keras
 
-probabilities, labels = detector.predict(prepare_image(read_image('/data/Mika.png')))
-print(labels[0], float(probabilities[0][1]))     # e.g. "Clear 0.327" after this short training
+probabilities, labels = detector.predict(prepare_image(read_image('/data/demo.png')))
+print(labels[0], float(probabilities[0][1]))     # e.g. "Clear 0.148" after this short training
 
-predict_blur_img(detector, '/data/Mika.png', blur_mode='lens', save_fig_path='/outputs/results.png')
+predict_blur_img(detector, '/data/demo.png', blur_mode='lens', save_fig_path='/outputs/results.png')
 ```
 
 `DetectionModel` also loads `.h5` weight files saved by the original TensorFlow 2.7 version of this
@@ -199,11 +207,23 @@ The project is laid out as `src/detector` (the Python package `blur_detection` a
 `src/web` (the demo page in `public/`, its tests and the tools that make its sample pictures and test
 fixture).
 
-## About the training pictures
+## The training pictures
 
-The pictures in `data/` are character portraits from the game *Blue Archive*, taken from
-[bluearchive.wiki](https://bluearchive.wiki/wiki/Characters). Their copyright belongs to the game's
-publisher; they are here only as a small example data set.
+Every picture in `data/` is drawn by code in this repository
+([`blur_detection/scenes.py`](src/detector/blur_detection/scenes.py)): robots, cities, hills, flowers,
+signs and badges made of OpenCV shapes and text. There are 60 training and 20 test scenes, each with
+a blurred copy, plus a demo picture. They contain no photos or third-party artwork and fall under the
+MIT licence below. [`data/README.md`](data/README.md) lists the details and the two commands that
+rebuild the folder.
+
+Until November 2026 the folder held character art from the game *Blue Archive*, whose licence was
+unclear, so it was replaced. In a check before the switch, a model trained on the drawn scenes got
+19 of the 20 old test pictures right (one trained on the old pictures got all 20), so it still copes
+with real illustrations.
+
+## License
+
+[MIT](LICENSE) © 2023 Nat Lee
 
 ## Author
 

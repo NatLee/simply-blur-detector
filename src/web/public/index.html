@@ -139,7 +139,7 @@
       <p>Same model, same maths, from the training script to this page.</p>
     </div>
     <ol class="pipeline">
-      <li><b>Sharp pictures</b><span>data/train and data/test, folder <code>nonblur</code></span></li>
+      <li><b>Sharp pictures</b><span>drawn by code into data/train and data/test, folder <code>nonblur</code> (or your own)</span></li>
       <li><b>blur-generator</b><span>a lens, Gaussian or motion blur for every one, into <code>blur</code></span></li>
       <li><b>Keras CNN</b><span>3 conv blocks → 2 dense layers, 100k weights, trained on whole pictures and crops</span></li>
       <li><b>ONNX</b><span>exported and checked against Keras by GitHub Actions</span></li>
@@ -164,9 +164,10 @@
       <h3>Model card</h3>
       <dl id="model-card-list"><dt>status</dt><dd>loading…</dd></dl>
     </div>
-    <p class="fine-print">The model learned from <span data-card="train-count">a few dozen</span> training pictures (anime-style
-      illustrations and their blurred copies), so it is most at home with drawings and less sure about photos. The sample pictures above are drawn by code in this repository and blurred
-      with blur-generator.</p>
+    <p class="fine-print">The model learned from <span data-card="train-count">a few dozen</span> training pictures: cartoon
+      scenes (robots, cities, flowers, signs) drawn by code in this repository, and their copies blurred with
+      blur-generator. So it is most at home with drawings and less sure about photos. The sample pictures above
+      come from the same drawing code.</p>
   </section>
 </main>
 

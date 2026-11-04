@@ -18,7 +18,9 @@ ORIGINAL_MAIN_FLAGS = {
     'epochs': 5,
     'save_model': True,
     'demo': True,
-    'demo_img_path': '/data/Mika.png',
+    # Was /data/Mika.png. The user had the game artwork removed from data/ on 2026-11-04, and the
+    # drawn demo picture took its place.
+    'demo_img_path': '/data/demo.png',
     'demo_blur_mode': 'lens',
 }
 
@@ -35,7 +37,7 @@ def test_run_keeps_the_flags_and_defaults_of_main_py():
 
 
 def test_every_step_has_a_command():
-    assert list(cli.COMMANDS) == ['generate', 'train', 'predict', 'export', 'run']
+    assert list(cli.COMMANDS) == ['draw', 'generate', 'train', 'predict', 'export', 'run']
 
 
 @pytest.mark.parametrize('args', [['--help'], ['train', '--help']])
@@ -49,6 +51,7 @@ def test_help_works_from_the_command_line(args):
 def test_generate_train_predict_from_end_to_end(data_dir, tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     model = tmp_path / 'model' / 'model.h5'
+    cli.draw(data_path=str(data_dir), train=2, test=1, seed=3)  # adds drawn pictures next to the fixture's
     cli.generate(data_path=str(data_dir), seed=1)
     cli.train(data_path=str(data_dir), model_path=None, model_save_path=str(model), epochs=1, seed=1)
     assert model.is_file()

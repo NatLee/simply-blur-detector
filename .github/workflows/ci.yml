@@ -100,5 +100,6 @@ jobs:
           test -s outputs/motion.png
           docker run --rm $mounts simply-blur-detector:ci export
           test -s src/web/public/model/blur-detector.onnx
-          docker run --rm $mounts simply-blur-detector:ci generate --seed=1
-          test -n "$(git status --porcelain data)"  # generate rewrote the blurred copies
+          # Seed 1 rebuilds the committed blurred copies; seed 2 picks other blurs, so the files must change.
+          docker run --rm $mounts simply-blur-detector:ci generate --seed=2
+          test -n "$(git status --porcelain data)"

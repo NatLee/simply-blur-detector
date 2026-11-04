@@ -7,6 +7,7 @@ name = "simply-blur-detector"
 version = "1.0.0"
 description = "A small CNN that tells sharp images from blurry ones, trained on images blurred with blur-generator."
 authors = [{ name = "Nat Lee", email = "natlee.work@gmail.com" }]
+license = "MIT"
 requires-python = ">=3.10"
 dependencies = [
     "tensorflow>=2.16,<3",          # Keras 3 comes with it

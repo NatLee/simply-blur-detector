@@ -1,6 +1,7 @@
 """
 Command line: ``blur-detector <command> [--flag=value ...]``.
 
+    draw      draw the built-in data set: sharp pictures made from code (data/*/nonblur)
     generate  write a blurred copy of every sharp image (data/*/nonblur -> data/*/blur)
     train     train the model on the data folder and save it
     predict   predict one image and draw the comparison figure
@@ -20,6 +21,8 @@ from .blur import generate_blur_images
 from .config import (
     BLUR_CLASS,
     DATA_DIR,
+    DATASET_SEED,
+    DATASET_SIZES,
     DEFAULT_EPOCHS,
     DEMO_BLUR_MODE,
     DEMO_FIGURE_PATH,
@@ -30,7 +33,19 @@ from .config import (
 from .detection_model import DetectionModel
 from .export import export_web_model
 from .images import prepare_image, read_image
+from .scenes import draw_dataset
 from .utils import get_data, predict_blur_img
+
+
+def draw(data_path: str = DATA_DIR, train: int = DATASET_SIZES['train'], test: int = DATASET_SIZES['test'],
+         seed: int = DATASET_SEED) -> None:
+    """Draw the built-in data set: sharp pictures made from code, in <data_path>/{train,test}/nonblur.
+
+    Also draws the demo picture <data_path>/demo.png. The default seed gives exactly the pictures in
+    the repository's data/ folder; run `generate` afterwards for the blurred copies.
+    """
+    written = draw_dataset(data_path, {'train': train, 'test': test}, seed=seed)
+    logger.info(f'Drew {len(written)} pictures.')
 
 
 def generate(data_path: str = DATA_DIR, seed: Optional[int] = None) -> None:
@@ -115,6 +130,7 @@ def run(model_path: str = MODEL_PATH, model_save_path: str = MODEL_PATH, data_pa
 
 
 COMMANDS = {
+    'draw': draw,
     'generate': generate,
     'train': train,
     'predict': predict,
