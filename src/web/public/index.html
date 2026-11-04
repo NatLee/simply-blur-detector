@@ -36,25 +36,28 @@
     <div class="intro">
       <p class="kicker">CNN <span>vs.</span> Laplacian · nothing leaves your browser</p>
       <h1>Is it <em class="defocus">blurry</em>?</h1>
-      <p class="lede">Drop a picture. A small convolutional network, trained on images blurred with
-        <a href="https://github.com/NatLee/blur-generator">blur-generator</a>, and the classic Laplacian variance both take a look,
-        window by window.</p>
+      <p class="lede">Start with a random anime picture from Danbooru, or drop your own. A small convolutional
+        network, trained on images blurred with <a href="https://github.com/NatLee/blur-generator">blur-generator</a>, and
+        the classic Laplacian variance both take a look, window by window.</p>
     </div>
 
     <div class="lab">
-      <div class="stage" id="stage" tabindex="0" aria-label="Picture under test. Drop an image here, paste one, or pick a file.">
-        <canvas id="photo" aria-hidden="true"></canvas>
-        <canvas id="overlay" aria-hidden="true"></canvas>
-        <div class="reticle" id="reticle" hidden><span></span></div>
-        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-        <div class="hud top-left" id="hud-file">no picture</div>
-        <div class="hud bottom-left" id="hud-status" aria-live="polite">loading the model…</div>
-        <div class="drop" id="drop" hidden>
-          <p><strong>Drop it like it's hot.</strong></p>
-          <p>…or paste an image, or</p>
-          <label class="button">choose a file<input id="file" type="file" accept="image/*"></label>
+      <figure class="viewer">
+        <div class="stage" id="stage" tabindex="0" aria-label="Picture under test. Drop an image here, paste one, or pick a file.">
+          <canvas id="photo" aria-hidden="true"></canvas>
+          <canvas id="overlay" aria-hidden="true"></canvas>
+          <div class="reticle" id="reticle" hidden><span></span></div>
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div class="hud top-left" id="hud-file">no picture</div>
+          <div class="hud bottom-left" id="hud-status" aria-live="polite">loading the model…</div>
+          <div class="drop" id="drop" hidden>
+            <p><strong>Drop it like it's hot.</strong></p>
+            <p>…or paste an image, or</p>
+            <label class="button">choose a file<input id="file" type="file" accept="image/*"></label>
+          </div>
         </div>
-      </div>
+        <figcaption class="credit" id="credit" aria-live="polite" hidden></figcaption>
+      </figure>
 
       <aside class="readout" aria-label="Results">
         <div class="meter" id="cnn-meter">
@@ -166,8 +169,13 @@
     </div>
     <p class="fine-print">The model learned from <span data-card="train-count">a few dozen</span> training pictures: cartoon
       scenes (robots, cities, flowers, signs) drawn by code in this repository, and their copies blurred with
-      blur-generator. So it is most at home with drawings and less sure about photos. The sample pictures above
+      blur-generator. So it is most at home with drawings and less sure about photos. The built-in sample pictures
       are drawn by code in the same style: an AI chip whose traces grow into a neural network.</p>
+    <p class="fine-print">The default picture is a random general-audience (<code>rating:g</code>) post from
+      <a href="https://danbooru.donmai.us">Danbooru</a>: your browser asks danbooru.donmai.us for one post and loads its
+      picture from Danbooru's image server, and the credit under the picture links to the post and its original source. Nothing
+      from Danbooru is stored here. Anime art is not what the model trained on: it judges whole pictures well, but its
+      heat map can call soft shading blurry. Your own pictures never leave your browser.</p>
   </section>
 </main>
 
