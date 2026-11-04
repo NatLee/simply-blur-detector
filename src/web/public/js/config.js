@@ -13,6 +13,25 @@ export const SAMPLES_DIR = 'samples/';
 
 export const REPO_URL = 'https://github.com/NatLee/simply-blur-detector';
 
+/**
+ * The page's default picture: a random anime picture from Danbooru, loaded by the browser at run time
+ * (nothing from Danbooru is stored in the repository or the site). Only general-audience posts are
+ * asked for, and every answer's rating is checked again before its picture is loaded. One API request
+ * per picture; the current one is kept for the browser session, so reloading asks for nothing new.
+ */
+export const DANBOORU = {
+  site: 'https://danbooru.donmai.us',
+  randomPath: '/posts/random.json',
+  tags: 'rating:g',
+  rating: 'g',
+  /** Still pictures the browser can decode; videos, Ugoira zips and GIF animations are skipped. */
+  extensions: ['jpg', 'jpeg', 'png', 'webp'],
+  /** Posts to try in a row when one has no usable picture (a video, a removed file). */
+  attempts: 3,
+  timeoutMs: 15000,
+  cacheKey: 'simply-blur-detector.danbooru',
+};
+
 /** The Laplacian is measured on a copy whose longer side is at most this, so big photos are comparable. */
 export const LAPLACIAN_WORK_SIZE = 512;
 /** Laplacian variance below this counts as blurry (a common starting point; the page has a slider). */

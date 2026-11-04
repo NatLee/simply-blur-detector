@@ -1,6 +1,7 @@
 // The page: load a picture, run both detectors over it, draw the meters, heat map and stress test.
 import * as cfg from './config.js';
 import { BLURS } from './blur.js';
+import { artistNames, cachePicture, fetchRandomPicture, readCachedPicture } from './danbooru.js';
 import { BlurDetector } from './detector.js';
 import { heatField, laplacianScore, scoreColor, windowGrid } from './heatmap.js';
 import { crop, laplacianVariance, laplacianVariances } from './imageops.js';
@@ -8,6 +9,8 @@ import { crop, laplacianVariance, laplacianVariances } from './imageops.js';
 const $ = (id) => document.getElementById(id);
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const nextFrame = () => new Promise((resolve) => requestAnimationFrame(() => resolve()));
+/** The sample card that stands for the random Danbooru picture. */
+const DANBOORU_CARD = 'danbooru';
 
 const state = {
   detector: null,
@@ -23,6 +26,8 @@ const state = {
   token: 0,
   threshold: cfg.LAPLACIAN_THRESHOLD.initial,
   stress: null,
+  fallback: null, // the built-in sample shown when Danbooru cannot be reached
+  choice: 0, // counts picture choices, so a slow download never replaces a newer choice
 };
 
 // ---------------------------------------------------------------- loading
@@ -37,10 +42,19 @@ async function loadModel() {
   renderModelCard(card);
 }
 
+/** Builds the sample cards and returns the built-in sample the address asks for (#sample=...), if any. */
 async function loadSamples() {
   const response = await fetch(cfg.SAMPLES_URL);
   const { samples } = await response.json();
   const box = $('samples');
+  const anime = document.createElement('button');
+  anime.className = 'sample anime';
+  anime.type = 'button';
+  anime.dataset.file = DANBOORU_CARD;
+  anime.setAttribute('aria-pressed', 'false');
+  anime.innerHTML = '<span class="plus" aria-hidden="true">&#8635;</span><span><b>Random anime</b><small>a general-audience picture from Danbooru, a new one per click</small></span>';
+  anime.addEventListener('click', () => openDanbooru({ fresh: true }));
+  box.append(anime);
   for (const sample of samples) {
     const button = document.createElement('button');
     button.className = 'sample';
@@ -59,15 +73,102 @@ async function loadSamples() {
   own.innerHTML = '<span class="plus" aria-hidden="true">+</span><span><b>Your picture</b><small>drop, paste or pick a file</small></span><input type="file" accept="image/*" hidden>';
   own.querySelector('input').addEventListener('change', (e) => takeFile(e.target.files[0]));
   box.append(own);
+  state.fallback = samples[0]?.file ?? null;
   const wanted = new URLSearchParams(location.hash.slice(1)).get('sample');
-  return samples.find((s) => s.file === wanted)?.file ?? samples[0]?.file;
+  return samples.find((s) => s.file === wanted)?.file ?? null;
 }
 
-async function openSample(file) {
-  history.replaceState(null, '', `#sample=${encodeURIComponent(file)}`);
-  const blob = await (await fetch(cfg.SAMPLES_DIR + file)).blob();
-  await openImage(blob, file);
+function markCard(file) {
   document.querySelectorAll('.sample').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.file === file)));
+}
+
+/** Open a built-in sample; `remember` puts it in the address, so a reload shows it again. */
+async function openSample(file, { remember = true } = {}) {
+  const choice = ++state.choice;
+  if (remember) history.replaceState(null, '', `#sample=${encodeURIComponent(file)}`);
+  caption(null);
+  markCard(file);
+  const blob = await (await fetch(cfg.SAMPLES_DIR + file)).blob();
+  if (choice === state.choice) await openImage(blob, file);
+}
+
+/** Load a picture from another site so that its pixels stay readable (the site must allow CORS). */
+function loadCorsImage(url, timeoutMs) {
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.src = url;
+  const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('the picture took too long')), timeoutMs));
+  return Promise.race([img.decode().then(() => img), timeout]);
+}
+
+/**
+ * Show a random general-audience anime picture from Danbooru with its credit. On page load the
+ * session's picture is reused; `fresh` asks for a new one. When Danbooru cannot be reached, say so
+ * and show the first built-in sample instead.
+ */
+async function openDanbooru({ fresh = false } = {}) {
+  const settings = cfg.DANBOORU;
+  const choice = ++state.choice;
+  history.replaceState(null, '', location.pathname);
+  caption(null);
+  markCard(DANBOORU_CARD);
+  status('<span class="dot"></span>asking Danbooru for a picture…', true);
+  let storage = null;
+  try {
+    storage = window.sessionStorage;
+  } catch {
+    // storage blocked: no session cache
+  }
+  try {
+    let picture = fresh ? null : readCachedPicture(storage, settings);
+    if (!picture) {
+      picture = await fetchRandomPicture(fetch, settings, { signal: AbortSignal.timeout(settings.timeoutMs) });
+      cachePicture(storage, settings, picture);
+    }
+    const img = await loadCorsImage(picture.url, settings.timeoutMs);
+    if (choice !== state.choice) return;
+    caption(creditOf(picture));
+    await openImage(img, `danbooru #${picture.id}`);
+  } catch (err) {
+    if (choice !== state.choice) return;
+    console.warn('Danbooru unavailable:', err, err?.cause ?? '');
+    const reason = err?.name === 'TimeoutError' ? 'it took too long' : err?.message || 'unknown error';
+    if (state.fallback) await openSample(state.fallback, { remember: false });
+    else $('drop').hidden = false;
+    caption(notice(`Could not get a picture from Danbooru (${reason}), so this is a built-in sample. ` +
+      'Press Random anime to try again.'));
+  }
+}
+
+function link(text, href) {
+  const a = document.createElement('a');
+  a.textContent = text;
+  a.href = href;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  return a;
+}
+
+/** "Art: artist · Danbooru #123 · original source", with links to the post and the source. */
+function creditOf(picture) {
+  const names = artistNames(picture);
+  const parts = [`Art: ${names.length ? names.join(', ') : 'artist unknown'}`, link(`Danbooru #${picture.id}`, picture.postUrl)];
+  if (picture.sourceUrl) parts.push(link('original source', picture.sourceUrl));
+  return parts.flatMap((part, i) => (i ? [' · ', part] : [part]));
+}
+
+function notice(text) {
+  const span = document.createElement('span');
+  span.className = 'notice';
+  span.textContent = text;
+  return [span];
+}
+
+/** The line under the picture: its credit, a notice, or nothing (`parts` null). */
+function caption(parts) {
+  const el = $('credit');
+  el.replaceChildren(...(parts ?? []));
+  el.hidden = !parts;
 }
 
 function pixelsOf(bitmap, width, height) {
@@ -80,10 +181,11 @@ function pixelsOf(bitmap, width, height) {
   return ctx.getImageData(0, 0, width, height);
 }
 
-async function openImage(blob, name) {
+/** `source` is anything createImageBitmap takes: a Blob, or an image whose pixels may be read. */
+async function openImage(source, name) {
   let bitmap;
   try {
-    bitmap = await createImageBitmap(blob);
+    bitmap = await createImageBitmap(source);
   } catch {
     status(`could not read ${name} as an image`);
     return;
@@ -458,8 +560,10 @@ function renderModelCard(card) {
 
 function takeFile(file) {
   if (!file || !file.type.startsWith('image/')) return;
+  ++state.choice;
   history.replaceState(null, '', location.pathname);
-  document.querySelectorAll('.sample').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+  caption(null);
+  markCard(null);
   openImage(file, file.name || 'pasted image');
 }
 
@@ -498,7 +602,7 @@ async function main() {
     status('no CNN model · Laplacian only');
   }
   if (first.status === 'fulfilled' && first.value) await openSample(first.value);
-  else $('drop').hidden = false;
+  else await openDanbooru();
 }
 
 main();
