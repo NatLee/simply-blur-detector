@@ -158,13 +158,31 @@ project.
 ## The web demo
 
 The demo runs the same network with [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/), so
-pictures never leave the browser. It shows:
+your pictures never leave the browser. It opens with a random anime picture from
+[Danbooru](https://danbooru.donmai.us) and shows:
 
 - the CNN's P(blur) for the whole picture, and the Laplacian variance (a blur score that needs no
   training: low variance means few sharp edges) with an adjustable threshold;
 - a heat map from either detector over square windows half as wide as the picture's shorter side
   (the smallest crop the network saw in training);
 - a stress test that blurs the picture step by step and plots how both scores react.
+
+About the Danbooru pictures:
+
+- **General audience only.** The page asks for one random `rating:g` post
+  (`/posts/random.json?tags=rating:g`) and checks the answer's rating again before loading anything.
+  Videos and animations are skipped, at most 3 posts in a row.
+- **Loaded at run time, always credited.** Your browser loads the picture straight from Danbooru's image
+  server. The credit under it names the artist and links to the Danbooru post and the original
+  source. Nothing from Danbooru is stored in this repository or on the site.
+- **Polite.** It makes one request per picture, and the current picture stays for the browser session,
+  so reloading asks for nothing new. **Random anime** fetches another.
+- **Built-in samples as the fallback.** When Danbooru cannot be reached, the page says so and shows the
+  built-in samples instead. Those samples are also what the tests use.
+- **Not the model's home ground.** The model learned from the cartoon scenes in `data/`, not from anime
+  art. In a check on 6 random `rating:g` pictures, it called 5 of them sharp and all 6 blurry once they
+  were blurred. Its heat map was less reliable: on 3 of the 6 sharp pictures, it called most windows
+  blurry, because soft shading looks a lot like blur.
 
 GitHub Actions builds it ([`pages.yml`](.github/workflows/pages.yml)): it trains the network on `data/`
 (20 epochs, 2 crops per picture, seed 1), refuses to publish a model below 90% test accuracy, exports it,
