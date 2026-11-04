@@ -26,7 +26,7 @@ IMAGE_EXTENSIONS = ('.jpg', '.jpeg', '.png')
 # ./data, ./model and the web demo; pass other paths on the command line when running elsewhere.
 DATA_DIR = '/data'
 MODEL_PATH = '/model/model.h5'
-DEMO_IMAGE = '/data/Mika.png'
+DEMO_IMAGE = '/data/demo.png'
 WEB_DIR = '/web'
 
 #: Where the web demo expects its model, relative to the web folder.
@@ -36,6 +36,16 @@ WEB_MODEL_CARD = 'model-card.json'
 #: Sample images shown by the web demo, relative to the web folder, and their index file.
 WEB_SAMPLES_DIR = 'samples'
 WEB_SAMPLES_INDEX = 'samples.json'
+
+# The built-in data set (data/README.md): sharp pictures drawn by blur_detection.scenes, then blurred
+# copies made by `generate`. `draw` writes this many per split, each side between these sizes, named
+# <prefix>-000.png, -001.png, ... across the splits.
+DATASET_SIZES = {'train': 60, 'test': 20}
+DATASET_SIDE_RANGE = (384, 512)
+DATASET_SEED = 2023
+DATASET_PREFIX = 'scene'
+#: Seed of the blur choices in the built-in data set (`generate --seed`).
+DATASET_BLUR_SEED = 1
 
 #: Largest difference between Keras and ONNX Runtime outputs that the export accepts.
 EXPORT_TOLERANCE = 1e-4

@@ -19,10 +19,10 @@ def test_find_images_skips_other_folders_and_matches_extensions_in_any_case(data
     # Regression: an image in an unknown folder used to be added without a label, so the image and
     # label counts no longer matched and building the dataset failed. Upper-case extensions were skipped.
     write_image(data_dir / 'train' / 'misc' / 'stray.png', sharp_image(5))
-    write_image(data_dir / 'Mika.png', sharp_image(6))
+    write_image(data_dir / 'demo.png', sharp_image(6))
     write_image(data_dir / 'train' / 'nonblur' / 'UPPER.PNG', sharp_image(7))
     names = [path.name for path, _ in find_images(data_dir)['train']]
-    assert 'stray.png' not in names and 'Mika.png' not in names
+    assert 'stray.png' not in names and 'demo.png' not in names
     assert 'UPPER.PNG' in names
 
 

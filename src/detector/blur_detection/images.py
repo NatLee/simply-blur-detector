@@ -12,6 +12,9 @@ from .config import INPUT_SIZE, WINDOW_FRACTION, WINDOW_OVERLAP
 
 PathLike = Union[str, Path]
 
+#: Encoder settings per file type for `write_image`: PNGs get the smallest (still lossless) files.
+WRITE_PARAMS = {'.png': [cv2.IMWRITE_PNG_COMPRESSION, 9]}
+
 
 def read_image(path: PathLike) -> np.ndarray:
     """Read an image file as an 8-bit BGR array, like ``cv2.imread``.
@@ -30,7 +33,7 @@ def write_image(path: PathLike, img: np.ndarray) -> Path:
     """Write ``img`` to ``path`` (format from the extension), creating the folder when needed."""
     path = Path(path)
     try:
-        ok, encoded = cv2.imencode(path.suffix, img)
+        ok, encoded = cv2.imencode(path.suffix, img, WRITE_PARAMS.get(path.suffix.lower(), []))
     except cv2.error:  # OpenCV 5 raises instead of returning False for an unknown extension
         ok = False
     if not ok:
