@@ -13,6 +13,7 @@ import {
   pictureOf,
   postUrl,
   readCachedPicture,
+  unavailableMessage,
 } from '../public/js/danbooru.js';
 
 const LISTED = [11404274, 7, 8, 9];
@@ -166,4 +167,13 @@ test('blocked or missing storage means no cache, not an error', () => {
   assert.doesNotThrow(() => cachePicture(blocked, DANBOORU, pictureOf(post(), DANBOORU)));
   assert.equal(readCachedPicture(null, DANBOORU, LISTED), null);
   assert.doesNotThrow(() => cachePicture(null, DANBOORU, pictureOf(post(), DANBOORU)));
+});
+
+test('without a Danbooru picture the page asks for the visitor\'s own, and says why', () => {
+  const text = unavailableMessage('Failed to fetch', { hasPicks: true });
+  assert.match(text, /\(Failed to fetch\)/);
+  assert.match(text, /picture of your own/);
+  assert.match(text, /stress test/);
+  assert.match(text, /pick one of the anime pictures/);
+  assert.match(unavailableMessage('samples/danbooru.json: HTTP 404', { hasPicks: false }), /reload the page/);
 });

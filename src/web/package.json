@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "onnxruntime-web": "1.30.0",
-    "pngjs": "7.0.0"
+    "pngjs": "7.0.0",
+    "puppeteer-core": "25.12.0"
   }
 }
