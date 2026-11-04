@@ -19,7 +19,9 @@ of 5, 7, 9 or 11 px, a Gaussian blur with a 5 to 9 px kernel, or a motion blur 2
 
 ## Make it again
 
-The two commands below rebuild this folder bit for bit (a test checks that they still do):
+The two commands below rebuild this folder: the drawn pictures bit for bit, the blurred copies to
+within one brightness level (the blurs use floating point, which a few CPUs round differently). A test
+checks that they still do.
 
 ```bash
 docker compose run --rm detector draw                 # the 81 sharp pictures (seed 2023)

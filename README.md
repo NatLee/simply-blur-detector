@@ -214,7 +214,7 @@ Every picture in `data/` is drawn by code in this repository
 signs and badges made of OpenCV shapes and text. There are 60 training and 20 test scenes, each with
 a blurred copy, plus a demo picture. They contain no photos or third-party artwork and fall under the
 MIT licence below. [`data/README.md`](data/README.md) lists the details and the two commands that
-rebuild the folder bit for bit.
+rebuild the folder.
 
 Until November 2026 the folder held character art from the game *Blue Archive*, whose licence was
 unclear, so it was replaced. In a check before the switch, a model trained on the drawn scenes got

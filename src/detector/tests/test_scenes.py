@@ -7,6 +7,7 @@ import pytest
 
 from blur_detection.blur import generate_blur_images
 from blur_detection.config import (
+    BLUR_FOLDER,
     DATASET_BLUR_SEED,
     DATASET_PREFIX,
     DATASET_SIDE_RANGE,
@@ -60,15 +61,21 @@ def test_draw_dataset_writes_the_layout_that_training_expects(tmp_path):
 
 
 @pytest.mark.skipif(not (DATA / 'train').is_dir(), reason='the repository data folder is not next to the detector')
-def test_the_repository_data_is_exactly_what_draw_and_generate_make(tmp_path):
-    # data/README.md promises that `draw` and `generate --seed=1` give back the committed pictures.
+def test_the_repository_data_is_what_draw_and_generate_make(tmp_path):
+    # data/README.md promises that `draw` and `generate --seed=1` give back the committed pictures:
+    # the drawn ones bit for bit, the blurred ones to within one level, because the blurs use floating
+    # point and CPUs round a few values differently (seen on GitHub's x86 and ARM runners).
     draw_dataset(str(tmp_path), DATASET_SIZES)
     generate_blur_images(str(tmp_path), seed=DATASET_BLUR_SEED)
     committed = sorted(p.relative_to(DATA).as_posix() for p in DATA.rglob('*') if p.suffix.lower() in IMAGE_EXTENSIONS)
     fresh = sorted(p.relative_to(tmp_path).as_posix() for p in tmp_path.rglob('*') if p.suffix.lower() in IMAGE_EXTENSIONS)
     assert committed == fresh
     for name in committed:
-        np.testing.assert_array_equal(read_image(DATA / name), read_image(tmp_path / name), err_msg=name)
+        old, new = read_image(DATA / name).astype(int), read_image(tmp_path / name).astype(int)
+        if Path(name).parent.name == BLUR_FOLDER:
+            assert np.abs(old - new).max() <= 1, name
+        else:
+            np.testing.assert_array_equal(old, new, err_msg=name)
 
 
 @pytest.mark.skipif(not SAMPLES.is_dir(), reason='the web demo is not next to the detector')
