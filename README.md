@@ -32,7 +32,7 @@ all in your browser.
 ## How it works
 
 ```mermaid
-flowchart LR
+flowchart TB
   sharp["Sharp pictures<br/>data/*/nonblur"] -->|"blur-detector generate"| bg["blur-generator<br/>lens · Gaussian · motion"]
   bg --> blurred["Blurred copies<br/>data/*/blur"]
   sharp --> train
