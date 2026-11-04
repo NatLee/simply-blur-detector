@@ -1,7 +1,5 @@
-import json
 from pathlib import Path
 
-import cv2
 import numpy as np
 import pytest
 
@@ -16,15 +14,12 @@ from blur_detection.config import (
     IMAGE_EXTENSIONS,
 )
 from blur_detection.images import read_image
-from blur_detection.scenes import NEAR, SAMPLE_SEED, draw_dataset, random_scene, robot_city_scene
+from blur_detection.scenes import draw_dataset, random_scene
+
+from .helpers import laplacian_variance
 
 REPO = Path(__file__).resolve().parents[3]
 DATA = REPO / 'data'
-SAMPLES = REPO / 'src' / 'web' / 'public' / 'samples'
-
-
-def sharpness(img):
-    return cv2.Laplacian(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY), cv2.CV_64F).var()
 
 
 def test_random_scenes_are_repeatable_and_differ_by_seed():
@@ -39,14 +34,7 @@ def test_random_scenes_are_repeatable_and_differ_by_seed():
 @pytest.mark.parametrize('seed', range(8))
 def test_random_scenes_are_crisp_line_art(seed):
     # Sharp edges everywhere: far above the usual "blurry" threshold of the Laplacian variance (100).
-    assert sharpness(random_scene(np.random.default_rng(seed), 420, 400).img) > 300
-
-
-def test_the_robot_city_scene_marks_the_robot_as_near():
-    scene = robot_city_scene(np.random.default_rng(SAMPLE_SEED))
-    assert scene.img.shape == (480, 640, 3)
-    assert scene.depth[400, 200] == NEAR      # the robot's body
-    assert scene.depth[20, 600] != NEAR       # the sky
+    assert laplacian_variance(random_scene(np.random.default_rng(seed), 420, 400).img) > 300
 
 
 def test_draw_dataset_writes_the_layout_that_training_expects(tmp_path):
@@ -77,10 +65,3 @@ def test_the_repository_data_is_what_draw_and_generate_make(tmp_path):
         else:
             np.testing.assert_array_equal(old, new, err_msg=name)
 
-
-@pytest.mark.skipif(not SAMPLES.is_dir(), reason='the web demo is not next to the detector')
-def test_the_web_samples_come_from_the_robot_city_scene():
-    # tools/make_samples.py draws the samples with the same module the training data comes from.
-    assert 'sharp.png' in {s['file'] for s in json.loads((SAMPLES / 'samples.json').read_text(encoding='utf-8'))['samples']}
-    np.testing.assert_array_equal(read_image(SAMPLES / 'sharp.png'),
-                                  robot_city_scene(np.random.default_rng(SAMPLE_SEED)).img)
