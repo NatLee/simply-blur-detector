@@ -1,0 +1,1238 @@
+{
+ "site": "https://danbooru.donmai.us",
+ "chosen": "2026-11-04",
+ "query": "rating:g order:score",
+ "how": "tools/pick_danbooru.py search, then every picture checked by eye; see data/README.md",
+ "posts": [
+  {
+   "id": 6000000,
+   "md5": "347eed75f4918bb292365c77fe458144",
+   "large_md5": "62e90d6f99a45fc0b0dbeff88b57f06c",
+   "artist": "garouma",
+   "copyright": "original",
+   "source": "https://garouma.tumblr.com/post/173062355461",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 4000000,
+   "md5": "944364e77f56183e2ebd75de757488e2",
+   "large_md5": "e71b97d55ff0ffb99157aac62ad0cb26",
+   "artist": "philipp_urlich",
+   "copyright": "original",
+   "source": "https://twitter.com/somartist/status/1253322350864420867",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5288549,
+   "md5": "51bb44d69b338dbcffdd681685ce87a6",
+   "large_md5": "d64fa4b1e6ae982ea7f6df42a62ec0ce",
+   "artist": "zangi_(lkt2012)",
+   "copyright": "genshin_impact",
+   "source": "https://i.pximg.net/img-original/img/2022/04/22/00/00/11/97785717_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7607548,
+   "md5": "02b6dcd421364f09bff231e401cf01c5",
+   "large_md5": "ae1cacd35896ffd41964a0898277bc11",
+   "artist": "rang_go",
+   "copyright": "blue_archive",
+   "source": "https://i.pximg.net/img-original/img/2024/05/21/05/25/27/118914689_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5771666,
+   "md5": "62feccf3e0bbad009f15796784a3a2fc",
+   "large_md5": "b106c1cd2553af3360b81007570d82b1",
+   "artist": "jinone",
+   "copyright": "genshin_impact",
+   "source": "https://twitter.com/JinOne_02/status/1621115351756058624",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6552934,
+   "md5": "9368b37f3c30809b11d8a0caeacc05db",
+   "large_md5": "6cdf469617b48b37f43afbc27de1fe57",
+   "artist": "sunsetskyline",
+   "copyright": "hololive hololive_english the_adventures_of_sherlock_holmes",
+   "source": "https://twitter.com/SkylinesSunset/status/1686789049552719872",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5571764,
+   "md5": "c62ffd61cd1c38ff00c21090dc68cb28",
+   "large_md5": "de67beadaef19af9d295ef375f6f88d9",
+   "artist": "sawkm",
+   "copyright": "original",
+   "source": "https://i.pximg.net/img-original/img/2022/08/07/15/43/29/100299954_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 3935409,
+   "md5": "21b50786bb53e8fa6a48ea82c5689f46",
+   "large_md5": "70fa1346b2ec887893060cd7aa5f0402",
+   "artist": "turisasu",
+   "copyright": "idolmaster idolmaster_shiny_colors",
+   "source": "https://i.pximg.net/img-original/img/2020/06/01/21/52/06/82024466_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 9294353,
+   "md5": "f8b4360bc0e9910f116bba788fcceada",
+   "large_md5": "b9770092fcd378f1901bbe29ef7507f5",
+   "artist": "quilm",
+   "copyright": "zenless_zone_zero",
+   "source": "https://twitter.com/Quilm3/status/1921872624935682231",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5730026,
+   "md5": "4e775227743a491819285ac6be90ca9f",
+   "large_md5": "33c2bb9363eef54759fba49f03f6bdc5",
+   "artist": "ruien_(wu_jui-en)",
+   "copyright": "hololive",
+   "source": "https://i.pximg.net/img-original/img/2022/10/08/00/23/17/101755830_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 8659492,
+   "md5": "3a647debf500750a225b19579d87d81a",
+   "large_md5": "ebebd23f8f2dfbd929cdba9b41d310dd",
+   "artist": "hanniyume",
+   "copyright": "genshin_impact",
+   "source": "https://i.pximg.net/img-original/img/2025/01/04/09/27/44/125882595_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 2023333,
+   "md5": "8f0421055b9adb16f2d133958aebb77a",
+   "large_md5": "b740ebda86463e8fe69aa3de69608625",
+   "artist": "saberiii",
+   "copyright": "original",
+   "source": "http://i1.pixiv.net/img-original/img/2015/05/22/00/00/23/50492920_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 9462914,
+   "md5": "79253c89d84df12593b3068bad1a1247",
+   "large_md5": "610c75ab9fa36f97d818637200f5878c",
+   "artist": "suoniko",
+   "copyright": "elden_ring elden_ring_nightreign",
+   "source": "https://twitter.com/SuonikoArt/status/1933377532214325322",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7920968,
+   "md5": "8a2845bf51b3e8c50ae2662c93190cf2",
+   "large_md5": "38c16eb63fa217f97a66d884977752fe",
+   "artist": "channel_(caststation)",
+   "copyright": "utau vocaloid",
+   "source": "https://twitter.com/x_cast_x/status/1817712532800626880",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 769829,
+   "md5": "629065d181de330185f160f37d092992",
+   "large_md5": "55995e820370a0a3209ee73b9974e2c1",
+   "artist": "mugon",
+   "copyright": "original",
+   "source": "https://i.pximg.net/img-original/img/2010/10/18/13/47/09/13962598_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6810713,
+   "md5": "fa096a01e446be43a89a1133bce735a3",
+   "large_md5": "6892c0cbcfbf1c753ee4b5ee5f457ffc",
+   "artist": "fen_bang_laoda",
+   "copyright": "sousou_no_frieren",
+   "source": "https://i.pximg.net/img-original/img/2023/10/25/17/08/27/112838625_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 12247364,
+   "md5": "979ae22fec2523fc5a2ef3cd0f1ce3a7",
+   "large_md5": "2da1a1cd3acec4bf518ba07387e66bcb",
+   "artist": "redteneri",
+   "copyright": "harry_potter_(series) wizarding_world",
+   "source": "https://x.com/redteneri/status/2102751099337715774",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5180016,
+   "md5": "b0b9c3f3eeee98eaf018961ca2282035",
+   "large_md5": "fa439b5dd74ff41e289c1127db51dc7b",
+   "artist": "shin_121",
+   "copyright": "blue_archive",
+   "source": "https://i.pximg.net/img-original/img/2022/02/19/07/27/11/96356970_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 2619062,
+   "md5": "17c87340c4c9e4629d6d20b4e8b799f4",
+   "large_md5": "c08622feb9276d11d1a2eecd1c6389e0",
+   "artist": "dahuang",
+   "copyright": "touhou touhou_(pc-98)",
+   "source": "https://i.pximg.net/img-original/img/2017/02/04/11/19/45/61269686_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 1636361,
+   "md5": "26da8e483067fd85f2c4f9b6bea01017",
+   "large_md5": "ce26b915b9c1e52667ee5bd4cdacf6f8",
+   "artist": "abbystea",
+   "copyright": "kill_la_kill",
+   "source": "http://i1.pixiv.net/img69/img/aconitea/42221711.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7462879,
+   "md5": "cdc52e54d461773508c70b5e2cf31aad",
+   "large_md5": "0bd7811d0da3107c56fa99148400a637",
+   "artist": "datsha",
+   "copyright": "genshin_impact",
+   "source": "https://twitter.com/S2_Datsha/status/1780082171530949082",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5197964,
+   "md5": "5a2c7ad8168abad6a5426b49d70b53f3",
+   "large_md5": "97d040cfd5fc18eab2f0c830805f1767",
+   "artist": "virgils021",
+   "copyright": "adventure_time bobobo-bo_bo-bobo fortnite homestuck jerma985 lego_island_2 minecraft my_little_pony my_little_pony:_friendship_is_magic real_life the_lego_group the_school_of_athens touhou yu-gi-oh! yu-gi-oh!_duel_monsters",
+   "source": "https://www.reddit.com/r/jerma985/comments/teg883/the_most_insane_commission_ive_done/",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6636915,
+   "md5": "0e3242d09e134cd1e6d7e749ea743f77",
+   "large_md5": "fd2abe769c1270079d7c2eaeccc6ae71",
+   "artist": "hakusyokuto",
+   "copyright": "guilty_gear guilty_gear_strive",
+   "source": "https://i.pximg.net/img-original/img/2023/08/29/17/45/43/111264987_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6221684,
+   "md5": "5916bc087a3d41410250966bdccbe9e8",
+   "large_md5": "7015d118d76af870d3c24af6b6e00933",
+   "artist": "no-ba",
+   "copyright": "genshin_impact",
+   "source": "https://i.pximg.net/img-original/img/2023/04/13/16/36/54/107136115_p1.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5315340,
+   "md5": "8733390b3cc1ccf74b7d21ef2f30b664",
+   "large_md5": "9c92749bb6778790f56ddc3e4a738fc1",
+   "artist": "jourd4n",
+   "copyright": "disney gravity_falls kick_buttowski star_wars star_wars:_visions",
+   "source": "https://twitter.com/Jourd4n_/status/1520458587113345026",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 4897699,
+   "md5": "f6223b4e8d4368c53f5c4354584b2143",
+   "large_md5": "d1b77ad3f51579e2e6a91445e6afcf69",
+   "artist": "nslacka",
+   "copyright": "elden_ring",
+   "source": "https://twitter.com/NSlacka/status/1457294402884227077",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 4347918,
+   "md5": "d6c7b16bfd5c09cf15eb3c1ad6feb415",
+   "large_md5": "2ece07f1822f056898a6329f6adbb5de",
+   "artist": "yomu_(sgt_epper)",
+   "copyright": "ganbare_douki-chan",
+   "source": "https://i.pximg.net/img-original/img/2021/02/08/08/04/30/87616095_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5440667,
+   "md5": "e636a0c2cb362c327af8b14060310bec",
+   "large_md5": "f6128051773b182e79f1b6aff8484aaa",
+   "artist": "icwine",
+   "copyright": "genshin_impact",
+   "source": "https://i.pximg.net/img-original/img/2022/06/18/12/20/36/99127789_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 12287896,
+   "md5": "c7e6593a65a011eb0aec8c47d48b6f56",
+   "large_md5": "9f7f2c75fe02d3616dbdcb5d337ba6e3",
+   "artist": "dixretsa",
+   "copyright": "harry_potter_(series) wizarding_world",
+   "source": "https://i.pximg.net/img-original/img/2026/09/30/20/22/25/150291603_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6644386,
+   "md5": "8fce1ced0c80774a005925afa22d7ee5",
+   "large_md5": "f88991c992dc3637f39030ea5862f30f",
+   "artist": "las91214",
+   "copyright": "armored_core armored_core_vi:_fires_of_rubicon",
+   "source": "https://twitter.com/las91214/status/1697286085074899446",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5539917,
+   "md5": "076fce72bceb1443725e6336e53c2705",
+   "large_md5": "c8ef8f1142c50037a9f9c3deb44d0514",
+   "artist": "zhvo",
+   "copyright": "doom_(series) doom_eternal halo_(series) indie_virtual_youtuber monster_girl_encyclopedia",
+   "source": "https://i.pximg.net/img-original/img/2022/07/27/04/25/38/100023401_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5719368,
+   "md5": "6f6f2441ec5d95f106234bd63243da84",
+   "large_md5": "a2ec425b158d82d7608d2229dc46e42d",
+   "artist": "ippers",
+   "copyright": "genshin_impact",
+   "source": "https://i.pximg.net/img-original/img/2022/10/03/13/14/13/101657980_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5519714,
+   "md5": "51cc14f0455c30f938849de2cce78318",
+   "large_md5": "47de1e4a19a2ee29cca6b79b9d12f41c",
+   "artist": "rappa_(sirrappa)",
+   "copyright": "chainsaw_man kobayashi-san_chi_no_maidragon",
+   "source": "https://twitter.com/SirRappa/status/1549076592978235394",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7243294,
+   "md5": "a8fe47a44d3dde8a2485793b9e1f2219",
+   "large_md5": "3e64373e4451bf60395b9a2901d7d9d1",
+   "artist": "afrobull",
+   "copyright": "persona persona_5 persona_5_scramble:_the_phantom_strikers",
+   "source": "https://twitter.com/AfrobullArt/status/1760139875905405181",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5459037,
+   "md5": "658ee5cadeaf60cce7817df4add827b4",
+   "large_md5": "b7fa50bb9d61d0a37875638c0550e425",
+   "artist": "kuroduki",
+   "copyright": "arknights",
+   "source": "https://i.pximg.net/img-original/img/2022/06/25/20/52/55/99295907_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 4136547,
+   "md5": "00269025c2f921f05864c7af822798f2",
+   "large_md5": "6b145c7067384c46c3533c53c620bf3e",
+   "artist": "chigalidepoi",
+   "copyright": "genshin_impact",
+   "source": "https://i.pximg.net/img-original/img/2020/10/05/20/33/46/84824171_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7588615,
+   "md5": "b0b5ee44563424a4b642f3712b64f927",
+   "large_md5": "6cc3877734a70418cc4db912cdb70413",
+   "artist": "nia_(nia4294)",
+   "copyright": "gravity_falls",
+   "source": "https://twitter.com/nia4294/status/1791089661752082653",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 3246035,
+   "md5": "3aa9f5c8b0f4e0ec21ec23772b798a3b",
+   "large_md5": "113471e14890dfabb5d9c854c6e54ecf",
+   "artist": "muchi_maro",
+   "copyright": "idolmaster idolmaster_cinderella_girls star_wars",
+   "source": "https://twitter.com/maro_muchi/status/1037179471051124736",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5723410,
+   "md5": "3569981a6f992339fc84072eaeab452e",
+   "large_md5": "b083ae6d5c7e8520087a0354bc2cedb0",
+   "artist": "ratatatat74",
+   "copyright": "soul_eater",
+   "source": "https://i.pximg.net/img-original/img/2022/10/03/15/20/34/101656769_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6842040,
+   "md5": "e50b13eec65e762c23269e3b1ae852c5",
+   "large_md5": "b77f54b1d998c80c743ff7dd7fef80bf",
+   "artist": "shibenc16e4",
+   "copyright": "genshin_impact",
+   "source": "https://twitter.com/Shiben_c16e4/status/1720382346288099793",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5198651,
+   "md5": "07a2e1595920e6991165a3e63314e5b0",
+   "large_md5": "f7357bfebe88a7b27e868a5c4ee21034",
+   "artist": "potato7192",
+   "copyright": "among_us elden_ring",
+   "source": "https://twitter.com/potato7192/status/1503848664607117313",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 12278750,
+   "md5": "7ba74502fbc1f3d7e19cd86be8d1a9ad",
+   "large_md5": "096600c965828986ac0b267af258c088",
+   "artist": "zion_toey",
+   "copyright": "harry_potter_(series) wizarding_world",
+   "source": "https://x.com/zion_toey/status/2104686180038271433",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 9629988,
+   "md5": "8dc55c96a6cb7f7c57376403d10d1577",
+   "large_md5": "d96e05de57d8e0efbd2783cee7db6a52",
+   "artist": "hjwhuhu",
+   "copyright": "fate/stay_night fate/unlimited_blade_works fate_(series) honkai:_star_rail honkai_(series)",
+   "source": "https://i.pximg.net/img-original/img/2025/07/14/19/20/37/132692984_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5649986,
+   "md5": "20fdaad48ef926e24f3cf20d6812aef2",
+   "large_md5": "430fef12266392f4351360cffa45b0ec",
+   "artist": "kabu_(niniko2ko)",
+   "copyright": "fate/grand_order fate_(series) koha-ace",
+   "source": "https://twitter.com/niniko2ko/status/1566790600912826368",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5823991,
+   "md5": "a97b815e6355cd9efdd824284bf64329",
+   "large_md5": "bc4d034772e311d407220c5c834043bc",
+   "artist": "le_(huanglongen)",
+   "copyright": "genshin_impact",
+   "source": "https://i.pximg.net/img-original/img/2022/11/13/20/56/18/102765957_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 4534049,
+   "md5": "bede44fe4bf46400f8807b3b4c62f23f",
+   "large_md5": "19a3ecd3023d4c48dd3649c248212432",
+   "artist": "ninomae_ina'nis_(artist)",
+   "copyright": "hololive hololive_english",
+   "source": "https://twitter.com/ninomaeinanis/status/1395526537001111552",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5773742,
+   "md5": "1fd7b4700fd97fc37b52a1c3445ddae9",
+   "large_md5": "2cb053ab4d3f76b8533b660012c8270e",
+   "artist": "hitotose_rin",
+   "copyright": "blue_archive",
+   "source": "https://twitter.com/hitotoserinR18/status/1584952470656385024",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7699094,
+   "md5": "e3da37f30beee9cb39ab77af57dbf856",
+   "large_md5": "ca61a202675c8a44388435b3ec3a6dab",
+   "artist": "kanpa_(campagne_9)",
+   "copyright": "blue_archive",
+   "source": "https://twitter.com/campagne_9/status/1799807530190950447",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6664739,
+   "md5": "2f7117a0c96135cf319bd4802db1719c",
+   "large_md5": "9e8f6bb4a379640d738a98f1a444d99b",
+   "artist": "shiroi_karasu",
+   "copyright": "touhou",
+   "source": "https://seiga.nicovideo.jp/seiga/im11266968",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 10013785,
+   "md5": "d633bddd60a842390dd4df411b938aa1",
+   "large_md5": "8c078f9ed28e767be7925cdfabd15779",
+   "artist": "umagamja",
+   "copyright": "umamusume",
+   "source": "https://twitter.com/umagamja666666/status/1970563073212809371",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5781527,
+   "md5": "a9e9eb5d7eff3181127bde3ee81e0bf6",
+   "large_md5": "5d056d7593eab5d3801f47cc9ac6623e",
+   "artist": "lin_qing_(phosphorus_1104)",
+   "copyright": "arknights fate/grand_order fate_(series)",
+   "source": "https://haku9638.lofter.com/post/1f427a6e_2b725679c",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5542334,
+   "md5": "c8311ed04fc07a4fe9b901615f5e452b",
+   "large_md5": "8ae839ec4bed9c53693d8b54a979bb3d",
+   "artist": "rappa_(sirrappa)",
+   "copyright": "chainsaw_man dr._stone kono_subarashii_sekai_ni_shukufuku_wo!",
+   "source": "https://twitter.com/SirRappa/status/1552338099165925379",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 9289067,
+   "md5": "c4eaef7f0553dc7847e08d9b7f86bd21",
+   "large_md5": "56f9b5459cc352ecba81a4f9d6380016",
+   "artist": "ikky",
+   "copyright": "blue_archive",
+   "source": "https://i.pximg.net/img-original/img/2025/05/11/18/53/34/130295433_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7240879,
+   "md5": "dfc9c9ea418c5186c9a8366651c9ccd9",
+   "large_md5": "16584612d7628495571401e2ca13ad19",
+   "artist": "zanya_000",
+   "copyright": "blue_archive",
+   "source": "https://i.pximg.net/img-original/img/2024/02/20/21/45/56/116238937_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5402457,
+   "md5": "49857770b77729ddfd779cd5fdd0e201",
+   "large_md5": "10e8491426a59a5973676d12e615cd77",
+   "artist": "butcha-u",
+   "copyright": "resident_evil resident_evil_4 resident_evil_4_(remake)",
+   "source": "https://butcha-u.fanbox.cc/posts/3932836",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5326220,
+   "md5": "699c08023b8d93115ef096b56b271773",
+   "large_md5": "6e8e57aab61499e18f0a28357615f369",
+   "artist": "free_style_(yohan1754)",
+   "copyright": "komi-san_wa_komyushou_desu",
+   "source": "https://twitter.com/yohan1754/status/1521990951941853184",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 4489799,
+   "md5": "75ef5120f3386dca727cf0f2eae6d1cc",
+   "large_md5": "11d7f15e7684848991f27da745963ab5",
+   "artist": "kotobuki_nashiko",
+   "copyright": "umamusume",
+   "source": "https://twitter.com/nanaju_ko/status/1386641204528308231",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 209392,
+   "md5": "8ffbc6153ffcf40eda20265105809b1b",
+   "large_md5": "6d2386fa57d6b44c32074583ad2e7797",
+   "artist": "shimadoriru",
+   "copyright": "touhou",
+   "source": "http://simadoriru.hp.infoseek.co.jp/P/20080306.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6636724,
+   "md5": "0058c1448e85f780db2642a039caab86",
+   "large_md5": "f727fbef93d0b2e238fe5c982b15644c",
+   "artist": "aiza-ku",
+   "copyright": "honkai:_star_rail honkai_(series)",
+   "source": "https://i.pximg.net/img-original/img/2023/08/29/13/00/20/111260366_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6089836,
+   "md5": "9c513af8833bc6d02079036720090182",
+   "large_md5": "2e9147fdb7aa03cb918a7c5f776628b8",
+   "artist": "nekoln",
+   "copyright": "blue_archive",
+   "source": "https://twitter.com/nekolog0/status/1628525713270931456",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5790562,
+   "md5": "0c6fe079165cdd2dd6268ad629920c30",
+   "large_md5": "420ff89a123ede8f401261152f15a4e3",
+   "artist": "nakamura_rohane",
+   "copyright": "idolmaster idolmaster_shiny_colors",
+   "source": "https://i.pximg.net/img-original/img/2022/11/01/19/49/09/102429102_p1.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5350581,
+   "md5": "7bc6f100f05453d73fa2be8bfe72a551",
+   "large_md5": "67ec809aa499db3869f4085c95480846",
+   "artist": "necomi",
+   "copyright": "genshin_impact",
+   "source": "https://twitter.com/necomi_info/status/1525295442329686017",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5180306,
+   "md5": "aecc7b4c2d36c35c894ab47238dddd3b",
+   "large_md5": "308941281a9fcaab214f859df6d25808",
+   "artist": "tsumikitsuki_(katsuobushi)",
+   "copyright": "elden_ring",
+   "source": "https://i.pximg.net/img-original/img/2022/03/07/22/30/26/96752620_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 513700,
+   "md5": "3762a92d317fbc18b950cba6c7868f37",
+   "large_md5": "3762a92d317fbc18b950cba6c7868f37",
+   "artist": "sixten",
+   "copyright": "muppets sesame_street touhou",
+   "source": "http://www.houseofsixten.com/hcstaff/?p=974",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 10410514,
+   "md5": "8cb53a4dcc38ff0039f86e4008b91b7d",
+   "large_md5": "ae447b99a1f4b774a637444d3f37021f",
+   "artist": "snegovski",
+   "copyright": "hellsing jubilee_2025 kingdom_of_heaven sousou_no_frieren",
+   "source": "https://i.pximg.net/img-original/img/2025/12/11/08/24/37/138467899_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 9213181,
+   "md5": "1eb23a1227aa4e08442580cdd890edd7",
+   "large_md5": "32036ebec7abeec80be1338f021eea12",
+   "artist": "bongftah",
+   "copyright": "black_lagoon blue_archive chrono_crusade en'en_no_shouboutai fate/hollow_ataraxia fate_(series) hellsing jubilee_2025 skullgirls sousou_no_frieren",
+   "source": "https://x.com/bongftah/status/1916134969292034368",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 5635669,
+   "md5": "71141ec679e1736f71008795ddd35cec",
+   "large_md5": "82d760e307e0a8aec7bc9b19a887cc4f",
+   "artist": "m_alexa",
+   "copyright": "genshin_impact",
+   "source": "https://twitter.com/_m_alexa_/status/1564997824441450496",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 5272876,
+   "md5": "01bd656f74c1c7e09f6d6e25d2adc11e",
+   "large_md5": "864781514bc3568497ca333a7b834c12",
+   "artist": "kerorira",
+   "copyright": "bocchi_the_rock!",
+   "source": "https://bocchi.rocks/assets/img/top/mv/ryo/ph_main.jpg",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 6063976,
+   "md5": "5c38b3a30eebc4fa403784865f1b5ea0",
+   "large_md5": "0eae94578f4d1a6759a62860f49941e4",
+   "artist": "namiko817",
+   "copyright": "amazon_(company) bump_of_chicken calbee_(potato_chips) clannad cross_channel da_capo da_capo_ii denpa_onna_to_seishun_otoko hatsuyuki_sakura hayate_no_gotoku! hibike!_euphonium higurashi_no_naku_koro_ni idolmaster idolmaster_(classic) k-on! katteni_kaizou kin-iro_loveriche kono_oozora_ni_tsubasa_wo_hirogete little_busters! liz_to_aoi_tori love_live! love_live!_school_idol_project meiji_(brand) nijisanji pokemon sana_channel saya_no_uta sayonara_zetsubou_sensei suzumiya_haruhi_no_yuuutsu tabi_ni_deyou_horobiyuku_sekai_no_hate_made yume_miru_kusuri yuruyuri",
+   "source": "https://twitter.com/sizucla_kairi/status/1624764969861656577",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 5703064,
+   "md5": "d171fba8bddb2a47b83cd3f1c9b7b67d",
+   "large_md5": "6f7ab7b88442016374d9153bf0022b0e",
+   "artist": "zlix0n",
+   "copyright": "cyberpunk:_edgerunners cyberpunk:_edgerunners_1 cyberpunk_(series)",
+   "source": "https://twitter.com/Zlix0n/status/1574302250117337088",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 6870533,
+   "md5": "8b88bd69e3177b091b22fbf0ef979b25",
+   "large_md5": "9c30f7a6576708a1e8178e4a97b6b1ca",
+   "artist": "nocknocktt",
+   "copyright": "genshin_impact godzilla_(series) godzilla_minus_one",
+   "source": "https://twitter.com/nocknockTT/status/1723482269086876038",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 6460340,
+   "md5": "56eddd63364f2b5b7503b0b6305d51d8",
+   "large_md5": "b2d942b1a0494d0ffe96a1f0e69ac437",
+   "artist": "tksm_66",
+   "copyright": "honkai:_star_rail honkai_(series)",
+   "source": "https://twitter.com/tksm_66/status/1675833463658934272?s=46&t=wE1d5K1SOz4konLdQCitSQ",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 5068689,
+   "md5": "a04c3f38bb33e029b91974774f34fadb",
+   "large_md5": "dbc383db72ef122c25e5efe369af5070",
+   "artist": "kurachi_mizuki",
+   "copyright": "pokemon pokemon_sun_and_moon",
+   "source": "https://i.pximg.net/img-original/img/2022/01/20/10/54/46/95646345_p0.jpg",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 7112067,
+   "md5": "4c0a0258627aab7dd9232994bf01b988",
+   "large_md5": "67513c9d2d81ea9dbff6a5f9bf368f17",
+   "artist": "asutora",
+   "copyright": "original",
+   "source": "https://twitter.com/anterdel/status/1748073256916238485",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 4976383,
+   "md5": "0cddbbb071c1c594c69d7ec6b812d620",
+   "large_md5": "1be644a961695e99b816fcabcd099644",
+   "artist": "yuelight",
+   "copyright": "genshin_impact",
+   "source": "https://twitter.com/_yuelight/status/1455542969889591310",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 7840854,
+   "md5": "7f798ac4f19553cbf9ea2f1a68205250",
+   "large_md5": "82a710e1cac5be782652a352a5caff3f",
+   "artist": "reia_76",
+   "copyright": "tokidoki_bosotto_roshia-go_de_dereru_tonari_no_alya-san",
+   "source": "https://i.pximg.net/img-original/img/2024/07/11/22/02/12/120441512_p0.png",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 6416835,
+   "md5": "18f5dbe7c20b9ec5cadbcd2af36c8eff",
+   "large_md5": "9b5a09160c77eba1e5b0796f1d574a8b",
+   "artist": "erotipop",
+   "copyright": "honkai:_star_rail honkai_(series)",
+   "source": "https://twitter.com/erotipop/status/1670917683313819648",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 5835700,
+   "md5": "19a3b56a9b4d387ca9846990c03576c6",
+   "large_md5": "d7b630216ad2108841aa8203702ace6e",
+   "artist": "eknow",
+   "copyright": "bocchi_the_rock!",
+   "source": "https://twitter.com/_eknow_/status/1593104116011892737",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 5796255,
+   "md5": "9fc27d7c7a5ee71e5703f385b25736e3",
+   "large_md5": "b250a3192a43f7eacc99c0690d6a56cc",
+   "artist": "nine_(kanine41)",
+   "copyright": "overwatch overwatch_2",
+   "source": "https://i.pximg.net/img-original/img/2022/11/03/15/31/07/102477519_p0.jpg",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 5562290,
+   "md5": "4414246208519f2fbbe1b10e22bacb45",
+   "large_md5": "58b2fbe3918668938257180291c3ff14",
+   "artist": "kuri_(animejpholic)",
+   "copyright": "genshin_impact",
+   "source": "https://i.pximg.net/img-original/img/2022/08/04/18/00/21/100227431_p0.png",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 10943218,
+   "md5": "41ee3011ff7195f747c3cafcca80cbf1",
+   "large_md5": "c24a1994083df427fedb22428ed3f4ab",
+   "artist": "liebebento_(dosilan)",
+   "copyright": "arknights arknights:_endfield",
+   "source": "https://i.pximg.net/img-original/img/2026/03/12/22/51/38/142220416_p0.png",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 5854707,
+   "md5": "8afef093f0b3b5bd2f6dd3adecad01f0",
+   "large_md5": "806e4e5ac172a264a35eec58b70e24f3",
+   "artist": "kubo_tite",
+   "copyright": "bleach bleach:_sennen_kessen-hen",
+   "source": "",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 4311558,
+   "md5": "7516e5a1de15df348375c8a110d83fcc",
+   "large_md5": "5627e2e3bce9e6be0e8c04b5338af283",
+   "artist": "rauto",
+   "copyright": "mushoku_tensei",
+   "source": "https://i.pximg.net/img-original/img/2021/01/19/07/50/52/87153269_p0.png",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 10662458,
+   "md5": "675e4f04886e69dffd1f4c2d68dc5fe6",
+   "large_md5": "52f2c5f66a758ce64462b2ae73339886",
+   "artist": "fei_luo_mao",
+   "copyright": "arknights arknights:_endfield",
+   "source": "https://i.pximg.net/img-original/img/2026/01/24/17/36/10/140319161_p0.jpg",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 7842485,
+   "md5": "6f0ff27b849c6a84ceffe846d39e23ce",
+   "large_md5": "b47829d46cdf2c451d6a2fd27cb89454",
+   "artist": "jeze",
+   "copyright": "honkai:_star_rail honkai_(series)",
+   "source": "https://i.pximg.net/img-original/img/2024/07/12/06/00/18/120451124_p0.png",
+   "rating": "g",
+   "split": "test"
+  },
+  {
+   "id": 6457955,
+   "md5": "70b94478c3a6b768e685399174c2125f",
+   "large_md5": "57abb132ca3531746bb0aca440ac8190",
+   "artist": "house_tag_denim",
+   "copyright": "arknights blue_archive fate/grand_order fate_(series) limbus_company project_moon",
+   "source": "https://twitter.com/House_Tag_Denim/status/1675683540288061440",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6453581,
+   "md5": "57df981dd07820d688c48a67f904e50e",
+   "large_md5": "975c12ec3a9da258fab37a096deb5746",
+   "artist": "kageisland_9lov",
+   "copyright": "bloodborne dark_souls_(series) dark_souls_i dark_souls_ii dark_souls_iii demon's_souls elden_ring fromsoftware",
+   "source": "https://i.pximg.net/img-original/img/2023/07/01/19/11/21/109510391_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5906081,
+   "md5": "9c70d080f386abf9c0cef9fe5cb5a142",
+   "large_md5": "f3bed05ecefaa6a0a90cf27af621a7c5",
+   "artist": "motto_(night_wear)",
+   "copyright": "genshin_impact",
+   "source": "https://twitter.com/mo13tto/status/1604043976549355522",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5309196,
+   "md5": "8024777673248601f8415aeb55cf81ae",
+   "large_md5": "087a1dd4fbeb68ec06afbe5f20e8c760",
+   "artist": "aiu404l",
+   "copyright": "among_us pizza_hut spy_x_family thomas_the_tank_engine_(series)",
+   "source": "https://twitter.com/aiu404l/status/1519708865167642626",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 402407,
+   "md5": "1fb0ceef9e2af27eb59139af408994fe",
+   "large_md5": "ca2f268b87f450e8148f78a699fd9b7e",
+   "artist": "yuugiri_(u-slash)",
+   "copyright": "spice_and_wolf",
+   "source": "http://img11.pixiv.net/img/amatua/2912556.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 10715082,
+   "md5": "d5a78d1a1b07c788a3ed68a9cfe45024",
+   "large_md5": "c1d983b641dbdae3d9150a5a02a51e5c",
+   "artist": "otokakoto",
+   "copyright": "pokemon pokemon_sun_and_moon",
+   "source": "https://i.pximg.net/img-original/img/2026/02/03/01/00/02/140702934_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 8037660,
+   "md5": "7dbefb47a5c7c91b7177abe0b8366bdc",
+   "large_md5": "5a18f841dd4d2fcc259633e89f4f2f08",
+   "artist": "nasan_(coldtime)",
+   "copyright": "blue_archive",
+   "source": "https://i.pximg.net/img-original/img/2024/08/23/00/01/01/121740735_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5209853,
+   "md5": "d89cd704e6287806935922180ed46c82",
+   "large_md5": "3b87582b3245ea51dabe23b6b9abc220",
+   "artist": "kelvin_hiu",
+   "copyright": "elden_ring",
+   "source": "https://i.pximg.net/img-original/img/2022/03/21/04/17/53/97064605_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 843873,
+   "md5": "df4f0faf40fe4c59809a4a3c0381e150",
+   "large_md5": "f09407f4ddca520bd60db909eb860094",
+   "artist": "miyuki_ruria",
+   "copyright": "mountain_of_faith reitaisai reitaisai_8_contest touhou",
+   "source": "https://i.pximg.net/img-original/img/2011/02/02/07/51/26/16347313_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5253845,
+   "md5": "43536e60d49abf93cb3858a35bef986d",
+   "large_md5": "18d5d9959c770ea2105fe997f532770a",
+   "artist": "giganticbuddha",
+   "copyright": "dark_souls_(series) dark_souls_iii",
+   "source": "https://twitter.com/giganticbuddha/status/1511812697683382277",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 8411512,
+   "md5": "e15fb886bc2291be161fa2d402a935a0",
+   "large_md5": "c62ff0bf2a2970c8d2e8ff8a08b11a89",
+   "artist": "ekrea_jan",
+   "copyright": "elden_ring elden_ring:_shadow_of_the_erdtree",
+   "source": "https://i.pximg.net/img-original/img/2024/09/30/18/00/31/122910184_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6711267,
+   "md5": "b5332ec6567ea3ca56a65974fd62e837",
+   "large_md5": "bf667407554499cd7a713681cf609bc7",
+   "artist": "kimleon",
+   "copyright": "blue_archive grand_theft_auto grand_theft_auto:_san_andreas",
+   "source": "https://twitter.com/als9786/status/1705686628378026107",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6296462,
+   "md5": "bd3782054c76eb544f636f60a61cea28",
+   "large_md5": "a1c3120b27cec3ba4d394b15a93b17af",
+   "artist": "jjjsss",
+   "copyright": "blue_archive honkai:_star_rail honkai_(series)",
+   "source": "https://i.pximg.net/img-original/img/2023/05/10/18/55/02/108004270_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7187934,
+   "md5": "e1ec32fbbcbd041e9ee31b219fc739f0",
+   "large_md5": "986726c65b3fb825896b4d3896abd6ef",
+   "artist": "hagano_yoshifumi",
+   "copyright": "dungeon_meshi megami_magazine",
+   "source": "https://files.yande.re/image/e1ec32fbbcbd041e9ee31b219fc739f0/yande.re%201150057.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6164192,
+   "md5": "bda0e7dc8823df3d53d8747d366c807d",
+   "large_md5": "bb5d64f0c512877bea8cabc921c201f5",
+   "artist": "hokushuu",
+   "copyright": "blue_archive",
+   "source": "https://i.pximg.net/img-original/img/2023/03/22/18/53/08/106455081_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 9999999,
+   "md5": "4a8a142fa895b1b240f927a395a1b0dd",
+   "large_md5": "a28ad70c6c7c7ccd602c2adb83744dfe",
+   "artist": "tetuw",
+   "copyright": "arknights",
+   "source": "https://i.pximg.net/img-original/img/2025/09/21/23/11/19/135382392_p5.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5647016,
+   "md5": "7e522fa2f36172f002cbea72cc5341f4",
+   "large_md5": "22c79414fd0e08b35c20d900c6cd2417",
+   "artist": "kaguya_(srx61800)",
+   "copyright": "hololive",
+   "source": "https://i.pximg.net/img-original/img/2022/09/05/12/10/45/101012967_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 1015093,
+   "md5": "6bba9112ceb8aeacd700327836a3735e",
+   "large_md5": "47d15620ab43739aa60bc8674e0b38ba",
+   "artist": "om_(carbohydratism)",
+   "copyright": "touhou",
+   "source": "http://img14.pixiv.net/img/hillrice/22369340.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7439619,
+   "md5": "39293b6f13266223a8e2b3c5ac52dff9",
+   "large_md5": "65cbad85d2a7fbffc6d2b25581b24ce5",
+   "artist": "misaki_(mskmmti)",
+   "copyright": "honkai:_star_rail honkai_(series)",
+   "source": "https://twitter.com/mskmmti/status/1777999001977331964",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6296975,
+   "md5": "db61596381cb26e77d9c954f8ad306da",
+   "large_md5": "7a078185bd925b119aa98204b2cfadda",
+   "artist": "lix_(iroiro3843)",
+   "copyright": "honkai:_star_rail honkai_(series)",
+   "source": "https://twitter.com/iroiro3843/status/1655723432238284801",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6076777,
+   "md5": "dc0fe81eaccfe281c4257fe75446a500",
+   "large_md5": "da147fc2c2b016fd38c62d0dd4288173",
+   "artist": "sushi_pizza_rrr",
+   "copyright": "marvel",
+   "source": "https://twitter.com/sushi_pizza_RRR/status/1604012470078959618",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5321373,
+   "md5": "b986b5afbfae5c2239aeae4ebabb58c3",
+   "large_md5": "5526016d0a566c1442409247af994707",
+   "artist": "vinyooki",
+   "copyright": "touhou",
+   "source": "https://twitter.com/vinyooki/status/1520491846345973760",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 910414,
+   "md5": "abe7c91d8f90bbf246d8b6d71815ad9c",
+   "large_md5": "08fa32966d2ce9d4fdfee19d26ddeeba",
+   "artist": "ke-ta",
+   "copyright": "touhou",
+   "source": "https://i.pximg.net/img-original/img/2011/05/05/00/20/49/18637750_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5072670,
+   "md5": "79e7540d3d8910e1b4dcc4cebc4b15b2",
+   "large_md5": "c4f264194668ec4a4a7cd78ca815a619",
+   "artist": "sylvia_(huajiuhuajiu)",
+   "copyright": "genshin_impact",
+   "source": "https://twitter.com/FNlhFe9dL1Dmu3s/status/1432193201239068672",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7352553,
+   "md5": "f2556a40d93518c333358b3ef55f1556",
+   "large_md5": "9ab6a1558564880bf93a23956318ac3c",
+   "artist": "toro_astro",
+   "copyright": "genshin_impact sousou_no_frieren",
+   "source": "https://twitter.com/toro_yztro/status/1770097820470837358",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6898102,
+   "md5": "16cb354b83d9ccc6b46ab10d172e6f03",
+   "large_md5": "3c4266ea72a9110e101b2ab7e905011d",
+   "artist": "mochitose_aguri",
+   "copyright": "blue_archive sousou_no_frieren touhou",
+   "source": "https://i.pximg.net/img-original/img/2023/11/20/12/10/17/113558687_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 4509699,
+   "md5": "c48d3f4dbbbd19a81205fc8bdb23a393",
+   "large_md5": "69e0393ac6e2c3ca585cf99e6093af9d",
+   "artist": "apoidea",
+   "copyright": ".live himehina_channel hinata_channel hololive hololive_english hololive_indonesia indie_virtual_youtuber kemomimi_oukoku_kokuei_housou kizuna_ai_inc. mirai_akari_project nanashi_inc. nijisanji noripro project_upd8 the_moon_studio voms",
+   "source": "https://i.pximg.net/img-original/img/2021/05/06/21/22/32/89652676_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 3602637,
+   "md5": "c1cf6d575178d84528811aa80a5783fa",
+   "large_md5": "3881d3decc3e4c3262a46a975eff0880",
+   "artist": "juan_pablo_machado",
+   "copyright": "lofi_girl_(youtube)",
+   "source": "http://machado.portfoliobox.io/bloomylightstudio",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 549742,
+   "md5": "816ba592ee479c9df552321d3f6686bf",
+   "large_md5": "816ba592ee479c9df552321d3f6686bf",
+   "artist": "eeeeee",
+   "copyright": "vocaloid",
+   "source": "http://img02.pixiv.net/img/eeee/6870622.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6305569,
+   "md5": "2fe992b26748d31563666e40c7c9b023",
+   "large_md5": "34f33a256e61b7095baa01e6230f21bb",
+   "artist": "aurahack",
+   "copyright": "the_legend_of_zelda the_legend_of_zelda:_tears_of_the_kingdom",
+   "source": "https://i.pximg.net/img-original/img/2023/05/14/01/43/50/108102662_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 2085481,
+   "md5": "5380f802278a8f0be5d0985a7c740007",
+   "large_md5": "2b69bd2c03080aec891b27f4bec0bda0",
+   "artist": "ask_(askzy)",
+   "copyright": "fate/unlimited_codes fate_(series)",
+   "source": "http://i3.pixiv.net/img-original/img/2015/08/01/18/14/45/51711470_p0.jpg",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7830814,
+   "md5": "d8edb3572f5f4ec2386fec7a7b60f850",
+   "large_md5": "cb998e9cd97a6811ffd9911bbc84242c",
+   "artist": "necomi",
+   "copyright": "zenless_zone_zero",
+   "source": "https://i.pximg.net/img-original/img/2024/07/09/15/34/26/120378889_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5708551,
+   "md5": "824a38233a13635d2f1a16c229127c11",
+   "large_md5": "8805828e6e85e47b96b85fbfc930d0de",
+   "artist": "xude",
+   "copyright": "genshin_impact",
+   "source": "https://i.pximg.net/img-original/img/2022/09/29/11/12/10/101559127_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5594227,
+   "md5": "8829fe74b1a2f313c9ab8be2a29a7175",
+   "large_md5": "f65f4e32fb246786b5ed6b799310cfae",
+   "artist": "vinhnyu",
+   "copyright": "hololive hololive_english lycoris_recoil",
+   "source": "https://twitter.com/vinhnyu/status/1559377155158552576",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 6191042,
+   "md5": "1de7fc02e1532e931688ce1872fad2e2",
+   "large_md5": "3762522652afaefb985d5680f278f930",
+   "artist": "yamashita_shun'ya",
+   "copyright": "spy_x_family",
+   "source": "https://twitter.com/ShunyaYamashita/status/1642362067482214403",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 3666287,
+   "md5": "d871920ca1193774ca3857514bcf262d",
+   "large_md5": "601b5a6a3ebea42f78af117a03a01833",
+   "artist": "mango_(mgo)",
+   "copyright": "azur_lane",
+   "source": "https://i.pximg.net/img-original/img/2019/10/25/00/39/49/77462961_p0.png",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 7987067,
+   "md5": "055b0f28bf1ac936138dccd6514ad100",
+   "large_md5": "d466ca9c9dedc144a06d0a9dea3e5894",
+   "artist": "echj",
+   "copyright": "warhammer_40k",
+   "source": "https://twitter.com/BlueECHJ/status/1822667278300971182",
+   "rating": "g",
+   "split": "train"
+  },
+  {
+   "id": 5933376,
+   "md5": "32378e4bf3e57478630fd76b1a267b72",
+   "large_md5": "d750a2d29ab273114a20acee6e95ef6f",
+   "artist": "mento",
+   "copyright": "genshin_impact",
+   "source": "https://twitter.com/ment502/status/1607745790566617088",
+   "rating": "g",
+   "split": "train"
+  }
+ ]
+}

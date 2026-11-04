@@ -1,40 +1,65 @@
-# The built-in data set
+# The training pictures
 
-Every picture in this folder is drawn by code in this repository: cartoon scenes with skies, cities,
-hills, robots, flowers, signs and badges, made of OpenCV shapes and its built-in Hershey font
-([`src/detector/blur_detection/scenes.py`](../src/detector/blur_detection/scenes.py)). No photos,
-no third-party artwork. The pictures are covered by the repository's [MIT licence](../LICENSE).
+The training pictures are anime illustrations from [Danbooru](https://danbooru.donmai.us). This folder
+does **not** contain them. It only holds the list [`danbooru.json`](danbooru.json), and
+`blur-detector fetch` downloads the listed pictures when you need them.
 
-| Folder | Pictures | What they are |
+**Copyright.** Every picture belongs to its artist. The repository only stores the list (post ids,
+artists, sources and checksums) and does not distribute the pictures. Models trained on them are for
+demonstrating this project only. The repository's MIT licence covers the code, not these pictures.
+
+| | Pictures | What they are |
 |---|---|---|
-| `train/nonblur` | 60 | sharp scenes `scene-000.png` … `scene-059.png` |
-| `train/blur` | 60 | the same scenes, blurred |
-| `test/nonblur` | 20 | sharp scenes `scene-060.png` … `scene-079.png`, never used for training |
-| `test/blur` | 20 | the same scenes, blurred |
-| `demo.png` | 1 | one more scene, the default picture of `blur-detector run` and `predict` |
+| `train/nonblur` | 103 | listed posts with `"split": "train"`, saved as `danbooru-<post id>.png` |
+| `test/nonblur` | 20 | listed posts with `"split": "test"`, never used for training |
+| `train/blur`, `test/blur` | 103 + 20 | blurred copies made by `generate` |
+| `demo.png` | 1 | a scene drawn by code (no download needed), the default picture of `run` and `predict` |
 
-Each picture is 384 to 512 pixels wide and high. Every blurred copy got one blur from
-[blur-generator](https://github.com/NatLee/blur-generator), picked at random: a lens blur with a radius
-of 5, 7, 9 or 11 px, a Gaussian blur with a 5 to 9 px kernel, or a motion blur 20 to 80 px long.
+## How the list was made
 
-## Make it again
+1. **Search.** [`src/detector/tools/pick_danbooru.py`](../src/detector/tools/pick_danbooru.py) searched
+   Danbooru's best-scored posts with `rating:g order:score` (general audience only).
+2. **Tag filter.** It dropped posts with any tag in `DANBOORU_EXCLUDED_TAGS`
+   ([`config.py`](../src/detector/blur_detection/config.py)): anything not fully all-ages, AI-generated
+   pictures, comics and text-heavy pictures, photos, 3D, sketches, monochrome, and pictures that are blurry
+   on purpose (depth of field, bokeh, motion blur). It also dropped posts without exactly one artist tag,
+   pictures under 800 px or longer than 2 : 1, and more than two pictures from the same artist.
+3. **Eye check.** A person then looked at the 356 candidates and kept 128. They dropped anything
+   with any doubt: suggestive poses or clothes, romance, blood or menace, alcohol, real people, brand
+   logos, lots of text, comic panels, and two pictures whose artists ask not to use them for AI or
+   without permission. One candidate never made it onto a review sheet, so it was not looked at and is
+   not listed. Of the 128, five square ones are the web demo's pictures and stay out of this list.
+4. **Split.** Of the other 123, 20 went to `test` and 103 to `train`. The test pictures are the 20
+   best-scored ones of a first, smaller list (60 training pictures), and they stayed the same when the
+   list grew.
 
-The two commands below rebuild this folder: the drawn pictures bit for bit, the blurred copies to
-within one brightness level (the blurs use floating point, which a few CPUs round differently). A test
-checks that they still do.
+Each entry records the post id, Danbooru's MD5 of the original, the MD5 of the downloaded "large"
+picture, the artist, the copyright, the original source and the rating.
+
+## Download
 
 ```bash
-docker compose run --rm detector draw                 # the 81 sharp pictures (seed 2023)
-docker compose run --rm detector generate --seed=1    # the 80 blurred copies
+docker compose run --rm detector fetch                 # 123 pictures, one request per second
+docker compose run --rm detector generate --seed=1     # the 123 blurred copies
 ```
 
-`draw --seed=N` gives a different set of scenes, and `--train` / `--test` change how many.
+`fetch` takes about two minutes (125 requests), and it is polite on purpose:
+
+- It names itself in the User-Agent, with this repository's address.
+- It sends at most one request per second and backs off when Danbooru answers "429 Too Many Requests".
+- It stops at once if a bot check answers instead of Danbooru, instead of trying to get past it.
+
+Pictures already in the folder are not downloaded again. Every download is checked against the MD5 in
+the list, shrunk so that its longer side is at most 512 px, and saved as PNG. A post that Danbooru
+deleted, changed or no longer rates general audience is skipped, and the summary lists it. `.gitignore`
+keeps the downloaded files and their blurred copies out of git.
 
 ## Use your own pictures instead
 
-Put sharp pictures (`.png`, `.jpg`, `.jpeg`) in `train/nonblur` and `test/nonblur`, delete the
-drawn ones you do not want, and run `generate` to make the blurred halves. Training only reads
-`<split>/blur` and `<split>/nonblur`, so other files here (like this README or `demo.png`) are ignored.
+Put sharp pictures (`.png`, `.jpg`, `.jpeg`) in `train/nonblur` and `test/nonblur`, and run `generate`
+to make the blurred halves. Training reads every picture in `<split>/blur` and `<split>/nonblur`,
+downloaded or not. Other files here, like this README, `danbooru.json` or `demo.png`, are ignored.
+Without a network, `blur-detector draw` makes a data set of cartoon scenes drawn by code instead.
 
-Until 2026-11-04 this folder held character art from the game *Blue Archive*. It was replaced
-because its licence was unclear. It is still in the git history, up to commit `5f698fe`.
+History: before 2026-11-04 this folder held 61 character portraits from *Blue Archive* (still in the
+git history up to commit `5f698fe`). After that it held 161 drawn scenes, until commit `f1327cd`.

@@ -95,7 +95,11 @@ def sliding_windows(width: int, height: int, fraction: float = WINDOW_FRACTION,
 
 def random_crops(img: np.ndarray, count: int, rng: np.random.Generator,
                  min_fraction: float = WINDOW_FRACTION) -> List[np.ndarray]:
-    """``count`` random square crops of ``img``, each side between ``min_fraction`` and all of its shorter side."""
+    """``count`` random square crops of ``img``, each side between ``min_fraction`` and all of its shorter side.
+
+    Every other crop on average is mirrored left to right: blur looks the same in a mirror, so the model
+    gets more variety for free.
+    """
     height, width = img.shape[:2]
     short = min(height, width)
     crops = []
@@ -103,5 +107,6 @@ def random_crops(img: np.ndarray, count: int, rng: np.random.Generator,
         side = max(1, int(rng.uniform(min_fraction, 1.0) * short))
         y = int(rng.integers(0, height - side + 1))
         x = int(rng.integers(0, width - side + 1))
-        crops.append(img[y:y + side, x:x + side])
+        crop = img[y:y + side, x:x + side]
+        crops.append(np.ascontiguousarray(crop[:, ::-1]) if rng.random() < 0.5 else crop)
     return crops

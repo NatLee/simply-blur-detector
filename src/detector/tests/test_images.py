@@ -72,3 +72,11 @@ def test_random_crops_are_squares_between_half_and_all_of_the_shorter_side():
     assert len(crops) == 50
     for crop in crops:
         assert crop.shape[0] == crop.shape[1] and 50 <= crop.shape[0] <= 100
+
+
+def test_some_random_crops_are_mirrored_copies_of_the_picture():
+    img = sharp_image(5, size=(120, 120))
+    crops = random_crops(img, 40, np.random.default_rng(1), min_fraction=1.0)  # whole picture, so easy to compare
+    mirrored = sum(np.array_equal(c, img[:, ::-1]) for c in crops)
+    straight = sum(np.array_equal(c, img) for c in crops)
+    assert mirrored + straight == 40 and 10 < mirrored < 30
