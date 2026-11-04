@@ -97,6 +97,13 @@ export function artistNames(picture) {
   return picture.artists.map(artistName);
 }
 
+/** What the page says when it has no Danbooru picture to show (`reason` is why), and what to do. */
+export function unavailableMessage(reason, { hasPicks }) {
+  const retry = hasPicks ? 'pick one of the anime pictures to try again' : 'reload the page to try again';
+  return `Could not get a picture from Danbooru (${reason}). Drop, paste or choose a picture of your own: ` +
+    `the detectors, the heat map and the stress test all work with it. Or ${retry}.`;
+}
+
 /** `ids` starting at `first` and going round, so that a gone post falls back to the next one. */
 export function inTurn(ids, first) {
   const start = Math.max(0, ids.indexOf(first));

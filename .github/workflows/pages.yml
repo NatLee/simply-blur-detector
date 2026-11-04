@@ -1,4 +1,5 @@
-# Train the demo model, export it next to the web page and publish the page on GitHub Pages.
+# Download the training pictures from Danbooru, train the demo model, export it next to the web page
+# and publish the page on GitHub Pages.
 # The model card on the page links back to the run that made it.
 name: Pages
 
@@ -7,7 +8,7 @@ on:
     branches: [main]
     paths:
       - "src/**"
-      - "data/**"
+      - "data/danbooru.json"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -40,6 +41,19 @@ jobs:
           cache: pip
           cache-dependency-path: src/detector/pyproject.toml
       - run: pip install -e "src/detector[export]"
+      # The training pictures come from Danbooru (data/danbooru.json). The cache keeps them between
+      # runs, so Danbooru is asked again only when the list changes.
+      - name: Restore the downloaded Danbooru pictures
+        uses: actions/cache@v6
+        with:
+          path: |
+            data/train/nonblur/danbooru-*
+            data/test/nonblur/danbooru-*
+          key: danbooru-${{ hashFiles('data/danbooru.json') }}
+      - name: Download the listed pictures that are missing, and blur them
+        run: |
+          blur-detector fetch --data_path=data
+          blur-detector generate --data_path=data --seed=1
       - name: Train
         run: |
           blur-detector train --data_path=data --model_path=None --model_save_path=model/web.keras \
@@ -49,11 +63,13 @@ jobs:
       - name: Check the model before publishing it
         run: |
           python - <<'PY'
-          import json, os
+          import json, math, os
           card = json.load(open('src/web/public/model/model-card.json'))
-          accuracy = card['metrics']['test']['accuracy']
+          test = card['metrics']['test']
           print(json.dumps(card['metrics'], indent=2))
-          assert accuracy >= float(os.environ['MIN_TEST_ACCURACY']), f'test accuracy {accuracy:.1%} is too low'
+          # In whole pictures, so that exactly the threshold (say 36 of 40 at 0.9) passes.
+          needed = math.ceil(round(float(os.environ['MIN_TEST_ACCURACY']) * test['count'], 6))
+          assert test['correct'] >= needed, f"{test['correct']} of {test['count']} test pictures right, need {needed}"
           PY
       - uses: actions/setup-node@v7
         with:
@@ -64,6 +80,7 @@ jobs:
         working-directory: src/web
         env:
           REQUIRE_MODEL: "1"
+          BROWSER_PATH: /usr/bin/google-chrome
         run: |
           npm ci
           npm test

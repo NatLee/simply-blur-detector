@@ -9,8 +9,10 @@
   #cover lays the same banner out as a 2:1 GitHub social preview (docs/images/cover.png, 1280 x 640):
     msedge … --force-device-scale-factor=1.3333 --window-size=960,480 --screenshot=cover.png "file:///…/hero.html#cover,dark"
   Everything on it comes from the project: stage.jpg is a screenshot of the web demo's viewfinder
-  (sample portrait.png, CNN heat map), the commands are the ones in the README, and the flow is
-  generate -> train -> export -> ONNX Runtime Web.
+  with the CNN heat map, on Danbooru post 9999999 by tetuw (rating: general, 1600 x 1600) whose
+  right half was lens-blurred with blur-generator; the credit on the banner names the artist and the
+  post. The commands are the ones in the README, and the flow is
+  fetch -> blur-generator -> train -> ONNX -> browser.
 -->
 <html lang="en">
 <head>
@@ -52,13 +54,16 @@
           font: 500 11.5px "IBM Plex Mono", Consolas, monospace; color: var(--ink-2); }
   .flow b { font-weight: 500; padding: 3px 8px; border-radius: 6px; background: var(--chip); border: 1px solid var(--line); }
   .flow i { color: var(--muted); font-style: normal; }
-  .view { position: absolute; right: 40px; top: 30px; width: 416px; height: 312px; border-radius: 14px; overflow: hidden;
+  .view { position: absolute; right: 84px; top: 22px; width: 312px; height: 312px; border-radius: 14px; overflow: hidden;
           border: 1px solid var(--line); box-shadow: var(--shadow); background: #050506; }
   .view img { width: 100%; height: 100%; display: block; }
-  .bottom { position: absolute; right: 40px; bottom: 20px; width: 416px; display: flex; align-items: center; gap: 8px; }
+  .bottom { position: absolute; right: 40px; top: 342px; width: 400px; justify-content: flex-end; display: flex; align-items: center; gap: 8px; }
   .pill { font: 600 11.5px "IBM Plex Mono", Consolas, monospace; letter-spacing: .04em; padding: 6px 10px; border-radius: 8px;
           background: var(--panel); border: 1px solid var(--line); box-shadow: var(--shadow); display: flex; align-items: center; gap: 8px; }
   .pill i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .credit { position: absolute; right: 40px; top: 376px; width: 400px; text-align: right; white-space: nowrap;
+            font: 500 10.5px "IBM Plex Mono", Consolas, monospace; color: var(--muted); }
+  .cover .credit { top: 446px; width: 400px; }
   .legend { flex: 1; display: flex; align-items: center; gap: 8px; margin-left: 6px;
             font: 500 11px "IBM Plex Mono", Consolas, monospace; color: var(--muted); }
   /* #cover: the same banner at 2:1, full bleed, for the social preview. */
@@ -69,8 +74,8 @@
   .cover .tag { top: 184px; width: 400px; }
   .cover .chips { top: 276px; }
   .cover .flow { bottom: 40px; }
-  .cover .view { top: 40px; width: 448px; height: 336px; }
-  .cover .bottom { bottom: 34px; width: 448px; }
+  .cover .view { top: 36px; right: 88px; width: 360px; height: 360px; }
+  .cover .bottom { top: 406px; bottom: auto; width: 400px; }
   .legend span:nth-child(2) { flex: 1; height: 7px; border-radius: 4px; background: linear-gradient(90deg, var(--sharp), transparent 50%, var(--blurry)); }
 </style>
 </head>
@@ -88,13 +93,13 @@
     <div class="chip"><span>$</span>docker compose up</div>
     <div class="chip"><span>▶</span>natlee.github.io/simply-blur-detector</div>
   </div>
-  <div class="flow"><b>data/</b><i>→</i><b>blur-generator</b><i>→</i><b>train</b><i>→</i><b>ONNX</b><i>→</i><b>browser</b></div>
+  <div class="flow"><b>fetch</b><i>→</i><b>blur-generator</b><i>→</i><b>train</b><i>→</i><b>ONNX</b><i>→</i><b>browser</b></div>
 
   <div class="view"><img src="stage.jpg" alt=""></div>
+  <div class="credit">art: tetuw · Danbooru #9999999 · right half blurred</div>
   <div class="bottom">
-    <div class="pill"><i style="background: var(--sharp)"></i>chip: sharp</div>
-    <div class="pill"><i style="background: var(--blurry)"></i>network: blurry</div>
-    <div class="legend"><span>sharp</span><span></span><span>blurry</span></div>
+    <div class="pill"><i style="background: var(--sharp)"></i>left: sharp</div>
+    <div class="pill"><i style="background: var(--blurry)"></i>right: blurred</div>
   </div>
 </div>
 </body>

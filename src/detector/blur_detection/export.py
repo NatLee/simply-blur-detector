@@ -15,14 +15,13 @@ from loguru import logger
 
 from .config import (
     BLUR_CLASS,
+    DEMO_IMAGE,
     CLASS_NAMES,
     EXPORT_TOLERANCE,
     INPUT_SIZE,
     WEB_MODEL_CARD,
     WEB_MODEL_DIR,
     WEB_MODEL_FILE,
-    WEB_SAMPLES_DIR,
-    WEB_SAMPLES_INDEX,
     WINDOW_FRACTION,
     WINDOW_OVERLAP,
 )
@@ -79,22 +78,26 @@ def evaluate(model: keras.Model, data_path: str) -> Dict[str, Dict[str, float]]:
     metrics = {}
     for name, (x, y) in sets.items():
         scores = model.evaluate(x, y, verbose=0, return_dict=True)
-        metrics[name] = {'count': len(x), 'accuracy': float(scores['accuracy']), 'loss': float(scores['loss'])}
+        # The right answers as a whole number too: accuracy comes back as float32, where 36 / 40 is
+        # 0.8999999761…, so a threshold check on it alone can fail at exactly the threshold.
+        correct = int(round(float(scores['accuracy']) * len(x)))
+        metrics[name] = {'count': len(x), 'correct': correct, 'accuracy': correct / len(x), 'loss': float(scores['loss'])}
     return metrics
 
 
-def sample_predictions(model: keras.Model, samples_dir: Path) -> Dict[str, float]:
-    """P(blur) of every web demo sample, as the Python pipeline computes it.
+#: Committed pictures whose P(blur) the model card records, so that the web demo's tests can check
+#: that the page's JavaScript gives the same as Python: the demo picture, drawn by code (data/demo.png).
+REFERENCE_IMAGES = (Path(DEMO_IMAGE).name,)
 
-    The web demo's tests compare their own result for the same files against these numbers.
-    """
-    index = samples_dir / WEB_SAMPLES_INDEX
-    if not index.is_file():
+
+def reference_predictions(model: keras.Model, data_path: str, names: Sequence[str] = REFERENCE_IMAGES) -> Dict[str, float]:
+    """P(blur) of each reference picture found in ``data_path``, as the Python pipeline computes it."""
+    paths = [Path(data_path) / name for name in names if (Path(data_path) / name).is_file()]
+    if not paths:
         return {}
-    files = [sample['file'] for sample in json.loads(index.read_text(encoding='utf-8'))['samples']]
-    inputs = np.stack([prepare_image(read_image(samples_dir / name)) for name in files])
+    inputs = np.stack([prepare_image(read_image(path)) for path in paths])
     probabilities = np.asarray(model(inputs, training=False))[:, BLUR_CLASS]
-    return {name: float(p) for name, p in zip(files, probabilities)}
+    return {path.name: float(p) for path, p in zip(paths, probabilities)}
 
 
 def package_versions(names: Sequence[str] = RECORDED_PACKAGES) -> Dict[str, Optional[str]]:
@@ -145,7 +148,7 @@ def export_web_model(model: keras.Model, data_path: str, web_dir: str) -> Path:
         'windows': {'fraction': WINDOW_FRACTION, 'overlap': WINDOW_OVERLAP},
         'metrics': evaluate(model, data_path),
         'onnx_max_difference': difference,
-        'samples': sample_predictions(model, web_dir / WEB_SAMPLES_DIR),
+        'references': reference_predictions(model, data_path),
         'provenance': github_provenance(),
         'versions': package_versions(),
     }

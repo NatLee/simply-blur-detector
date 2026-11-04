@@ -1,11 +1,10 @@
 """
-Pictures drawn from code: the training data in data/.
+Pictures drawn from code: the offline data set of `blur-detector draw`, and data/demo.png.
 
 Everything is made of OpenCV shapes and its built-in Hershey font, so the pictures contain no
 third-party artwork. `random_scene` composes a different illustration for every seed (sky, city,
 hills, robots, flowers, signs, patterns) on a `Canvas`, which also keeps a depth map (0 = near,
-255 = far) for blur-generator's depth-of-field blur. The web demo's sample picture is drawn on a
-`Canvas` too, by `sample_scene`.
+255 = far) for blur-generator's depth-of-field blur.
 """
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -286,19 +285,20 @@ def random_scene(rng: np.random.Generator, width: int, height: int) -> Canvas:
 # ---------------------------------------------------------------- the built-in data set
 
 def draw_dataset(data_path: str, sizes: Dict[str, int] = DATASET_SIZES, seed: int = DATASET_SEED) -> List[Path]:
-    """Draw the sharp pictures of the built-in data set into ``data_path``.
+    """Draw a data set of sharp cartoon scenes into ``data_path``.
 
-    Writes ``<split>/nonblur/scene-NNN.png`` for every split in ``sizes`` (numbered across the splits)
-    and the demo picture, each a `random_scene` with sides between DATASET_SIDE_RANGE. The same seed
-    always gives the same pictures; `generate` then adds the blurred copies. Existing files with the
-    same names are replaced, other files are left alone. Returns the written paths.
+    Writes the demo picture and ``<split>/nonblur/scene-NNN.png`` for every split in ``sizes`` (numbered
+    across the splits), each a `random_scene` with sides between DATASET_SIDE_RANGE. The same seed
+    always gives the same pictures, and the demo picture is drawn first, so it does not depend on
+    ``sizes``. `generate` then adds the blurred copies. Existing files with the same names are
+    replaced, other files are left alone. Returns the written paths.
     """
     rng = np.random.default_rng(seed)
     low, high = DATASET_SIDE_RANGE
     root = Path(data_path)
     targets = [root / split / SHARP_FOLDER for split, count in sizes.items() for _ in range(count)]
     names = [f'{DATASET_PREFIX}-{n:03}.png' for n in range(len(targets))]
-    paths = [folder / name for folder, name in zip(targets, names)] + [root / Path(DEMO_IMAGE).name]
+    paths = [root / Path(DEMO_IMAGE).name] + [folder / name for folder, name in zip(targets, names)]
     written = []
     for path in paths:
         width, height = (int(v) for v in rng.integers(low, high + 1, 2))

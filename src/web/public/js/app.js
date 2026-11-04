@@ -1,7 +1,9 @@
 // The page: load a picture, run both detectors over it, draw the meters, heat map and stress test.
 import * as cfg from './config.js';
 import { BLURS } from './blur.js';
-import { artistName, artistNames, cachePicture, fetchListedPicture, inTurn, readCachedPicture } from './danbooru.js';
+import {
+  artistName, artistNames, cachePicture, fetchListedPicture, inTurn, readCachedPicture, unavailableMessage,
+} from './danbooru.js';
 import { BlurDetector } from './detector.js';
 import { heatField, laplacianScore, scoreColor, windowGrid } from './heatmap.js';
 import { crop, laplacianVariance, laplacianVariances } from './imageops.js';
@@ -26,7 +28,6 @@ const state = {
   token: 0,
   threshold: cfg.LAPLACIAN_THRESHOLD.initial,
   stress: null,
-  fallback: null, // the built-in sample shown when Danbooru cannot be reached
   picks: [], // the listed Danbooru posts (samples/danbooru.json)
   picksError: null, // why that list could not be read, shown instead of a silent fallback
   choice: 0, // counts picture choices, so a slow download never replaces a newer choice
@@ -64,9 +65,9 @@ async function loadPicks() {
   }
 }
 
-/** Builds the sample cards and returns the built-in sample the address asks for (#sample=...), if any. */
-async function loadSamples() {
-  const [{ samples }, picks] = await Promise.all([readJson(cfg.SAMPLES_URL), loadPicks()]);
+/** Builds the picture cards: one per listed Danbooru post, and one for your own picture. */
+async function loadCards() {
+  const picks = await loadPicks();
   const box = $('samples');
   for (const pick of picks) {
     const anime = document.createElement('button');
@@ -80,41 +81,15 @@ async function loadSamples() {
     anime.addEventListener('click', () => openDanbooru({ id: pick.id }));
     box.append(anime);
   }
-  for (const sample of samples) {
-    const button = document.createElement('button');
-    button.className = 'sample';
-    button.type = 'button';
-    button.dataset.file = sample.file;
-    button.setAttribute('aria-pressed', 'false');
-    button.innerHTML = `<img alt="" loading="lazy"><span><b></b><small></small></span>`;
-    button.querySelector('img').src = cfg.SAMPLES_DIR + sample.file;
-    button.querySelector('b').textContent = sample.title;
-    button.querySelector('small').textContent = sample.description;
-    button.addEventListener('click', () => openSample(sample.file));
-    box.append(button);
-  }
   const own = document.createElement('label');
   own.className = 'sample own';
   own.innerHTML = '<span class="plus" aria-hidden="true">+</span><span><b>Your picture</b><small>drop, paste or pick a file</small></span><input type="file" accept="image/*" hidden>';
   own.querySelector('input').addEventListener('change', (e) => takeFile(e.target.files[0]));
   box.append(own);
-  state.fallback = samples[0]?.file ?? null;
-  const wanted = new URLSearchParams(location.hash.slice(1)).get('sample');
-  return samples.find((s) => s.file === wanted)?.file ?? null;
 }
 
 function markCard(file) {
   document.querySelectorAll('.sample').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.file === file)));
-}
-
-/** Open a built-in sample; `remember` puts it in the address, so a reload shows it again. */
-async function openSample(file, { remember = true } = {}) {
-  const choice = ++state.choice;
-  if (remember) history.replaceState(null, '', `#sample=${encodeURIComponent(file)}`);
-  caption(null);
-  markCard(file);
-  const blob = await (await fetch(cfg.SAMPLES_DIR + file)).blob();
-  if (choice === state.choice) await openImage(blob, file);
 }
 
 /** Load a picture from another site so that its pixels stay readable (the site must allow CORS). */
@@ -128,7 +103,7 @@ function loadCorsImage(url, timeoutMs) {
 
 /**
  * Show one of the listed Danbooru posts with its credit: `id`, or on page load the session's last
- * one (or a random one). When Danbooru cannot be reached, say so and show the first built-in sample.
+ * one (or a random one). When Danbooru cannot be reached, say so and ask for the visitor's own picture.
  */
 async function openDanbooru({ id = null } = {}) {
   const settings = cfg.DANBOORU;
@@ -160,10 +135,12 @@ async function openDanbooru({ id = null } = {}) {
     if (choice !== state.choice) return;
     console.warn('No Danbooru picture:', err, err?.cause ?? '');
     const reason = err?.name === 'TimeoutError' ? 'it took too long' : err?.message || 'unknown error';
-    if (state.fallback) await openSample(state.fallback, { remember: false });
-    else $('drop').hidden = false;
-    const retry = state.picks.length ? 'Pick one of the anime pictures to try again.' : 'Reload the page to try again.';
-    caption(notice(`Could not get a picture from Danbooru (${reason}), so this is a built-in sample. ${retry}`));
+    markCard(null);
+    caption(notice(unavailableMessage(reason, { hasPicks: state.picks.length > 0 })));
+    if (!state.image) {
+      $('drop').hidden = false;
+      status('no picture yet · drop one of your own');
+    }
   }
 }
 
@@ -580,7 +557,6 @@ function renderModelCard(card) {
   rows.push(['built with', Object.entries(card.versions).filter(([, v]) => v).map(([k, v]) => `${k} ${v}`).join(' · ')]);
   rows.push(['runs on', `onnxruntime-web ${cfg.ORT_VERSION} (WebAssembly)`]);
   list.innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('');
-  document.querySelectorAll('[data-card=train-count]').forEach((el) => { el.textContent = m.train?.count ?? '?'; });
 }
 
 // ---------------------------------------------------------------- input
@@ -622,14 +598,13 @@ async function main() {
   setupThreshold();
   setupStress();
   setupInput();
-  const [model, first] = await Promise.allSettled([loadModel(), loadSamples()]);
+  const [model] = await Promise.allSettled([loadModel(), loadCards()]);
   if (model.status === 'rejected') {
     console.warn('CNN unavailable:', model.reason);
     $('model-card-list').innerHTML = '<dt>status</dt><dd>no model found next to this page. Run <code>blur-detector export</code> (see the README) to make one.</dd>';
     status('no CNN model · Laplacian only');
   }
-  if (first.status === 'fulfilled' && first.value) await openSample(first.value);
-  else await openDanbooru();
+  await openDanbooru();
 }
 
 main();
