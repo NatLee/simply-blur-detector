@@ -23,6 +23,12 @@ COPY src/detector src/detector
 # The pip cache survives rebuilds, so TensorFlow is downloaded once.
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -e "./src/detector[${EXTRAS}]"
+# GPU builds: TensorFlow 2.21 does not search every CUDA library that pip installs next to it (it
+# cannot find libcusolver.so.11 and quietly falls back to the CPU), so register all of them with the
+# dynamic linker. CPU builds have no nvidia packages and get an empty list. Drop this once
+# TensorFlow finds them on its own.
+RUN find "$(python -c 'import site; print(site.getsitepackages()[0])')/nvidia" -mindepth 2 -maxdepth 2 \
+        -name lib -type d > /etc/ld.so.conf.d/nvidia-pip.conf 2>/dev/null; ldconfig
 
 # Relative output paths (like the comparison figure ./results.png) land here.
 WORKDIR /outputs
