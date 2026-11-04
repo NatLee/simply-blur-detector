@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simply-blur-detector"
+version = "1.0.0"
+description = "A small CNN that tells sharp images from blurry ones, trained on images blurred with blur-generator."
+authors = [{ name = "Nat Lee", email = "natlee.work@gmail.com" }]
+requires-python = ">=3.10"
+dependencies = [
+    "tensorflow>=2.16,<3",          # Keras 3 comes with it
+    "blurgenerator>=2.0,<3",
+    "opencv-python-headless>=5.0",  # the web demo ports OpenCV 5 maths (src/web/public/js/imageops.js)
+    "numpy>=1.26",
+    "matplotlib>=3.7",
+    "tqdm>=4.60",
+    "loguru>=0.7",
+    "fire>=0.5",
+]
+
+[project.optional-dependencies]
+# `blur-detector export`: ONNX model for the web demo, checked against Keras with ONNX Runtime.
+export = ["tf2onnx>=1.17", "onnx>=1.16", "onnxruntime>=1.18"]
+# Train on an NVIDIA GPU (Linux x86-64): pulls the CUDA libraries with TensorFlow.
+gpu = ["tensorflow[and-cuda]>=2.16,<3"]
+test = ["simply-blur-detector[export]", "pytest>=8"]
+
+[project.scripts]
+blur-detector = "blur_detection.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/NatLee/simply-blur-detector"
+Demo = "https://natlee.github.io/simply-blur-detector/"
+
+[tool.setuptools]
+packages = ["blur_detection"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    # TensorFlow tensors and NumPy 2.5 disagree about __array__(copy=...); harmless.
+    "ignore:__array__ implementation doesn't accept a copy keyword:DeprecationWarning",
+]

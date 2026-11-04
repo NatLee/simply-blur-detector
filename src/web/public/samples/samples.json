@@ -1,0 +1,25 @@
+{
+  "note": "Drawn by src/web/tools/make_samples.py (shapes and OpenCV Hershey text, no third-party artwork); blurred with blur-generator.",
+  "samples": [
+    {
+      "file": "portrait.png",
+      "title": "Portrait mode",
+      "description": "The robot stays sharp, the city melts into lens bokeh."
+    },
+    {
+      "file": "sharp.png",
+      "title": "Sharp",
+      "description": "Crisp edges everywhere: the reference picture."
+    },
+    {
+      "file": "shaky.png",
+      "title": "Shaky hands",
+      "description": "The whole picture smeared by camera motion."
+    },
+    {
+      "file": "soft.png",
+      "title": "Soft focus",
+      "description": "A Gaussian blur over everything."
+    }
+  ]
+}

@@ -1,8 +1,19 @@
+# Trained models and outputs (the folders stay, see the .gitkeep files)
+model/*
+!model/.gitkeep
+outputs/*
+!outputs/.gitkeep
 
-model/*.h5
+# The web demo's model is made by `blur-detector export` (GitHub Actions does it for the Pages site)
+src/web/public/model/
+
+# Python
+__pycache__/
+*.egg-info/
+.pytest_cache/
+
+# Node
+node_modules/
 
 .DS_Store
-
-__pycache__
-
 desktop.ini

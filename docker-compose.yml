@@ -1,19 +1,33 @@
-version: "3.9"
+# docker compose up                         train, save model/model.h5, draw outputs/results.png
+# docker compose run --rm detector <command> generate | train | predict | export | run (see README)
+# docker compose run --rm detector-gpu train  the same on an NVIDIA GPU (needs the NVIDIA Container Toolkit)
 services:
-  main:
-    platform: linux/amd64
+  detector:
     build:
       context: .
-      dockerfile: ./Dockerfile
-    container_name: blur-detector
+    image: simply-blur-detector
     volumes:
-      - ./src:/src
-      - ./data:/data
-      - ./model:/model
-    command: bash docker-entrypoint.sh
-    #deploy:
-    #  resources:
-    #    reservations:
-    #      devices:
-    #        - driver: nvidia
-    #          capabilities: [gpu]
+      - ./src/detector:/app/src/detector   # live code, no rebuild needed
+      - ./data:/data                       # training data and the demo image
+      - ./model:/model                     # trained models
+      - ./outputs:/outputs                 # the comparison figure and other outputs
+      - ./src/web/public:/web              # `export` writes the web demo's model here
+    command: run
+
+  detector-gpu:
+    extends: detector
+    profiles: [gpu]
+    build:
+      args:
+        EXTRAS: export,gpu
+    image: simply-blur-detector:gpu
+    environment:
+      # Take GPU memory as needed instead of all of it at start-up.
+      TF_FORCE_GPU_ALLOW_GROWTH: "true"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
