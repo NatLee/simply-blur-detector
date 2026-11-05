@@ -9,10 +9,9 @@
   #cover lays the same banner out as a 2:1 GitHub social preview (docs/images/cover.png, 1280 x 640):
     msedge … --force-device-scale-factor=1.3333 --window-size=960,480 --screenshot=cover.png "file:///…/hero.html#cover,dark"
   Everything on it comes from the project: stage.jpg is a screenshot of the web demo's viewfinder
-  with the CNN heat map, on Danbooru post 9999999 by tetuw (rating: general, 1600 x 1600) whose
-  right half was lens-blurred with blur-generator; the credit on the banner names the artist and the
-  post. The commands are the ones in the README, and the flow is
-  fetch -> blur-generator -> train -> ONNX -> browser.
+  with the CNN heat map, on the project's cover picture (cover-picture.jpg next to this file) with its
+  right half lens-blurred by blur-generator. The commands are the ones in the README, and the flow is
+  data/ -> blur-generator -> train -> ONNX -> browser.
 -->
 <html lang="en">
 <head>
@@ -93,10 +92,10 @@
     <div class="chip"><span>$</span>docker compose up</div>
     <div class="chip"><span>▶</span>natlee.github.io/simply-blur-detector</div>
   </div>
-  <div class="flow"><b>fetch</b><i>→</i><b>blur-generator</b><i>→</i><b>train</b><i>→</i><b>ONNX</b><i>→</i><b>browser</b></div>
+  <div class="flow"><b>data/</b><i>→</i><b>blur-generator</b><i>→</i><b>train</b><i>→</i><b>ONNX</b><i>→</i><b>browser</b></div>
 
   <div class="view"><img src="stage.jpg" alt=""></div>
-  <div class="credit">art: tetuw · Danbooru #9999999 · right half blurred</div>
+  <div class="credit">right half blurred with blur-generator</div>
   <div class="bottom">
     <div class="pill"><i style="background: var(--sharp)"></i>left: sharp</div>
     <div class="pill"><i style="background: var(--blurry)"></i>right: blurred</div>

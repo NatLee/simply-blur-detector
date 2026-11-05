@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/NatLee/simply-blur-detector/main/docs/images/hero-dark.png">
-    <img src="https://raw.githubusercontent.com/NatLee/simply-blur-detector/main/docs/images/hero-light.png" alt="simply-blur-detector: Is it blurry? A small Keras CNN, trained on pictures blurred with blur-generator, against the classic Laplacian variance, window by window, in your browser. Commands: docker compose up, natlee.github.io/simply-blur-detector. Flow: fetch, blur-generator, train, ONNX, browser. The picture is the web demo's heat map on Danbooru post 9999999 by tetuw, whose right half was blurred: the left half is marked sharp, the right half blurry.">
+    <img src="https://raw.githubusercontent.com/NatLee/simply-blur-detector/main/docs/images/hero-light.png" alt="simply-blur-detector: Is it blurry? A small Keras CNN, trained on pictures blurred with blur-generator, against the classic Laplacian variance, window by window, in your browser. Commands: docker compose up, natlee.github.io/simply-blur-detector. Flow: data, blur-generator, train, ONNX, browser. The picture is the web demo's heat map on the project's cover picture, a girl in a straw hat looking through a magnifying glass in a flower garden, whose right half was blurred: the left half is marked sharp, the right half blurry.">
   </picture>
 </p>
 
@@ -18,9 +18,9 @@
 A small convolutional neural network (CNN) that tells sharp pictures from blurry ones. You train it on a
 folder of sharp pictures: [blur-generator](https://github.com/NatLee/blur-generator) makes a lens,
 Gaussian or motion-blurred copy of each one, and the network learns the difference. The repository
-comes with a list of 123 general-audience anime illustrations from [Danbooru](https://danbooru.donmai.us)
-that one command downloads, or you can bring your own pictures. Everything runs in Docker on x86 and
-ARM machines, and the trained model is also published as a
+comes with 120 illustrations of its own and their blurred copies, ready to train on, or you can bring
+your own pictures. Everything runs in Docker on x86 and ARM machines, and the trained model is also
+published as a
 **[web demo](https://natlee.github.io/simply-blur-detector/)**: drop a picture and it shows the
 network's verdict, a window-by-window blur heat map and the classic Laplacian variance side by side,
 all in your browser.
@@ -28,7 +28,7 @@ all in your browser.
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/NatLee/simply-blur-detector/main/docs/images/demo-dark.png">
-    <img src="https://raw.githubusercontent.com/NatLee/simply-blur-detector/main/docs/images/demo-light.png" alt="The web demo on Danbooru post 10468701 by channel (caststation): the picture with the CNN heat map over it, the credit under it, a dial with the CNN's probability that the picture is blurry, the Laplacian variance on a log scale with its threshold, and the cards of the anime pictures." width="820">
+    <img src="https://raw.githubusercontent.com/NatLee/simply-blur-detector/main/docs/images/demo-light.png" alt="The web demo on its sample picture Seaside ride, a girl cycling along the coast past sunflowers: the picture with the CNN heat map over it, a dial with the CNN's probability that the picture is blurry, the Laplacian variance on a log scale with its threshold, and the cards of the sample pictures." width="820">
   </picture>
 </p>
 
@@ -36,9 +36,8 @@ all in your browser.
 
 ```mermaid
 flowchart TB
-  list["data/danbooru.json<br/>123 checked posts"] -->|"blur-detector fetch"| sharp
   own["or your own pictures"] -.-> sharp
-  sharp["Sharp pictures<br/>data/*/nonblur"] -->|"blur-detector generate"| bg["blur-generator<br/>lens · Gaussian · motion"]
+  sharp["Sharp pictures<br/>data/*/nonblur<br/>120 in the repository"] -->|"blur-detector generate"| bg["blur-generator<br/>lens · Gaussian · motion"]
   bg --> blurred["Blurred copies<br/>data/*/blur"]
   sharp --> train
   blurred --> train["blur-detector train<br/>Keras CNN"]
@@ -61,17 +60,14 @@ and on ARM64 (Apple silicon included).
 ```bash
 git clone https://github.com/NatLee/simply-blur-detector.git
 cd simply-blur-detector
-docker compose run --rm detector fetch                # download the 123 listed pictures (about 2 min)
-docker compose run --rm detector generate --seed=1    # blurred copies of them
 docker compose up
 ```
 
-`fetch` downloads the pictures listed in `data/danbooru.json` ([what they are, and their copyright](data/README.md)).
-`docker compose up` then trains the network on them for 5 epochs, saves it to `model/model.h5` and draws
-`outputs/results.png`. If `model/model.h5` already exists, training continues from it. Five epochs is a
-quick first run; the web demo's model trains for longer and with crops, see [The web demo](#the-web-demo).
-To run every step from scratch (download what is missing, new blurred copies, a new model, the figure and
-the web demo's model):
+`docker compose up` trains the network on the pictures in `data/` ([what they are](data/README.md)) for
+5 epochs, saves it to `model/model.h5` and draws `outputs/results.png`. If `model/model.h5` already
+exists, training continues from it. Five epochs is a quick first run; the web demo's model trains for
+longer and with crops, see [The web demo](#the-web-demo). To run every step from scratch (new blurred
+copies, a new model, the figure and the web demo's model):
 
 ```bash
 ./scripts/fast-run.sh        # Windows: scripts\fast-run.bat
@@ -84,9 +80,8 @@ Inside the container the command line is `blur-detector`; with Compose, put
 
 | Command | What it does |
 |---|---|
-| `fetch` | Downloads the Danbooru pictures listed in `data/danbooru.json` into `data/*/nonblur`: one request per second, MD5-checked, only the ones not there yet. Deleted or re-rated posts are skipped and listed. |
-| `draw` | Draws a data set from code instead, for working offline: 60 training and 20 test cartoon scenes plus `data/demo.png`. `--seed` picks other scenes, `--train` / `--test` change the counts. |
-| `generate` | Writes a blurred copy of every picture in `data/*/nonblur` to the `blur` folder next to it: a lens, Gaussian or motion blur of random strength (`--seed` makes it repeatable). |
+| `draw` | Draws a data set of cartoon scenes from code, which needs nothing but the package (the tests use it): 60 training and 20 test scenes plus a `demo.png`. Give it a folder of its own, such as `--data_path=/data/drawn`; `--seed` picks other scenes, `--train` / `--test` change the counts. |
+| `generate` | Writes a blurred copy of every picture in `data/{train,test}/nonblur` to the `blur` folder next to it: a lens, Gaussian or motion blur of random strength (`--seed` makes it repeatable; the copies in the repository are `--seed=1`). |
 | `train` | Trains on `data/{train,test}/{blur,nonblur}` and saves `model/model.h5`. `--epochs` (5), `--crops=N` (also train on N random crops of every picture, for the heat map), `--seed`, `--model_path=None` to start over. |
 | `predict` | Prints P(blur) of one picture, then blurs it more and more and draws a 4 × 4 grid of predictions. `--img_path`, `--blur_mode` (`lens`, `gaussian`, `motion`), `--save_fig_path`. |
 | `export` | Exports the model for the web demo: an ONNX file checked against Keras, and a model card with the accuracy and package versions. |
@@ -97,28 +92,29 @@ Paths are inside the container, where Compose mounts `./data` on `/data`, `./mod
 put `MSYS_NO_PATHCONV=1` in front of commands with such paths, otherwise Git Bash turns `/web/...` into
 a Windows path (PowerShell and cmd leave them alone).
 
-For example, ask the model about the demo picture (a cartoon scene drawn by code, `data/demo.png`):
+For example, ask the model about the demo picture (`data/demo.png`, a hillside harbour town, the same
+picture as the web demo's Harbour town):
 
 ```console
 $ docker compose run --rm detector predict --img_path=/data/demo.png --blur_mode=lens --save_fig_path=/outputs/demo-lens.png
 INFO | Blur Detection Model Loaded.
-INFO | /data/demo.png: Clear (P(blur) = 0.000)
-INFO | tile 0,0: Clear (P(blur) = 0.043)
+INFO | /data/demo.png: Clear (P(blur) = 0.001)
+INFO | tile 0,0: Clear (P(blur) = 0.068)
 ...
 INFO | Saved the comparison figure to /outputs/demo-lens.png
-0.0004406454972922802
+0.0005603581666946411
 ```
 
 The last line is the return value, P(blur), so a script can use it (log lines shortened here).
 
 <p align="center">
-  <img src="docs/images/demo-lens.png" alt="A 4 by 4 grid of the demo picture with a lens blur that grows from the top left to the bottom right; each tile is labelled Clear or Blur with the probability of blur" width="440">
+  <img src="docs/images/demo-lens.png" alt="A 4 by 4 grid of the demo picture, a hillside harbour town, the same picture as the web demo's Harbour town, with a lens blur that grows from the top left to the bottom right; each tile is labelled Clear or Blur with the probability of blur" width="440">
 </p>
 
 ## Train on your own pictures
 
-Put sharp pictures (`.png`, `.jpg`, `.jpeg`) in `data/train/nonblur` and `data/test/nonblur` (with or
-without the downloaded ones), then let blur-generator make the blurry half and train:
+Put sharp pictures (`.png`, `.jpg`, `.jpeg`) in `data/train/nonblur` and `data/test/nonblur` (next to the
+repository's pictures, or instead of them), then let blur-generator make the blurry half and train:
 
 ```text
 data
@@ -136,8 +132,8 @@ docker compose run --rm detector train --model_path=None --epochs=20 --crops=2
 docker compose run --rm detector export
 ```
 
-Files elsewhere under `data/` are ignored, so `data/demo.png` (the default picture of `run` and
-`predict`, drawn by code), `data/danbooru.json` and `data/README.md` can sit next to the folders.
+Training reads only the pictures directly in those four folders, so `data/demo.png` (the default picture
+of `run` and `predict`), `data/pictures.json`, `data/README.md` and other folders can sit next to them.
 
 ## Use it from Python
 
@@ -151,7 +147,7 @@ detector.train(train_ds, test_ds, epochs=5)
 detector.save('/model/model.h5')                 # .h5 or .keras
 
 probabilities, labels = detector.predict(prepare_image(read_image('/data/demo.png')))
-print(labels[0], float(probabilities[0][1]))     # e.g. "Clear 7.65e-07" after this short training
+print(labels[0], float(probabilities[0][1]))     # e.g. "Clear 2.49e-05" after this short training
 
 predict_blur_img(detector, '/data/demo.png', blur_mode='lens', save_fig_path='/outputs/results.png')
 ```
@@ -162,8 +158,8 @@ project.
 ## The web demo
 
 The demo runs the same network with [ONNX Runtime Web](https://onnxruntime.ai/docs/tutorials/web/), so
-your pictures never leave the browser. It opens with one of five anime pictures from
-[Danbooru](https://danbooru.donmai.us) and shows:
+your pictures never leave the browser. It opens with one of its five sample pictures, or the one a
+`#sample=<file>` link names, and shows:
 
 - the CNN's P(blur) for the whole picture, and the Laplacian variance (a blur score that needs no
   training: low variance means few sharp edges) with an adjustable threshold;
@@ -171,36 +167,21 @@ your pictures never leave the browser. It opens with one of five anime pictures 
   (the smallest crop the network saw in training);
 - a stress test that blurs the picture step by step and plots how both scores react.
 
-About the Danbooru pictures on the page:
+The sample pictures are in [`src/web/public/samples`](src/web/public/samples), listed in
+`samples.json`; they are not among the training pictures. When that list cannot be read, the page says
+so and asks you to drop, paste or choose a picture of your own; the detectors, the heat map and the
+stress test all work with it.
 
-- **Picked and checked by hand.** The page shows only the five general-audience, square posts in
-  [`samples/danbooru.json`](src/web/public/samples/danbooru.json), each one looked at by a person before
-  it was listed (see [Image credits](#image-credits)). They are not among the training pictures. The page
-  asks Danbooru for the post, checks again that it is rated general (`rating:g`) and skips to the next
-  listed one if it is gone.
-- **Loaded at run time, always credited.** Your browser loads the picture straight from Danbooru's image
-  server. The credit under it names the artist and links to the Danbooru post and the original
-  source. Nothing of these pictures is stored in this repository or on the site.
-- **Polite.** It makes one API request and one picture request per picture, and the current picture
-  stays for the browser session.
-- **Your own picture when Danbooru is away.** The page has no pictures of its own. When Danbooru cannot be
-  reached, or the list cannot be read, it says why and asks you to drop, paste or choose a picture; the
-  detectors, the heat map and the stress test all work with it. (Automated browsers do not get Danbooru's
-  CORS headers, so they always see this.)
-
-GitHub Actions builds it ([`pages.yml`](.github/workflows/pages.yml)): it downloads the listed pictures
-(cached between runs, so Danbooru is asked again only when the list changes), trains the network on them
-(EPOCHS, CROPS and SEED at the top of the workflow), exports it, refuses to publish a model that gets
-fewer than 85% of the test pictures right, checks in Node.js that the page's JavaScript gives the same
-P(blur) as Python for `data/demo.png`, runs the page in Chrome with Danbooru answered by the test, and
-deploys `src/web/public`. The model card at the bottom of the page links to the run that trained it.
+GitHub Actions builds it ([`pages.yml`](.github/workflows/pages.yml)): it trains the network on the
+pictures in `data/` (EPOCHS, CROPS and SEED at the top of the workflow), exports it, refuses to publish a
+model that gets fewer than 85% of the test pictures right, checks in Node.js that the page's JavaScript
+gives the same P(blur) as Python for `data/demo.png`, runs the page in Chrome, and deploys
+`src/web/public`. The model card at the bottom of the page links to the run that trained it.
 
 The 85% threshold (`PUBLISH_MIN_TEST_ACCURACY` in
 [`config.py`](src/detector/blur_detection/config.py), counted in whole pictures: 34 of 40) was 90% until
-the project owner lowered it on 2026-11-04. On the Danbooru pictures the model got 35 of 40 test pictures
-right in CI, one short of 90%, while its heat map windows went from 64% right (trained on drawn scenes)
-to 92%. The pictures it misses are the most lightly blurred copies of finely drawn art and two very soft
-paintings, which look nearly the same sharp or blurred once squeezed to 256 × 256.
+the project owner lowered it on 2026-11-04, for the anime pictures the model was trained on then. The
+model trained on the pictures in the repository now clears it easily (39 of 40 in a local run).
 
 To try the page on your own machine, export a model and serve the folder:
 
@@ -237,42 +218,29 @@ The project is laid out as `src/detector` (the Python package `blur_detection` a
 
 ## The training pictures
 
-The training pictures are 123 general-audience anime illustrations from Danbooru: 103 for training and 20
-for testing. They were chosen from Danbooru's best-scored `rating:g` posts and filtered by tags. Then a
-person looked at every one of the 356 candidates and kept 128: these 123 and the five of the web demo. [`data/README.md`](data/README.md) explains
-how, and `data/danbooru.json` lists them with their artists and sources.
+The training pictures are 120 of this project's own illustrations, drawn in an anime style: people,
+landscapes, rooms, food, animals, towns, machines, plants and night scenes, from thick outlines with flat
+colours to very fine line work. 100 are for training and 20 for testing, each with a blurred copy.
+[`data/README.md`](data/README.md) explains the folder, and `data/pictures.json` lists every picture
+of the project (these, the demo picture, the web demo's five and the cover) with its size and checksum.
 
-**Their copyright belongs to their artists.** This repository only stores the list and does not
-distribute the pictures: `fetch` downloads them from Danbooru when you need them. Models trained on them
-are for demonstrating this project only. The MIT licence of this repository covers the code, not these
-pictures.
+How models trained on each data set do on the test pictures (40 each: 20 sharp, 20 blurred), with the
+web demo's settings:
+
+| Model trained on | Its own test pictures | This repository's test pictures |
+|---|---|---|
+| these pictures | 39 / 40, windows 94.7% | (the same) |
+| anime pictures from Danbooru (the published model of 2026-11-04) | 35 / 40, windows 92.1% | 35 / 40, windows 98.8% |
+| cartoon scenes drawn by code (`draw`) | 40 / 40, windows 86.2% | 34 / 40, windows 68.3% |
 
 History: until November 2026 the folder held character art from *Blue Archive* (licence unclear), then
-for a while cartoon scenes drawn by code. `blur-detector draw` still makes those for offline use.
-
-## Image credits
-
-The cover at the top, the demo screenshot below it and the anime cards of the web demo show these
-Danbooru posts, all rated general audience. The cover and the screenshots are in this repository
-(`docs/images/`); the demo loads its five pictures from Danbooru when you open it.
-
-| Where | Post | Artist | Size | Copyright |
-|---|---|---|---|---|
-| cover, social preview (right half blurred by blur-generator) | [#9999999](https://danbooru.donmai.us/posts/9999999) | tetuw | 1600 × 1600 | arknights |
-| demo: Window seat, and the demo screenshot | [#10468701](https://danbooru.donmai.us/posts/10468701) | channel_(caststation) | 2484 × 2484 | vocaloid |
-| demo: Heart glasses | [#6446709](https://danbooru.donmai.us/posts/6446709) | gya_(144) | 1000 × 1000 | genshin_impact |
-| demo: Boxing match | [#5045433](https://danbooru.donmai.us/posts/5045433) | hakuzumu | 2500 × 2500 | genshin_impact |
-| demo: Small talk | [#5260352](https://danbooru.donmai.us/posts/5260352) | omniformblue | 1600 × 1600 | persona_4 |
-| demo: Corner store | [#6648778](https://danbooru.donmai.us/posts/6648778) | kaisunstreehole | 2048 × 2010 | baldur's_gate_3 |
-
-The pictures belong to their artists and are shown with credit, for demonstration only; the MIT licence
-does not cover them. `data/demo.png` and the comparison figure above are drawn by code in this
-repository.
+cartoon scenes drawn by code (`blur-detector draw` still makes those), then a list of anime pictures
+from Danbooru that a `fetch` command downloaded.
 
 ## License
 
-[MIT](LICENSE) © 2023 Nat Lee, for the code and the pictures it draws. The Danbooru pictures are not
-covered (see [The training pictures](#the-training-pictures) and [Image credits](#image-credits)).
+[MIT](LICENSE) © 2023 Nat Lee, for the code and for the pictures: the training and test pictures, the
+web demo's samples, the demo picture, the cover and the screenshots.
 
 ## Author
 
