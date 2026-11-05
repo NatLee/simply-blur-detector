@@ -18,10 +18,10 @@ from .config import (
     FIGURE_LENS_EXPOSURE_GAMMA,
     GENERATE_GAUSSIAN_KERNELS,
     GENERATE_LENS_RADII,
-    IMAGE_EXTENSIONS,
     SHARP_FOLDER,
+    SPLIT_FOLDERS,
 )
-from .images import read_image, write_image
+from .images import images_in, read_image, write_image
 
 
 @dataclass(frozen=True)
@@ -89,19 +89,16 @@ def ladder_blur(img: np.ndarray, mode: Optional[str], row: int, col: int) -> np.
 
 
 def generate_blur_images(data_path: str, seed: Optional[int] = None) -> List[Path]:
-    """Write a blurred copy of every image in a ``nonblur`` folder to the ``blur`` folder next to it.
+    """Write a blurred copy of every image in ``<data_path>/<split>/nonblur`` to the ``blur`` folder next to it.
 
     Existing files in ``blur`` with the same name are replaced. Returns the written paths.
     ``seed`` makes the choice of blurs repeatable; ``None`` picks new ones every time.
     """
     if seed is not None:
         random.seed(seed)
-    sharp_images = sorted(
-        p for p in Path(data_path).rglob('*')
-        if p.parent.name == SHARP_FOLDER and p.suffix.lower() in IMAGE_EXTENSIONS
-    )
+    sharp_images = sorted(p for split in SPLIT_FOLDERS for p in images_in(Path(data_path) / split / SHARP_FOLDER))
     if not sharp_images:
-        logger.warning(f'No images found in any "{SHARP_FOLDER}" folder under {data_path}.')
+        logger.warning(f'No images found in {data_path}/<{"|".join(SPLIT_FOLDERS)}>/{SHARP_FOLDER}.')
     written = []
     for path in sharp_images:
         target = path.parent.parent / BLUR_FOLDER / path.name

@@ -3,17 +3,29 @@ Reading, writing and preparing images. Training, prediction and the web demo all
 same way (see `prepare_image`), so the model always sees what it was trained on.
 """
 from pathlib import Path
-from typing import List, Tuple, Union
+from typing import List, Sequence, Tuple, Union
 
 import cv2
 import numpy as np
 
-from .config import INPUT_SIZE, WINDOW_FRACTION, WINDOW_OVERLAP
+from .config import IMAGE_EXTENSIONS, INPUT_SIZE, WINDOW_FRACTION, WINDOW_OVERLAP
 
 PathLike = Union[str, Path]
 
 #: Encoder settings per file type for `write_image`: PNGs get the smallest (still lossless) files.
 WRITE_PARAMS = {'.png': [cv2.IMWRITE_PNG_COMPRESSION, 9]}
+
+
+def images_in(folder: PathLike, exts: Sequence[str] = IMAGE_EXTENSIONS) -> List[Path]:
+    """The image files directly in ``folder`` (not in its subfolders), sorted; [] when it does not exist.
+
+    Extensions are compared case-insensitively.
+    """
+    folder = Path(folder)
+    exts = {ext.lower() for ext in exts}
+    if not folder.is_dir():
+        return []
+    return sorted(p for p in folder.iterdir() if p.is_file() and p.suffix.lower() in exts)
 
 
 def read_image(path: PathLike) -> np.ndarray:
