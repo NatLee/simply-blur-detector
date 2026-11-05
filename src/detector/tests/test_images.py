@@ -3,7 +3,7 @@ import numpy as np
 import pytest
 
 from blur_detection import check_normal, equalize_hist, prepare_image, preprocessing
-from blur_detection.config import INPUT_SIZE
+from blur_detection.config import INPUT_SIZE, JPEG_QUALITY
 from blur_detection.images import random_crops, read_image, sliding_windows, write_image
 
 from .helpers import sharp_image
@@ -13,6 +13,13 @@ def test_write_then_read_gives_the_same_pixels_even_with_a_non_ascii_path(tmp_pa
     img = sharp_image(1)
     path = write_image(tmp_path / '模糊' / 'ミカ.png', img)  # the folder is created
     np.testing.assert_array_equal(read_image(path), img)
+
+
+@pytest.mark.parametrize('name', ['blurred.jpg', 'BLURRED.JPEG'])
+def test_jpegs_are_written_at_the_quality_of_the_pictures_in_data(tmp_path, name):
+    img = sharp_image(2)
+    ok, expected = cv2.imencode('.jpg', img, [cv2.IMWRITE_JPEG_QUALITY, JPEG_QUALITY])
+    assert ok and write_image(tmp_path / name, img).read_bytes() == expected.tobytes()
 
 
 def test_read_image_names_the_file_when_it_is_not_an_image(tmp_path):

@@ -4,11 +4,6 @@ model/*
 outputs/*
 !outputs/.gitkeep
 
-# Pictures downloaded by `blur-detector fetch` (listed in data/danbooru.json) and their blurred copies:
-# their copyright belongs to their artists, so they are not part of the repository
-data/*/nonblur/danbooru-*
-data/*/blur/danbooru-*
-
 # The web demo's model is made by `blur-detector export` (GitHub Actions does it for the Pages site)
 src/web/public/model/
 

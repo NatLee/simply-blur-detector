@@ -89,7 +89,7 @@ def evaluate(model: keras.Model, data_path: str) -> Dict[str, Dict[str, float]]:
 
 
 #: Committed pictures whose P(blur) the model card records, so that the web demo's tests can check
-#: that the page's JavaScript gives the same as Python: the demo picture, drawn by code (data/demo.png).
+#: that the page's JavaScript gives the same as Python: the demo picture (data/demo.png).
 REFERENCE_IMAGES = (Path(DEMO_IMAGE).name,)
 
 

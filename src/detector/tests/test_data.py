@@ -26,6 +26,14 @@ def test_find_images_skips_other_folders_and_matches_extensions_in_any_case(data
     assert 'UPPER.PNG' in names
 
 
+def test_find_images_leaves_a_data_set_in_a_subfolder_alone(data_dir):
+    # Regression: find_images searched every subfolder, so a second data set kept inside the data
+    # folder (say data/drawn/train/nonblur from `draw --data_path=data/drawn`) was trained on too.
+    write_image(data_dir / 'drawn' / 'train' / 'nonblur' / 'nested.png', sharp_image(8))
+    write_image(data_dir / 'train' / 'nonblur' / 'deeper' / 'nested.png', sharp_image(9))
+    assert all(path.name != 'nested.png' for split in find_images(data_dir).values() for path, _ in split)
+
+
 def test_get_data_gives_batches_of_prepared_images_and_one_hot_labels(data_dir):
     train_ds, test_ds = get_data(str(data_dir), batch_size=4)
     x, y = next(iter(train_ds))

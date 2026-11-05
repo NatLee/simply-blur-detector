@@ -30,7 +30,7 @@ from .config import (
 )
 # check_normal, equalize_hist and preprocessing used to live here; importing them from
 # blur_detection.utils keeps working.
-from .images import check_normal, equalize_hist, prepare_image, preprocessing, random_crops, read_image
+from .images import check_normal, equalize_hist, images_in, prepare_image, preprocessing, random_crops, read_image
 
 __all__ = [
     'check_normal', 'equalize_hist', 'preprocessing', 'prepare_image', 'read_image',
@@ -45,13 +45,10 @@ def find_images(data_path: str, exts: Sequence[str] = IMAGE_EXTENSIONS) -> Dict[
     skipped. Extensions are compared case-insensitively. Paths are sorted, so the order is the same on
     every machine.
     """
-    exts = {ext.lower() for ext in exts}
-    found: Dict[str, List[Tuple[Path, int]]] = {split: [] for split in SPLIT_FOLDERS}
-    for path in sorted(Path(data_path).rglob('*')):
-        split, label = path.parent.parent.name, LABEL_FOLDERS.get(path.parent.name)
-        if path.suffix.lower() in exts and split in found and label is not None:
-            found[split].append((path, label))
-    return found
+    root = Path(data_path)
+    return {split: sorted((path, label) for folder, label in LABEL_FOLDERS.items()
+                          for path in images_in(root / split / folder, exts))
+            for split in SPLIT_FOLDERS}
 
 
 def load_images(samples: Sequence[Tuple[Path, int]], desc: str = 'Preparing images...', crops: int = 0,

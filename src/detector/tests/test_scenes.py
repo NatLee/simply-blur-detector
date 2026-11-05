@@ -14,10 +14,6 @@ from blur_detection.scenes import draw_dataset, random_scene
 
 from .helpers import laplacian_variance
 
-REPO = Path(__file__).resolve().parents[3]
-DATA = REPO / 'data'
-
-
 def test_random_scenes_are_repeatable_and_differ_by_seed():
     a = random_scene(np.random.default_rng(1), 300, 260).img
     b = random_scene(np.random.default_rng(1), 300, 260).img
@@ -44,10 +40,10 @@ def test_draw_dataset_writes_the_layout_that_training_expects(tmp_path):
         assert low <= w <= high and low <= h <= high
 
 
-@pytest.mark.skipif(not (DATA / Path(DEMO_IMAGE).name).is_file(), reason='the repository data folder is not next to the detector')
-def test_the_demo_picture_is_the_one_draw_makes(tmp_path):
-    # data/demo.png (the default picture of run and predict) is a drawn scene, so it works offline,
-    # and drawing a data set of any size gives that same picture.
-    draw_dataset(str(tmp_path), {'train': 1, 'test': 1})
+def test_the_drawn_demo_picture_does_not_depend_on_the_size_of_the_data_set(tmp_path):
+    # It is drawn first, so a drawn data set of any size comes with the same demo.png. (The repository's
+    # data/demo.png is a picture of its own since 2026-11-05; test_pictures.py checks it.)
     name = Path(DEMO_IMAGE).name
-    np.testing.assert_array_equal(read_image(DATA / name), read_image(tmp_path / name))
+    draw_dataset(str(tmp_path / 'small'), {'train': 1, 'test': 1})
+    draw_dataset(str(tmp_path / 'large'), {'train': 4, 'test': 2})
+    np.testing.assert_array_equal(read_image(tmp_path / 'small' / name), read_image(tmp_path / 'large' / name))

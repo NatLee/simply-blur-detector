@@ -1,8 +1,7 @@
 """
 Command line: ``blur-detector <command> [--flag=value ...]``.
 
-    fetch     download the Danbooru pictures listed in data/danbooru.json (data/*/nonblur)
-    draw      draw a data set from code instead (offline; data/*/nonblur)
+    draw      draw a data set of cartoon scenes from code (offline; <data>/*/nonblur and <data>/demo.png)
     generate  write a blurred copy of every sharp image (data/*/nonblur -> data/*/blur)
     train     train the model on the data folder and save it
     predict   predict one image and draw the comparison figure
@@ -11,7 +10,6 @@ Command line: ``blur-detector <command> [--flag=value ...]``.
 
 ``blur-detector <command> --help`` lists the flags of a command.
 """
-from pathlib import Path
 from typing import Optional
 
 import fire
@@ -22,7 +20,6 @@ from loguru import logger
 from .blur import generate_blur_images
 from .config import (
     BLUR_CLASS,
-    DANBOORU_LIST_NAME,
     DATA_DIR,
     DATASET_SEED,
     DATASET_SIZES,
@@ -33,7 +30,6 @@ from .config import (
     MODEL_PATH,
     WEB_DIR,
 )
-from .danbooru import fetch_listed, read_list
 from .detection_model import DetectionModel
 from .export import export_web_model
 from .images import prepare_image, read_image
@@ -41,28 +37,12 @@ from .scenes import draw_dataset
 from .utils import get_data, predict_blur_img
 
 
-def fetch(data_path: str = DATA_DIR, list_path: Optional[str] = None) -> None:
-    """Download the Danbooru pictures listed in <data_path>/danbooru.json into <data_path>/{train,test}/nonblur.
-
-    Pictures already there are not downloaded again; posts Danbooru no longer has (or that are no
-    longer general audience) are skipped and listed. Run `generate` afterwards for the blurred copies.
-    """
-    entries = read_list(list_path or str(Path(data_path) / DANBOORU_LIST_NAME))
-    report = fetch_listed(data_path, entries)
-    for post_id, reason in report.skipped:
-        logger.warning(f'Not used: post {post_id} ({reason})')
-    for path in report.removed:
-        logger.info(f'Removed {path} (its post is no longer listed there)')
-    logger.info(f'{len(report.saved)} downloaded, {len(report.present)} already there, '
-                f'{len(report.skipped)} skipped, of {len(entries)} listed; {report.requests} requests to Danbooru')
-
-
 def draw(data_path: str = DATA_DIR, train: int = DATASET_SIZES['train'], test: int = DATASET_SIZES['test'],
          seed: int = DATASET_SEED) -> None:
-    """Draw a data set from code instead of downloading one: sharp cartoon scenes in <data_path>/{train,test}/nonblur.
+    """Draw a data set from code: sharp cartoon scenes in <data_path>/{train,test}/nonblur.
 
-    Also draws the demo picture <data_path>/demo.png. Needs no network, unlike `fetch`; run
-    `generate` afterwards for the blurred copies.
+    Also draws a demo picture, <data_path>/demo.png, so give it a folder of its own rather than the
+    repository's data/. Needs nothing but this package; run `generate` afterwards for the blurred copies.
     """
     written = draw_dataset(data_path, {'train': train, 'test': test}, seed=seed)
     logger.info(f'Drew {len(written)} pictures.')
@@ -150,7 +130,6 @@ def run(model_path: str = MODEL_PATH, model_save_path: str = MODEL_PATH, data_pa
 
 
 COMMANDS = {
-    'fetch': fetch,
     'draw': draw,
     'generate': generate,
     'train': train,

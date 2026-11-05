@@ -56,6 +56,15 @@ def test_generate_writes_a_blurred_copy_next_to_every_sharp_image(tmp_path):
         assert not np.array_equal(blurred, sharp)
 
 
+def test_generate_leaves_a_data_set_in_a_subfolder_alone(tmp_path):
+    # Regression: generate blurred every "nonblur" folder at any depth, like find_images read them.
+    write_image(tmp_path / 'train' / 'nonblur' / 'a.png', sharp_image(1, size=(64, 80)))
+    write_image(tmp_path / 'drawn' / 'train' / 'nonblur' / 'b.png', sharp_image(2, size=(64, 80)))
+    written = generate_blur_images(str(tmp_path), seed=3)
+    assert [p.relative_to(tmp_path).as_posix() for p in written] == ['train/blur/a.png']
+    assert not (tmp_path / 'drawn' / 'train' / 'blur').exists()
+
+
 def test_generate_with_a_seed_is_repeatable(tmp_path):
     write_image(tmp_path / 'train' / 'nonblur' / 'a.png', sharp_image(1, size=(64, 80)))
     first = read_image(generate_blur_images(str(tmp_path), seed=4)[0])

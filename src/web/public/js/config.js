@@ -11,26 +11,9 @@ export const MODEL_CARD_URL = 'model/model-card.json';
 
 export const REPO_URL = 'https://github.com/NatLee/simply-blur-detector';
 
-/**
- * The page's pictures: the listed anime posts on Danbooru, loaded by the browser at run time (nothing
- * from Danbooru is stored in the repository or the site). Every answer's rating is checked again
- * before its picture is loaded. One API request per picture; the current one is kept for the browser
- * session, so reloading asks for nothing new. When Danbooru cannot be reached, the visitor's own
- * picture is the only one.
- */
-export const DANBOORU = {
-  site: 'https://danbooru.donmai.us',
-  postPath: '/posts/',
-  /** The posts the page may show: picked and looked at by a person, all general audience. */
-  picksUrl: 'samples/danbooru.json',
-  rating: 'g',
-  /** Still pictures the browser can decode; videos, Ugoira zips and GIF animations are skipped. */
-  extensions: ['jpg', 'jpeg', 'png', 'webp'],
-  /** Listed posts to try in a row when one is gone or no longer usable. */
-  attempts: 3,
-  timeoutMs: 15000,
-  cacheKey: 'simply-blur-detector.danbooru',
-};
+/** The page's sample pictures: listed in samples.json (file, title, a line about it), files in SAMPLES_DIR. */
+export const SAMPLES_URL = 'samples/samples.json';
+export const SAMPLES_DIR = 'samples/';
 
 /** The Laplacian is measured on a copy whose longer side is at most this, so big photos are comparable. */
 export const LAPLACIAN_WORK_SIZE = 512;

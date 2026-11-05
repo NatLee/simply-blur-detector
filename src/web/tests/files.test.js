@@ -1,7 +1,8 @@
 // Every file the page reads must be committed: a file that only exists on a developer's machine works
-// locally and is missing on GitHub Pages (samples/danbooru.json once existed only on a laptop).
+// locally and is missing on GitHub Pages (a list of sample pictures once existed only on a laptop).
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
 
@@ -32,11 +33,16 @@ function isCommitted(path) {
 
 test('every file named in the settings is committed, except what the build makes', () => {
   const paths = pathsIn({ ...cfg });
-  assert.ok(paths.includes(cfg.DANBOORU.picksUrl));
+  assert.ok(paths.includes(cfg.SAMPLES_URL));
   for (const path of paths.filter((p) => !BUILT.has(p))) assert.ok(isCommitted(path), `${path} is not in git`);
 });
 
-test('the page ships no pictures of its own: only the list of Danbooru posts', () => {
-  const shipped = execFileSync('git', ['ls-files', fileURLToPath(publicDir)], { encoding: 'utf8' }).split('\n');
-  assert.deepEqual(shipped.filter((f) => /\.(png|jpe?g|webp|gif)$/i.test(f)), []);
+test('the page ships exactly the sample pictures it lists', () => {
+  const gitFiles = (path) => execFileSync('git', ['ls-files', '--full-name', fileURLToPath(new URL(path, publicDir))], { encoding: 'utf8' })
+    .split('\n').filter(Boolean);
+  const site = gitFiles(cfg.SAMPLES_URL)[0].slice(0, -cfg.SAMPLES_URL.length); // the page's folder, from the repository root
+  const { samples } = JSON.parse(readFileSync(new URL(cfg.SAMPLES_URL, publicDir), 'utf8'));
+  const shipped = gitFiles('./').filter((f) => /\.(png|jpe?g|webp|gif)$/i.test(f));
+  assert.deepEqual(shipped.sort(), samples.map((s) => site + cfg.SAMPLES_DIR + s.file).sort());
+  for (const s of samples) assert.ok(s.title && s.description, JSON.stringify(s));
 });
