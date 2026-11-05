@@ -1,75 +1,62 @@
 # The training pictures
 
-The training pictures are anime illustrations from [Danbooru](https://danbooru.donmai.us). This folder
-does **not** contain them. It only holds the list [`danbooru.json`](danbooru.json), and
-`blur-detector fetch` downloads the listed pictures when you need them.
-
-**Copyright.** Every picture belongs to its artist. The repository only stores the list (post ids,
-artists, sources and checksums) and does not distribute the pictures. Models trained on them are for
-demonstrating this project only. The repository's MIT licence covers the code, not these pictures.
+The pictures here are this project's own original illustrations, under the repository's
+[MIT licence](../LICENSE) like the code. They are drawn in an anime style and show all kinds of
+things: people at work and at play, landscapes, rooms, food, animals, towns, machines, plants and night
+scenes. The line work ranges from thick outlines with flat colours to very fine, detailed drawing, because
+fine lines are the hard case for a blur detector.
 
 | | Pictures | What they are |
 |---|---|---|
-| `train/nonblur` | 103 | listed posts with `"split": "train"`, saved as `danbooru-<post id>.png` |
-| `test/nonblur` | 20 | listed posts with `"split": "test"`, never used for training |
-| `train/blur`, `test/blur` | 103 + 20 | blurred copies made by `generate` |
-| `demo.png` | 1 | a scene drawn by code (no download needed), the default picture of `run` and `predict` |
+| `train/nonblur` | 100 | sharp pictures for training, `picture-001.jpg` to `picture-100.jpg` |
+| `test/nonblur` | 20 | sharp pictures kept out of training, `picture-101.jpg` to `picture-120.jpg` |
+| `train/blur`, `test/blur` | 100 + 20 | a blurred copy of each, made by `generate --seed=1` |
+| `demo.png` | 1 | the default picture of `run` and `predict`; also one of the web demo's pictures |
 
-## How the list was made
+The training and test pictures are JPEGs (quality 90) whose longer side is 512 pixels, the size that the
+blur strengths of `generate` were chosen for. Three in five are square, the rest landscape (3 : 2) or
+portrait (2 : 3). The test pictures were set aside before training, one in every six, so they cover the
+same range of subjects and styles.
 
-1. **Search.** [`src/detector/tools/pick_danbooru.py`](../src/detector/tools/pick_danbooru.py) searched
-   Danbooru's best-scored posts with `rating:g order:score` (general audience only).
-2. **Tag filter.** It dropped posts with any tag in `DANBOORU_EXCLUDED_TAGS`
-   ([`config.py`](../src/detector/blur_detection/config.py)): anything not fully all-ages, AI-generated
-   pictures, comics and text-heavy pictures, photos, 3D, sketches, monochrome, and pictures that are blurry
-   on purpose (depth of field, bokeh, motion blur). It also dropped posts without exactly one artist tag,
-   pictures under 800 px or longer than 2 : 1, and more than two pictures from the same artist.
-3. **Eye check.** A person then looked at the 356 candidates and kept 128. They dropped anything
-   with any doubt: suggestive poses or clothes, romance, blood or menace, alcohol, real people, brand
-   logos, lots of text, comic panels, and two pictures whose artists ask not to use them for AI or
-   without permission. One candidate never made it onto a review sheet, so it was not looked at and is
-   not listed. Of the 128, five square ones are the web demo's pictures and stay out of this list.
-4. **Split.** Of the other 123, 20 went to `test` and 103 to `train`. The test pictures are the 20
-   best-scored ones of a first, smaller list (60 training pictures), and they stayed the same when the
-   list grew.
+[`pictures.json`](pictures.json) lists every picture of the project (these, the five of the web demo and
+the one on the cover) with what it is for, its size and the SHA-256 of the file. A test checks that the
+files and the list agree, and that nothing unlisted sits in the training folders.
 
-Each entry records the post id, Danbooru's MD5 of the original, the MD5 of the downloaded "large"
-picture, the artist, the copyright, the original source and the rating.
-
-## Download
+## Make the blurred copies again
 
 ```bash
-docker compose run --rm detector fetch                 # 123 pictures, one request per second
-docker compose run --rm detector generate --seed=1     # the 123 blurred copies
+docker compose run --rm detector generate --seed=1
 ```
 
-`fetch` takes about two minutes (125 requests), and it is polite on purpose:
-
-- It names itself in the User-Agent, with this repository's address.
-- It sends at most one request per second and backs off when Danbooru answers "429 Too Many Requests".
-- It stops at once if a bot check answers instead of Danbooru, instead of trying to get past it.
-
-Pictures already in the folder are not downloaded again. Every download is checked against the MD5 in
-the list, shrunk so that its longer side is at most 512 px, and saved as PNG. A post that Danbooru
-deleted, changed or no longer rates general audience is skipped, and the summary lists it. `.gitignore`
-keeps the downloaded files and their blurred copies out of git.
+The blurred copies are in the repository already. `generate` gives every sharp picture a lens, Gaussian
+or motion blur of random strength; with `--seed=1` it repeats the committed ones (on another CPU a few
+pixels may differ by one).
 
 ## How well the model does on them
 
-Trained with the web demo's settings, the model gets 35 to 36 of the 40 test pictures (20 sharp, 20
-blurred) right and 92 to 94% of the heat map windows. The pictures it misses are the most lightly blurred
-copies (Gaussian kernel 5, lens radius 5) of finely drawn art, and two very soft paintings. So the web
-demo publishes a model at 85% test accuracy or better (34 of 40). That threshold was 90% until the
-project owner lowered it on 2026-11-04, because the Danbooru-trained model judges the heat map windows
-far better (92% instead of 64% for the model trained on drawn scenes) while it missed 90% by one
-picture in CI.
+Trained with the web demo's settings (20 epochs, 2 crops, seed 1), the model got 39 of the 40 test
+pictures (20 sharp, 20 blurred) and 568 of their 600 heat map windows (94.7%) right in a local run. The
+model card at the bottom of the web demo shows the numbers of the run that trained the published model,
+which is published only at 85% test accuracy or better (34 of 40).
+
+Models trained on the earlier data sets, on the same 40 test pictures:
+
+| Model trained on | Test pictures | Heat map windows |
+|---|---|---|
+| these pictures | 39 / 40 (97.5%) | 568 / 600 (94.7%) |
+| the anime pictures from Danbooru used before (the published model of 2026-11-04) | 35 / 40 (87.5%) | 593 / 600 (98.8%) |
+| cartoon scenes drawn by code (`draw`) | 34 / 40 (85.0%) | 410 / 600 (68.3%) |
 
 ## Use your own pictures instead
 
 Put sharp pictures (`.png`, `.jpg`, `.jpeg`) in `train/nonblur` and `test/nonblur`, and run `generate`
-to make the blurred halves. Training reads every picture in `<split>/blur` and `<split>/nonblur`,
-downloaded or not. Other files here, like this README, `danbooru.json` or `demo.png`, are ignored.
-Without a network, `blur-detector draw` makes a data set of cartoon scenes drawn by code instead.
+to make the blurred halves. Training reads every picture directly in `<split>/blur` and `<split>/nonblur`;
+other files here, like this README, `pictures.json` or `demo.png`, and other folders are ignored.
 
-History: before 2026-11-04 this folder held 61 character portraits from *Blue Archive* (still in the
-git history up to commit `5f698fe`). After that it held 161 drawn scenes, until commit `f1327cd`.
+`blur-detector draw` makes a data set of cartoon scenes drawn by code, which needs nothing but the
+package. It also writes a `demo.png`, so give it a folder of its own, for example
+`draw --data_path=/data/drawn` and then `train --data_path=/data/drawn`.
+
+History: until 2026-11-04 this folder held 61 character portraits from *Blue Archive* (still in the git
+history up to commit `5f698fe`), then 161 scenes drawn by code (up to `f1327cd`), then a list of anime
+pictures from Danbooru that a `fetch` command downloaded (up to `9eca321`).

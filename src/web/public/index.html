@@ -36,7 +36,7 @@
     <div class="intro">
       <p class="kicker">CNN <span>vs.</span> Laplacian · nothing leaves your browser</p>
       <h1>Is it <em class="defocus">blurry</em>?</h1>
-      <p class="lede">Start with one of the anime pictures from Danbooru, or drop your own. A small convolutional
+      <p class="lede">Start with one of the pictures below, or drop your own. A small convolutional
         network, trained on images blurred with <a href="https://github.com/NatLee/blur-generator">blur-generator</a>, and
         the classic Laplacian variance both take a look, window by window.</p>
     </div>
@@ -56,7 +56,7 @@
             <label class="button">choose a file<input id="file" type="file" accept="image/*"></label>
           </div>
         </div>
-        <figcaption class="credit" id="credit" aria-live="polite" hidden></figcaption>
+        <figcaption class="caption" id="caption" aria-live="polite" hidden></figcaption>
       </figure>
 
       <aside class="readout" aria-label="Results">
@@ -167,15 +167,10 @@
       <h3>Model card</h3>
       <dl id="model-card-list"><dt>status</dt><dd>loading…</dd></dl>
     </div>
-    <p class="fine-print">The model learned from about a hundred anime
-      illustrations from Danbooru and their copies blurred with blur-generator, so it is most at home with
-      drawings and less sure about photos.</p>
-    <p class="fine-print">The default picture is one of the general-audience (<code>rating:g</code>) posts from
-      <a href="https://danbooru.donmai.us">Danbooru</a> on the anime cards, each picked and looked at by a person
-      before it was listed (<code>samples/danbooru.json</code>). Your browser asks danbooru.donmai.us for that post and
-      loads its picture from Danbooru's image server; the credit under the picture links to the post and its original
-      source, and the copyright stays with the artist. Nothing from Danbooru is stored here. Your own pictures never
-      leave your browser.</p>
+    <p class="fine-print">The model learned from a hundred illustrations of this project and their copies
+      blurred with blur-generator, so it is most at home with drawings and less sure about photos.</p>
+    <p class="fine-print">The sample pictures are part of this project, under its MIT licence. Your own pictures
+      never leave your browser.</p>
   </section>
 </main>
 

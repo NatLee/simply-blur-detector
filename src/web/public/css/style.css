@@ -102,12 +102,11 @@ h1 { font: 400 clamp(52px, 8.5vw, 112px)/.95 var(--serif); letter-spacing: -.02e
 
 /* ---------- the viewfinder ---------- */
 .viewer { margin: 0; min-width: 0; }
-.credit {
+.caption {
   margin: 10px 4px 0; font: 500 12.5px var(--mono); color: var(--muted); text-align: center;
   overflow-wrap: anywhere;
 }
-.credit a { color: var(--ink-2); }
-.credit .notice { color: var(--ink-2); }
+.caption .notice { color: var(--ink-2); }
 .stage {
   position: relative; border-radius: var(--radius); overflow: hidden; background: #050506;
   min-height: 300px; aspect-ratio: 4 / 3; box-shadow: var(--shadow); outline: none;

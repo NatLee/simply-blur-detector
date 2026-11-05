@@ -38,9 +38,10 @@ WEB_MODEL_DIR = 'model'
 WEB_MODEL_FILE = 'blur-detector.onnx'
 WEB_MODEL_CARD = 'model-card.json'
 
-# The drawn data set of `draw` (an offline alternative to `fetch`, also used by the tests): sharp
-# cartoon scenes from blur_detection.scenes, this many per split, each side between these sizes, named
-# <prefix>-000.png, -001.png, ... across the splits, plus the demo picture (data/demo.png).
+# The drawn data set of `draw` (made by code, for working offline and for the tests): sharp cartoon
+# scenes from blur_detection.scenes, this many per split, each side between these sizes, named
+# <prefix>-000.png, -001.png, ... across the splits, plus a drawn demo.png. Draw into a folder of its
+# own: the repository's data/ has its own pictures and demo.png.
 DATASET_SIZES = {'train': 60, 'test': 20}
 DATASET_SIDE_RANGE = (384, 512)
 DATASET_SEED = 2023
@@ -52,9 +53,9 @@ DATASET_PREFIX = 'scene'
 PUBLISH_MIN_TEST_ACCURACY = 0.85
 #: Why the threshold is where it is. The model card carries it and the web page shows it, so change it
 #: together with the value.
-PUBLISH_THRESHOLD_NOTE = ('Lowered from 90% by the project owner on 2026-11-04: on the Danbooru pictures the model '
-                          'got 35 of 40 test pictures right in CI, while its heat map windows went from 64% '
-                          '(trained on drawn scenes) to 92% right.')
+PUBLISH_THRESHOLD_NOTE = ('Lowered from 90% by the project owner on 2026-11-04, when the model trained on the anime '
+                          'pictures used then got 35 of 40 test pictures right in CI, while its heat map windows '
+                          'went from 64% (trained on drawn scenes) to 92% right.')
 
 #: Largest difference between Keras and ONNX Runtime outputs that the export accepts.
 EXPORT_TOLERANCE = 1e-4
@@ -84,44 +85,3 @@ DEMO_FIGURE_PATH = './results.png'
 # seen pieces of that size. The model card reports the accuracy on such windows of the test images.
 WINDOW_FRACTION = 0.5
 WINDOW_OVERLAP = 0.5
-
-# Danbooru (https://danbooru.donmai.us), where `fetch` downloads the training pictures listed in
-# data/danbooru.json. Only general-audience posts are used, and only the ones in the list.
-DANBOORU_SITE = 'https://danbooru.donmai.us'
-#: Says who is asking, as Danbooru's API asks every client to: no browser disguise.
-DANBOORU_USER_AGENT = 'simply-blur-detector/1.0 (+https://github.com/NatLee/simply-blur-detector)'
-#: At most one request per this many seconds, API and pictures alike.
-DANBOORU_MIN_INTERVAL = 1.0
-#: How often a request is tried again after "429 Too Many Requests" or a 5xx answer, and the first
-#: wait in seconds (doubled every time, unless the answer says how long to wait).
-DANBOORU_RETRIES = 4
-DANBOORU_BACKOFF = 5.0
-DANBOORU_TIMEOUT = 60
-#: Posts asked for in one API request (Danbooru answers at most 200).
-DANBOORU_BATCH = 100
-#: The list of posts, inside the data folder.
-DANBOORU_LIST_NAME = 'danbooru.json'
-#: The only rating used: "g", general audience.
-DANBOORU_RATING = 'g'
-DANBOORU_EXTENSIONS = ('jpg', 'jpeg', 'png')
-#: Tags that rule a post out even when it is rated general: anything not fully all-ages, made by a
-#: generator, mostly text or comic panels, photos and 3D, and pictures that are blurry on purpose
-#: (they would be wrong examples of "sharp").
-DANBOORU_EXCLUDED_TAGS = (
-    'ai-generated', 'ai-assisted',
-    'swimsuit', 'bikini', 'underwear', 'panties', 'bra', 'lingerie', 'cleavage', 'large_breasts',
-    'huge_breasts', 'nude', 'completely_nude', 'naked_towel', 'bathing', 'bath', 'onsen', 'see-through',
-    'wet_clothes', 'kiss', 'blood', 'injury', 'guro', 'corpse', 'death', 'horror_(theme)', 'cigarette',
-    'smoking', 'alcohol', 'gun', 'violence',
-    'comic', '4koma', 'multiple_views', 'speech_bubble', 'text_focus', 'english_text', 'translated',
-    'translation_request', 'partially_translated', 'chinese_text', 'japanese_text', 'korean_text',
-    'photo_(medium)', '3d', 'pixel_art', 'sketch', 'lineart', 'monochrome', 'greyscale', 'animated',
-    'video',
-    'blurry', 'blurry_background', 'blurry_foreground', 'depth_of_field', 'bokeh', 'motion_blur',
-    'chromatic_aberration', 'film_grain',
-)
-#: Downloaded pictures are saved as PNG with their longer side shrunk to at most this, so that the
-#: pixel-sized blurs of `generate` look like the blurs the model learned from.
-FETCH_MAX_SIDE = 512
-#: Downloaded pictures are named <prefix>-<post id>.png (and .gitignore keeps them out of git).
-FETCH_PREFIX = 'danbooru'

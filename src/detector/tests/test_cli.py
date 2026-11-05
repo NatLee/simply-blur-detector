@@ -37,7 +37,7 @@ def test_run_keeps_the_flags_and_defaults_of_main_py():
 
 
 def test_every_step_has_a_command():
-    assert list(cli.COMMANDS) == ['fetch', 'draw', 'generate', 'train', 'predict', 'export', 'run']
+    assert list(cli.COMMANDS) == ['draw', 'generate', 'train', 'predict', 'export', 'run']
 
 
 @pytest.mark.parametrize('args', [['--help'], ['train', '--help']])

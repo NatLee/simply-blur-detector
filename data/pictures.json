@@ -1,0 +1,894 @@
+{
+  "note": "The pictures of this project, under its MIT licence: what each one is for, its size in pixels and the SHA-256 of the file. The blurred copies in data/*/blur are made from the train and test pictures by `blur-detector generate --seed=1` and are not listed.",
+  "pictures": [
+    {
+      "file": "data/train/nonblur/picture-001.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "d52b9cc49bc0339d0dfa0d629dcbb1d733e7f18b793df9697f9df41a23be0663"
+    },
+    {
+      "file": "data/train/nonblur/picture-002.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "87acfcbdebf1eed499b59e3b9b66d733038a6691bd9c7158eedb4d7e7befd155"
+    },
+    {
+      "file": "data/train/nonblur/picture-003.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "9259b0de7106018e9148b0ef432d137921688b701293f523421cc65d742932dc"
+    },
+    {
+      "file": "data/train/nonblur/picture-004.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "316cfae719a37fc2a67325ca249ac6fd97fd40d4308ad9641f027eab270c77c3"
+    },
+    {
+      "file": "data/train/nonblur/picture-005.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "dc8fd09142071a2d7191869c02608c688b2bb71efe650f0ba884bafb0152d872"
+    },
+    {
+      "file": "data/train/nonblur/picture-006.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "669c3269cc8bc97177c381226e7923b72c2826981f5fd95faff3177d5e5519bd"
+    },
+    {
+      "file": "data/train/nonblur/picture-007.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "d7b3269792033ecff7947fb47271213d2917167c5fa7b0d27d9c63ef9730049d"
+    },
+    {
+      "file": "data/train/nonblur/picture-008.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "eee9ff742f65f959b3424b38f1a61bbeaa9eb34c95155e881ea9eeef317f7c62"
+    },
+    {
+      "file": "data/train/nonblur/picture-009.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "4bfd3f635e93ddd40412fc81bc5420a8a0b4d09167322e29f9b4ee2827431692"
+    },
+    {
+      "file": "data/train/nonblur/picture-010.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "af589d598c6688ad0ff69768d52d510f2d074dafb32383ab8cf97ce69d141e9d"
+    },
+    {
+      "file": "data/train/nonblur/picture-011.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "a61a5a7df3bdf71cf2bf32c209a8472f86a682b18b2ab4ed444652aacc94f0b6"
+    },
+    {
+      "file": "data/train/nonblur/picture-012.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "a87bee46bbe9efeaa7f99eb56b0e29d3934db2666ef2a4f9f3db8215f0795a18"
+    },
+    {
+      "file": "data/train/nonblur/picture-013.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "3cad5e4a6092375e2d88116a103668a1f4224b8dfe9c9e3f2e34219c52c6b76e"
+    },
+    {
+      "file": "data/train/nonblur/picture-014.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "02569127f188a1f5db432090a987412a65296ddde1da70fd904413dffe781f99"
+    },
+    {
+      "file": "data/train/nonblur/picture-015.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "0e475688d0db905cde9e639aef33639bc678dc37f7c4504d03d7f0eb964c298b"
+    },
+    {
+      "file": "data/train/nonblur/picture-016.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "60804f52c43967886ec086d5c52fcf86c2b0aa847e457627d484b92e0af4a5a8"
+    },
+    {
+      "file": "data/train/nonblur/picture-017.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "c9f20e9a94b748b2692c7f501db4acc73794bfb940b5a2984496edff79d9eec7"
+    },
+    {
+      "file": "data/train/nonblur/picture-018.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "51e8958dfeeeccf4ae680aa9ac4632f9b038946c4cc596a3f7fe942ad3787127"
+    },
+    {
+      "file": "data/train/nonblur/picture-019.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "8c23102d44264d580e151831320251e2c8b1c9074f6ec1a6f8d808ba165c5761"
+    },
+    {
+      "file": "data/train/nonblur/picture-020.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "8bd3c59c00dca139910c376b452f7c1142b216c23435e0da3a2da357d585949c"
+    },
+    {
+      "file": "data/train/nonblur/picture-021.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "6d6260f9eb7a3a683dbd287467bcfc4c77dd366e99f9c97ca26c04be495057ed"
+    },
+    {
+      "file": "data/train/nonblur/picture-022.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "3c96816d4af1b54431bbe7fae5af96a03354c4f28e0c14e6d228dd97134c81e0"
+    },
+    {
+      "file": "data/train/nonblur/picture-023.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "ab9d8412128b69876e12db5c59ae1f82721989adee82f66876ce0f78eb95be16"
+    },
+    {
+      "file": "data/train/nonblur/picture-024.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "3f6b6383f92c17c43b47158945dbc8caacab8664875f601f7e8b4a331af4b2a8"
+    },
+    {
+      "file": "data/train/nonblur/picture-025.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "6c2601038607b7e943aa449f49aea18a92648b17b1157906bbf0c75423b67d47"
+    },
+    {
+      "file": "data/train/nonblur/picture-026.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "da97f319c4dbee27325cd4fc313752abcc6cd424e2304566459954db8ce45c32"
+    },
+    {
+      "file": "data/train/nonblur/picture-027.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "7c33230a17bcec31a8b98ce965c34b483032ec3917eb277744300c65b9f9196d"
+    },
+    {
+      "file": "data/train/nonblur/picture-028.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "07b7ff0c78de966a645254b5e9f0ed0ec3b2aad04899b943be4f8d4c83a9abd7"
+    },
+    {
+      "file": "data/train/nonblur/picture-029.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "ea4bb2adc0b73918076e0bfe0d75524e0532ab18d8f68ff82982c7bcd28c8e0e"
+    },
+    {
+      "file": "data/train/nonblur/picture-030.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "245172a56b84224bde90f79c907a149eee443f1db70dc66b93e29f82effb9615"
+    },
+    {
+      "file": "data/train/nonblur/picture-031.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "167f3baab60f7563f2f4420c02055052ede0325d60f0c07ee25abfd616bd7d6e"
+    },
+    {
+      "file": "data/train/nonblur/picture-032.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "8db82fb31de60f5f935af22c30ceb09093da7fb295c13bc0988ca74f3893c0df"
+    },
+    {
+      "file": "data/train/nonblur/picture-033.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "214d2fdc6d066ad9d5a9d68b116a69091d0010892d33bfd848601de1f4ece2de"
+    },
+    {
+      "file": "data/train/nonblur/picture-034.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "fe426832e7ae258f724ac53f3b5c50d3b89ec41331032556ccb7ca731eb716ad"
+    },
+    {
+      "file": "data/train/nonblur/picture-035.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "266347baa0e5db9ef8ec6bb86dcd78f840d93a4bbe88a36125a2587407cce79d"
+    },
+    {
+      "file": "data/train/nonblur/picture-036.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "e4f9e2814155856cc15d68cd285553b171e51ea5f1fa9b1d2761ec22ae921ca1"
+    },
+    {
+      "file": "data/train/nonblur/picture-037.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "19dbfed27436810a8972ca221481ad972c8c6022ff9f8c6ec45a32b30b570ad5"
+    },
+    {
+      "file": "data/train/nonblur/picture-038.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "96db8ccaa0f9022ab8fe1f295435797f5b67e9689e60f88f3c1f4c8ba90d350e"
+    },
+    {
+      "file": "data/train/nonblur/picture-039.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "35c23b6a76d350e2ec8d84a1822e2715f15a6366f5a25ecf9a77cd66d5891516"
+    },
+    {
+      "file": "data/train/nonblur/picture-040.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "b467cac1cdca055f0263cee9d558bf374f94ceb5972ecb87a9f409ed5ef7fb3d"
+    },
+    {
+      "file": "data/train/nonblur/picture-041.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "96066a2a417c1e713cc277abab2ae677ce3932b2eb1ef6092ae216288af2ade0"
+    },
+    {
+      "file": "data/train/nonblur/picture-042.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "03855465234c215ca9982dffe23d3c3451806653aa7178bd1290e90f004d45e2"
+    },
+    {
+      "file": "data/train/nonblur/picture-043.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "92352842d5c1d6d4b7d225fda594b47ef9a8571c00ad1c62160cbdc839f5964a"
+    },
+    {
+      "file": "data/train/nonblur/picture-044.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "93d1c387bb945003b4b1a65fec51ef2d121a6ed615898692c2229838e668619f"
+    },
+    {
+      "file": "data/train/nonblur/picture-045.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "8245cdc810f1239b22aaf0b4f313b4c14b80c5edebfc7d02b4db7408e4cf3975"
+    },
+    {
+      "file": "data/train/nonblur/picture-046.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "e96b6653cba066f48bf065347e69c75f0df6fbea29b73563edf803e0bc995a70"
+    },
+    {
+      "file": "data/train/nonblur/picture-047.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "82b3178a4518baca3119b6568615125fb0be4f7161ee8c882631624bfc743b60"
+    },
+    {
+      "file": "data/train/nonblur/picture-048.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "5016f619af3ff66f73b379df0afed07d8d30d0c708a4081fbfd823a469b46b41"
+    },
+    {
+      "file": "data/train/nonblur/picture-049.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "06a24f14a560c76451e918dce757998c5b2b10aa9f0f36efde5cafc3ee50d347"
+    },
+    {
+      "file": "data/train/nonblur/picture-050.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "70c4517122ab7783e62932c2fb3d031a3b6802538c9051393aca66d10070619e"
+    },
+    {
+      "file": "data/train/nonblur/picture-051.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "922752dda4ab69154595ba24ebb08c247359b870322349160cae583aeeac422a"
+    },
+    {
+      "file": "data/train/nonblur/picture-052.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "139f057e1190c9fab39fd7605d378dcc7d20915f4fbe0f81bb3c4519fcfd8f4e"
+    },
+    {
+      "file": "data/train/nonblur/picture-053.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "e7024b47761edcb67dde78341be38154814b009702ae2b0911381a0f7355f0f8"
+    },
+    {
+      "file": "data/train/nonblur/picture-054.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "be860fedbf8fc4814855743391ab675c62dfd1f4020d986c51c40ada9675f13f"
+    },
+    {
+      "file": "data/train/nonblur/picture-055.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "c958b8025cff6c8bb100bf6efd61b33c34e82a36464d7dd6f02b987743cb0011"
+    },
+    {
+      "file": "data/train/nonblur/picture-056.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "a3987b68ab2705fd6a6411c8d90c69a14aa616808b5143ce3cd692fa4087fc85"
+    },
+    {
+      "file": "data/train/nonblur/picture-057.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "a47702c45cc475f12fa30e47e1d4fd3b4be8fac7857592f20b1216ee7f6ee855"
+    },
+    {
+      "file": "data/train/nonblur/picture-058.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "5c73030f67db40f79b0ccb52f753db4a88ef85510c63f69ba881eb824e13f157"
+    },
+    {
+      "file": "data/train/nonblur/picture-059.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "600325012e079c48193ffbc7c586107ecc8a7521fa267ac73b81effe9d26c2ee"
+    },
+    {
+      "file": "data/train/nonblur/picture-060.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "8efa77be4cea6c8179bfc4390d33b52b9c0e01c0b5388da8d1fa0ef44bc34d33"
+    },
+    {
+      "file": "data/train/nonblur/picture-061.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "ede445a0f159651f414aa5084331a87962dbf483b492f5262fd52193b7d2fbe7"
+    },
+    {
+      "file": "data/train/nonblur/picture-062.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "ef462618f0721231301141314a384fdb6594b692109f635d7759eaf71b63a296"
+    },
+    {
+      "file": "data/train/nonblur/picture-063.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "f92c72ce76537cc930310d3582322c626b4bed5a76b2a68cdf5dcb31d3127f72"
+    },
+    {
+      "file": "data/train/nonblur/picture-064.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "db6abfc2f95f83f72e438be2b8137ae72d25a46e4bf9277db50caa6ebac0717c"
+    },
+    {
+      "file": "data/train/nonblur/picture-065.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "11cda3a6090fe16cde11fa8e9d4894714f9a8446c3f2ab6a8436aad3f3fcd990"
+    },
+    {
+      "file": "data/train/nonblur/picture-066.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "75d5192af72bd511b4bc65e3fb8ac04f410b983157b6e6f950d1bad448a71055"
+    },
+    {
+      "file": "data/train/nonblur/picture-067.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "f8a0756b143503d2c5a0a40f14a71df681f4a1b600007d8bd82c503b5844bf8d"
+    },
+    {
+      "file": "data/train/nonblur/picture-068.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "d436be5b1a53d2eb0bea4236a74ba654424d28253f223ac6d52a92eb71ca7d29"
+    },
+    {
+      "file": "data/train/nonblur/picture-069.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "0fa42cf221974269a94d34763e4d5a8cf76490732d28706c639a39a23d31e625"
+    },
+    {
+      "file": "data/train/nonblur/picture-070.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "3858fa56fe5f9f6886555fa5e3c2b176fca5a74c52f564019e0f148e78ddc641"
+    },
+    {
+      "file": "data/train/nonblur/picture-071.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "73cc2ad2c65073383dec8e6805536c429b0fdc7d99a9ea67a8ca4d8c164fa44c"
+    },
+    {
+      "file": "data/train/nonblur/picture-072.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "33d12ec94b4e4094909f3596637a1a5b43d06cd3fae7f7c742679e83dea53882"
+    },
+    {
+      "file": "data/train/nonblur/picture-073.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "ea66760962e02ff13c4ad90730d1bbda425a1bb123c39f8b85f7d576e665ed1b"
+    },
+    {
+      "file": "data/train/nonblur/picture-074.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "5f2305455c3c521f3db7d06989e4338a1a5ea7a5939b789e8c78035da1a4e768"
+    },
+    {
+      "file": "data/train/nonblur/picture-075.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "2bc0c87fd441ce431b3b2cc4f52c0a2abc443eca61eca6a75bf0f7ec1e737947"
+    },
+    {
+      "file": "data/train/nonblur/picture-076.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "66c0dfb36ae1866dcd52da49346c4f5f25b858a55684c83d68310f8ea14e0b9f"
+    },
+    {
+      "file": "data/train/nonblur/picture-077.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "5b1f6aaa9b5b41e260569048d575002f171ce5158064b0d9c73fba41c3a5b1e5"
+    },
+    {
+      "file": "data/train/nonblur/picture-078.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "e43f2a44a75051898af3da04854098bcff063788c4de7218a0ecb2061e9859c5"
+    },
+    {
+      "file": "data/train/nonblur/picture-079.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "06e09b0521d6791a3a866323b44c9144bc5bad7de10375dfe731f6379353257d"
+    },
+    {
+      "file": "data/train/nonblur/picture-080.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "a76217b0bd4972da974d7b9cdd1aa4a2ae514054eac0b85e4170272057e27137"
+    },
+    {
+      "file": "data/train/nonblur/picture-081.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "1c29007b73e134a6d39ad02ee69fc1cf85b772f428be6626b2592f1532e87eab"
+    },
+    {
+      "file": "data/train/nonblur/picture-082.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "e19d8ec8810932ec5dc9683714e6f4ddd0a3ccf26abff0c7d8c34a28faca0962"
+    },
+    {
+      "file": "data/train/nonblur/picture-083.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "79322da35bcb57bcc3be4cd461fed5029d2907a89228bc92a7fd2cdfe2fce7dd"
+    },
+    {
+      "file": "data/train/nonblur/picture-084.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "af0965e27690b651cfadacdb4913a6dba2176fa353fa2f1593f5670a500e2f06"
+    },
+    {
+      "file": "data/train/nonblur/picture-085.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "0f8f92c7a52f52401a6ab28ca0bcb3b896f238b32d87955654ae41c4131b17ad"
+    },
+    {
+      "file": "data/train/nonblur/picture-086.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "20bea654db95f96e7bb346806bd1a0de7c019d00ec65ca7d6ed77de74bc72623"
+    },
+    {
+      "file": "data/train/nonblur/picture-087.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "7de82e1d5e48a590bb2905605b813ae4029d6c310b43faf020bbce699d6e3467"
+    },
+    {
+      "file": "data/train/nonblur/picture-088.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "5cd7a42f83b20c3a34dabb423eaa2ef936f1dfb97616137eaaadd2117469d918"
+    },
+    {
+      "file": "data/train/nonblur/picture-089.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "0d8ed35b1659a7b58a40ef26892913abf5ca1e4559774ad4ae05143a031c7ccd"
+    },
+    {
+      "file": "data/train/nonblur/picture-090.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "e67ee5c3c43134863ab653dff43ab4602bc0b03a341196b57c444892c1677bed"
+    },
+    {
+      "file": "data/train/nonblur/picture-091.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "0d91d0d9f621931016926b3ed72dfea80065f376275c8762bfa2a5862fbbca9c"
+    },
+    {
+      "file": "data/train/nonblur/picture-092.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "72bd957e0fa597a36001b606a85d7da311a6a1ec72c4286e7a8c0cb7bc9bcba4"
+    },
+    {
+      "file": "data/train/nonblur/picture-093.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "7d34e7b18f87b846445710c1ae0f8bf9a6d132ac3728d5664a6226e4a1d6a0c0"
+    },
+    {
+      "file": "data/train/nonblur/picture-094.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 341,
+      "sha256": "65c175f85f52795bbbd77ca293dcc632606ff021732e3defd82416dafc68a36a"
+    },
+    {
+      "file": "data/train/nonblur/picture-095.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "2ebb11dfc2e4ab29350a28954ee087a0abf028b13d74645aa903d57b2cd883a9"
+    },
+    {
+      "file": "data/train/nonblur/picture-096.jpg",
+      "use": "train",
+      "width": 341,
+      "height": 512,
+      "sha256": "320dfd59c80e2a812778a44fc9df6335dba30f2bf8ff79021e0f72c125d7fb80"
+    },
+    {
+      "file": "data/train/nonblur/picture-097.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "4355b055187a9cad585a141984721f083b2a31edfa229a0b001df39a41e488d5"
+    },
+    {
+      "file": "data/train/nonblur/picture-098.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "b11e89120114d4d514dafa254a1ac53dddf0689a9f614c741b7bb8da059b8850"
+    },
+    {
+      "file": "data/train/nonblur/picture-099.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "690379102f49fcf5331fd25fae350a9ad17eb1a13f13f7c0664959e903947e7a"
+    },
+    {
+      "file": "data/train/nonblur/picture-100.jpg",
+      "use": "train",
+      "width": 512,
+      "height": 512,
+      "sha256": "b6d8416d1851965e014a34b1d8aa0f23801cc955614991f7d38cd43eaac5c26a"
+    },
+    {
+      "file": "data/test/nonblur/picture-101.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "5f4c5aceb56102a24fbde39224e74c44815d18a2517e192910a3efbdc1c77a97"
+    },
+    {
+      "file": "data/test/nonblur/picture-102.jpg",
+      "use": "test",
+      "width": 341,
+      "height": 512,
+      "sha256": "02f987ede5904de7b7dbb8c47df37c3eb17c5d74d919853a4130fad4cf3acb06"
+    },
+    {
+      "file": "data/test/nonblur/picture-103.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "adffc1619c7de1fbfc0179552b07cd0da3518a13c85d015f57b9cd8345e753bb"
+    },
+    {
+      "file": "data/test/nonblur/picture-104.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "92bdb4cda05af58966136cdd0af2a12d01fe7be00f415c2101027ab2b2351536"
+    },
+    {
+      "file": "data/test/nonblur/picture-105.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 341,
+      "sha256": "32b8d948d878068c546290640745c963a74fc8aca9527092b1f58f9a517c269f"
+    },
+    {
+      "file": "data/test/nonblur/picture-106.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "2f3f915db3ca4e20b2c13144bb5729e1099e0d82da1a65956aa38bf252baaf5e"
+    },
+    {
+      "file": "data/test/nonblur/picture-107.jpg",
+      "use": "test",
+      "width": 341,
+      "height": 512,
+      "sha256": "fb7e747fd5daf09c6ce9fa93b23cfdda58227cd3fc38e3f5a186042b7e58c3d6"
+    },
+    {
+      "file": "data/test/nonblur/picture-108.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "fdebbb168b5fbcd9a4728375d2bad50a4435ce65b6fec09d95026f724db96fd5"
+    },
+    {
+      "file": "data/test/nonblur/picture-109.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "16949565c630c45ab9f76ca431ba259b79dc7f5f70c8b842a8cbb5285624289b"
+    },
+    {
+      "file": "data/test/nonblur/picture-110.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 341,
+      "sha256": "fec711b36001aea8325bc25a5cf480f121561143636bbdc22090b00d4d16181c"
+    },
+    {
+      "file": "data/test/nonblur/picture-111.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "5add2e5059cb12f9a816db0c91a5dc9442dbe72f5dc336dee3026168557e75c8"
+    },
+    {
+      "file": "data/test/nonblur/picture-112.jpg",
+      "use": "test",
+      "width": 341,
+      "height": 512,
+      "sha256": "74a79c41f5aedfdb0f6226d5078888e2bbb2839d7161059477b0906d41011a3b"
+    },
+    {
+      "file": "data/test/nonblur/picture-113.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "8a1f5287a4b3f810dd8c4ca1d30b6174abcc0c2a3e3150454877d1a475040b92"
+    },
+    {
+      "file": "data/test/nonblur/picture-114.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "705e264f44aefe3fe7cecac8fc771ad4c3a3bce0ecb3dc11c6c4b4cf84eabed4"
+    },
+    {
+      "file": "data/test/nonblur/picture-115.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 341,
+      "sha256": "8f1a3cf836b87263d66e5eeacbffee95fdab15b5b4423614a9814f23f4c5d3ae"
+    },
+    {
+      "file": "data/test/nonblur/picture-116.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "cbdfc5470b05946768d37cc484b4910b105d4d126b2fc4d6abb047257a666adb"
+    },
+    {
+      "file": "data/test/nonblur/picture-117.jpg",
+      "use": "test",
+      "width": 341,
+      "height": 512,
+      "sha256": "914e75572b29b260364a1cc835feef6b02348cc8e411bc3edd543299b7aaad1b"
+    },
+    {
+      "file": "data/test/nonblur/picture-118.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "b4cff2b6c1e7c8ef2d613344ffb230acdfde8a16eea1620ae6b4205e9e0923fc"
+    },
+    {
+      "file": "data/test/nonblur/picture-119.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 512,
+      "sha256": "77eb600d2e4343d46d81ea8245b698d179cde551769ba3de6abe918327a5ca22"
+    },
+    {
+      "file": "data/test/nonblur/picture-120.jpg",
+      "use": "test",
+      "width": 512,
+      "height": 341,
+      "sha256": "1b59ef5b6d8a65161dd80b81589a08d557ded16669b29ec2811e5a4e98830d80"
+    },
+    {
+      "file": "data/demo.png",
+      "use": "demo",
+      "width": 512,
+      "height": 512,
+      "sha256": "da1a7e46fc5593fc38d4a72a8c432904ac71aa467b279bab94865df53e290148"
+    },
+    {
+      "file": "src/web/public/samples/bakery.jpg",
+      "use": "web",
+      "width": 768,
+      "height": 768,
+      "sha256": "07df1f2003c41f20ce9c7ab005144114628d6abe3e95a96c9de8a20c6ea7e894"
+    },
+    {
+      "file": "src/web/public/samples/cat-cafe.jpg",
+      "use": "web",
+      "width": 768,
+      "height": 768,
+      "sha256": "1a9ab65fdc1ec9ce052325897e266d1af3917ce84767e9db446b9035e688ff25"
+    },
+    {
+      "file": "src/web/public/samples/harbour-town.jpg",
+      "use": "web",
+      "width": 768,
+      "height": 768,
+      "sha256": "65f18cd2031303f67dbb9b14a113169c3153889a3fc14ca15a8b0f23371c74c1"
+    },
+    {
+      "file": "src/web/public/samples/seaside-ride.jpg",
+      "use": "web",
+      "width": 768,
+      "height": 768,
+      "sha256": "17d27cc573cfe7e7c691ef85c9cbf293f481b41dd4451d5afde3669c42128f04"
+    },
+    {
+      "file": "src/web/public/samples/watchmaker.jpg",
+      "use": "web",
+      "width": 768,
+      "height": 768,
+      "sha256": "8e92d0cac55d99a939b49c36f1b301b6f86d83f23489e4f53377ffde35549c92"
+    },
+    {
+      "file": "docs/images/src/cover-picture.jpg",
+      "use": "cover",
+      "width": 768,
+      "height": 768,
+      "sha256": "e1741bdf4db88ba9c3317fad11d478bd63becd4df1ba5bad52f56ac0058ed0d4"
+    }
+  ]
+}

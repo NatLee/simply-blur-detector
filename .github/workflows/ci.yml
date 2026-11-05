@@ -48,15 +48,12 @@ jobs:
           cache: pip
           cache-dependency-path: src/detector/pyproject.toml
       - run: pip install -e "src/detector[export]"
-      # The Danbooru pictures are downloaded only by pages.yml (with a cache); pull requests use the
-      # drawn data set, so they test the same pipeline without asking Danbooru for anything.
-      - name: Train a quick model on a drawn data set and export it for the page
+      # A quick model on the repository's pictures: the same pipeline as pages.yml, in a few minutes.
+      - name: Train a quick model on data/ and export it for the page
         run: |
-          blur-detector draw --data_path=drawn
-          blur-detector generate --data_path=drawn --seed=1
-          blur-detector train --data_path=drawn --model_path=None --model_save_path=model/ci.keras \
+          blur-detector train --data_path=data --model_path=None --model_save_path=model/ci.keras \
             --epochs=2 --crops=1 --seed=1
-          blur-detector export --model_path=model/ci.keras --data_path=drawn --web_dir=src/web/public
+          blur-detector export --model_path=model/ci.keras --data_path=data --web_dir=src/web/public
       - uses: actions/setup-node@v7
         with:
           node-version: 24
@@ -99,7 +96,9 @@ jobs:
         run: |
           mounts="-v $PWD/data:/data -v $PWD/model:/model -v $PWD/outputs:/outputs -v $PWD/src/web/public:/web"
           docker run --rm simply-blur-detector:ci --help
-          docker run --rm $mounts simply-blur-detector:ci draw --train=6 --test=4
+          # draw gets a folder of its own (it writes a demo.png); training on /data leaves it alone.
+          docker run --rm $mounts simply-blur-detector:ci draw --data_path=/data/drawn --train=6 --test=4
+          test "$(ls data/drawn/train/nonblur | wc -l)" = 6
           docker run --rm $mounts simply-blur-detector:ci generate --seed=1
           test "$(ls data/train/blur | wc -l)" = "$(ls data/train/nonblur | wc -l)"
           docker run --rm $mounts simply-blur-detector:ci run --epochs=1 --seed=1

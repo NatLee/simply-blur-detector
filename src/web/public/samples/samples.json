@@ -1,0 +1,29 @@
+{
+  "samples": [
+    {
+      "file": "seaside-ride.jpg",
+      "title": "Seaside ride",
+      "description": "Cycling along the coast past sunflowers, under tall summer clouds."
+    },
+    {
+      "file": "harbour-town.jpg",
+      "title": "Harbour town",
+      "description": "Steps, flower boxes and tiled roofs above a harbour full of boats."
+    },
+    {
+      "file": "bakery.jpg",
+      "title": "Bakery",
+      "description": "A baker behind baskets of loaves, rolls and pastries."
+    },
+    {
+      "file": "cat-cafe.jpg",
+      "title": "Cat caf\u00e9",
+      "description": "Cats on the shelves, the chairs and every cushion of a small caf\u00e9."
+    },
+    {
+      "file": "watchmaker.jpg",
+      "title": "Watchmaker",
+      "description": "Tiny gears, springs and tools on a watchmaker's desk."
+    }
+  ]
+}

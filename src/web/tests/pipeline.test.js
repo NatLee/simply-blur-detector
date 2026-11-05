@@ -1,6 +1,6 @@
 // End to end: the JavaScript pipeline (decode -> prepare -> ONNX Runtime Web) must give the same
 // P(blur) as the Python pipeline did when the model was exported, for the reference pictures the model
-// card lists (data/demo.png, drawn by code, so it is in the repository).
+// card lists (data/demo.png, which is in the repository).
 // Needs public/model/ from `blur-detector export`; set REQUIRE_MODEL=1 to fail instead of skipping.
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
