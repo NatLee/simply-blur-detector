@@ -22,6 +22,10 @@ LABEL_FOLDERS = {SHARP_FOLDER: CLASS_NAMES.index('Clear'), BLUR_FOLDER: BLUR_CLA
 #: Image files that are picked up (compared case-insensitively).
 IMAGE_EXTENSIONS = ('.jpg', '.jpeg', '.png')
 
+#: Quality of the JPEG files that are written. The sharp pictures in data/ were saved with it too, so a
+#: picture and its blurred copy went through the same compression and it tells the model nothing.
+JPEG_QUALITY = 90
+
 # Default locations. They are paths inside the Docker image, where docker-compose.yml mounts
 # ./data, ./model and the web demo; pass other paths on the command line when running elsewhere.
 DATA_DIR = '/data'

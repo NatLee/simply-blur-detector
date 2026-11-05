@@ -8,12 +8,16 @@ from typing import List, Sequence, Tuple, Union
 import cv2
 import numpy as np
 
-from .config import IMAGE_EXTENSIONS, INPUT_SIZE, WINDOW_FRACTION, WINDOW_OVERLAP
+from .config import IMAGE_EXTENSIONS, INPUT_SIZE, JPEG_QUALITY, WINDOW_FRACTION, WINDOW_OVERLAP
 
 PathLike = Union[str, Path]
 
-#: Encoder settings per file type for `write_image`: PNGs get the smallest (still lossless) files.
-WRITE_PARAMS = {'.png': [cv2.IMWRITE_PNG_COMPRESSION, 9]}
+#: Encoder settings per file type for `write_image`: PNGs get the smallest (still lossless) files, JPEGs
+#: JPEG_QUALITY.
+WRITE_PARAMS = {
+    '.png': [cv2.IMWRITE_PNG_COMPRESSION, 9],
+    **{ext: [cv2.IMWRITE_JPEG_QUALITY, JPEG_QUALITY] for ext in ('.jpg', '.jpeg')},
+}
 
 
 def images_in(folder: PathLike, exts: Sequence[str] = IMAGE_EXTENSIONS) -> List[Path]:
